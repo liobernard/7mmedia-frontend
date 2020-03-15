@@ -1,0 +1,145 @@
+.SignUpForm {
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100vh;
+  color: #ffffff;
+  -webkit-transition: all 0.2s cubic-bezier(0.455, 0.03, 0.515, 1);
+     -moz-transition: all 0.2s cubic-bezier(0.455, 0.03, 0.515, 1);
+       -o-transition: all 0.2s cubic-bezier(0.455, 0.03, 0.515, 1);
+          transition: all 0.2s cubic-bezier(0.455, 0.03, 0.515, 1);
+
+  .CloseButton {
+    display: none;
+  }
+
+  form {
+    position: relative;
+
+    label {
+      display: block;
+      font-weight: 400;
+      font-size: 12px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin: 25px 0 5px;
+    }
+
+    button, input, select, textarea {
+      font-family: inherit;
+      width: 100%;
+      font-weight: 400;
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+
+    textarea {
+      padding: 0 2.5% 2.5% 0;
+      resize: none;
+      border: none;
+      outline: none;
+      background: none;
+      border-bottom: 1px solid #fff;
+      border-right: 1px solid #fff;
+      color: #fff;
+    }
+
+    input, select {
+      border: none;
+      outline: none;
+      height: 28px;
+      background: none;
+      border-bottom: 0.5px solid #fff;
+      color: #fff;
+    }
+
+    .Select {
+      position: relative;
+
+      select {
+        -webkit-appearance: none;
+           -moz-appearance: none;
+                appearance: none;
+
+        &::-ms-expand {
+          display: none;
+        }
+      }
+
+      &:after {
+        content: "^";
+        z-index: -1;
+        position: absolute;
+        right: 2px;
+        font-family: initial;
+        font-size: 16px;
+        color: #ffffff;
+        -webkit-transform: rotate(180deg);
+           -moz-transform: rotate(180deg);
+            -ms-transform: rotate(180deg);
+                transform: rotate(180deg);
+      }
+    }
+
+    button {
+      position: relative;
+      margin: 10px 0;
+      padding: 5px;
+      outline: none;
+      border: none;
+      color: #fff;
+      background-color: #e43333;
+      font-weight: 400;
+      font-size: 12px;
+      letter-spacing: 1px;
+      width: 120px;
+      left: calc(50% - 60px);
+      border-bottom: 0.5px solid #fff;
+      border-right: 0.5px solid #fff;
+      -webkit-transition: all 0.1s linear;
+         -moz-transition: all 0.1s linear;
+           -o-transition: all 0.1s linear;
+              transition: all 0.1s linear;
+
+      &:hover,
+      &:focus {
+        cursor: pointer;
+        background-color: #fff;
+        color: #e43333;
+        border-top: 0.5px solid #fff;
+        border-left: 0.5px solid #fff;
+      }
+    }
+  }
+
+  &.is-active {
+    width: 100%;
+    background-color: #e43333;
+    padding: 0 8%;
+    overflow-y: scroll;
+
+    .CloseButton {
+      display: block;
+    }
+
+    @include for-medium-window-up {
+      @include for-tablet-portrait-up {
+        width: 50vw;
+        padding: 0 5%;
+      }
+
+      @include for-desktop-up {
+        width: 38.2vw;
+      }
+    }
+
+    @include for-tall-window-up {
+      @include for-tablet-portrait-up {
+        overflow-y: unset;
+        padding-top: 5vh;
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+.Link {
+  &--business {
+    color: #e43333;
+    border-bottom: solid 1px;
+  }
+
+  &--home, &--videoList {
+    color: #e43333;
+  }
+
+  &--studio {
+    position: relative;
+    float: right;
+
+    span {
+      border-bottom: solid 1px;
+      color: #e43333;
+    }
+
+    @include for-tablet-landscape-up {
+      float: unset;
+    }
+  }
+
+  &--works {
+    span {
+      position: absolute;
+      right: 0;
+      border-bottom: solid 1px;
+      color: #e43333;
+    }
+  }
+}

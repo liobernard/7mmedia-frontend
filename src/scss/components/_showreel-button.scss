@@ -1,0 +1,52 @@
+.ShowreelButton {
+  display: inline-block;
+  -webkit-animation: flash 1s infinite forwards;
+     -moz-animation: flash 1s infinite forwards;
+       -o-animation: flash 1s infinite forwards;
+          animation: flash 1s infinite forwards;
+
+  &:hover,
+  &:focus {
+    cursor: pointer;
+  }
+}
+
+@-webkit-keyframes flash {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes flash {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes flash {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes flash {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,85 @@
+.Contact {
+  &-info,
+  &-links {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    height: 50px;
+  }
+
+  &-info {
+    h5 {
+      max-width: 180px;
+      font-size: 16px;
+      font-weight: 300;
+      margin: 0 0 15px;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    &-email {
+      a {
+        color: #333;
+        -webkit-transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+           -moz-transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+             -o-transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+                transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+        &:hover,
+        &:focus {
+          color: #e43333;
+        }
+      }
+    }
+  }
+
+  &-links {
+    .Logo--bottom {
+      display: inline-block;
+      position: absolute;
+      font-family: $fontSecondary;
+      text-align: right;
+      bottom: 0;
+      right: 0;
+      font-size: 25px;
+      font-weight: 700;
+      width: 75px;
+
+      .Link {
+        color: #000000;
+      }
+    }
+  }
+
+  &--menu {
+    padding: 0 10% 5vh;
+    color: #ffffff;
+
+    b {
+      color: #ffffff;
+    }
+
+    .SignUpButton--contact {
+      color: #ffffff;
+      margin: 0 0 36px;
+
+      span {
+        border-bottom: solid 2px #ffffff;
+      }
+    }
+
+    .Contact-info-email a {
+      color: #ffffff;
+    }
+
+    .Contact-links .Logo--bottom .Link {
+      color: #ffffff
+    }
+  }
+
+  @include for-tablet-portrait-up {
+    margin-top: 10px;
+  }
+}

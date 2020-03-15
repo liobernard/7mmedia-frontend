@@ -1,0 +1,51 @@
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
+b {
+  color: #ff0000;
+  font-weight: 700;
+
+  &:before {
+    content: "";
+    margin-left: 1px;
+  }
+}
+
+*,
+::after,
+::before {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  margin: auto;
+  font-family: $fontPrimary;
+  color: #333;
+
+  .SiteContainer {
+    position: relative;
+    min-height: 100vh;
+
+    .MainContent {
+      position: relative;
+    }
+  }
+
+  &.scrollLock-active {
+    overflow: hidden;
+  }
+
+  &.is-loading {
+    overflow: hidden;
+  }
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}

@@ -1,0 +1,21 @@
+.SignUpButton {
+  margin: 40px 0 0;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+
+  span {
+    padding: 0 0 15px;
+    border-bottom: solid 2px #e43333;
+
+    &:hover,
+    &:focus {
+      cursor: pointer;
+    }
+  }
+
+  &--contact {
+    margin: 0 0 50px;
+    color: #333;
+  }
+}

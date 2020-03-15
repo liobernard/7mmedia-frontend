@@ -1,0 +1,71 @@
+.IntroText {
+  position: relative;
+  color: #ffffff;
+
+  &--main {
+    div {
+      @include for-tablet-portrait-up {
+        width: 50%;
+      }
+
+      h1 {
+        font-family: $fontSecondary;
+        font-size: 63px;
+        font-weight: 500;
+        min-width: 166px;
+
+        @include for-big-phone-up {
+          font-size: 71px;
+          max-width: 303px;
+        }
+
+        @include for-tablet-portrait-up {
+          max-width: 250px;
+          text-align: right;
+          float: right;
+          font-size: 76px;
+        }
+
+        @include for-tablet-landscape-up {
+          font-size: 96px;
+          max-width: 300px;
+        }
+
+        @include for-desktop-up {
+          font-size: 108px;
+        }
+      }
+    }
+
+    @include for-tablet-portrait-up {
+      height: 45vh;
+    }
+  }
+
+  &--sub {
+    margin: 100px 0 0;
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      font-weight: 300;
+    }
+
+    h3 {
+      font-size: 16px;
+      font-weight: 300;
+      color: #ffffff;
+    }
+
+    @include for-tablet-portrait-up {
+      width: 50%;
+      float: right;
+    }
+
+    @include for-desktop-up {
+      h2, h3 {
+        width: 50%;
+      }
+    }
+  }
+}

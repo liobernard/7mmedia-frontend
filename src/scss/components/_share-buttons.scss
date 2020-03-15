@@ -1,0 +1,11 @@
+.ShareButtons {
+  .ShareButton {
+    display: inline-block;
+    margin: 0 1px;
+
+    &:hover,
+    &:focus {
+      cursor: pointer;
+    }
+  }
+}

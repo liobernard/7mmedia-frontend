@@ -1,0 +1,249 @@
+.Section {
+  position: relative;
+  float: left;
+  width: 100%;
+
+  &--intro {
+    padding: 120px 55px;
+
+    @include for-tablet-portrait-up {
+      padding: 150px 12.5vw;
+    }
+  }
+
+  &--description {
+    padding: 12.5vw 8vw 0;
+    z-index: 1;
+
+    @include for-tablet-landscape-up {
+      .Description {
+        position: absolute;
+        left: 61.8vw;
+        width: 300px;
+      }
+    }
+  }
+
+  &--help {
+    padding: 50px 8vw 25px;
+
+    .Works {
+      position: relative;
+      width: 100%;
+      margin-top: 50px;
+    }
+
+    .Help {
+      margin-top: 150px;
+
+      @include for-tablet-landscape-up {
+        width: 300px; 
+      }
+    }
+  }
+
+  &--featured {
+    padding: 100px 8vw 0;
+
+    h4 {
+      margin-bottom: 40px;
+    }
+
+    @include for-tablet-landscape-up {
+      padding: 150px 8vw 0;
+    }
+  }
+
+  &--contact {
+    padding: 0 8vw 50px;
+  }
+
+  &--videoList {
+    padding: 14vw 8vw 0;
+
+    @include for-tablet-landscape-up {
+      padding: 7vw 8vw 0;
+    }
+  }
+
+  &--navLinks {
+    padding: 100px 8vw 0;
+  }
+
+  &--blank {
+    height: 100vh;
+  }
+
+  &--error {
+    padding: 0 8vw;
+    text-align: right;
+  }
+
+  &--editor {
+    padding: 0 8vw;
+
+    h3 {
+      margin-bottom: 8px;
+
+      input[type="text"], textarea {
+        width: 100%;
+        max-width: 410px;
+        text-transform: none;
+      }
+
+      p {
+        max-width: 600px;
+      }
+    }
+  }
+
+  &--business {
+    padding: 50px 8vw 6px;
+
+    h3 {
+      margin-bottom: 2px;
+
+      input, textarea {
+        width: 100%;
+        max-width: 300px;
+        text-transform: none;
+      }
+    }
+
+    @include for-tablet-landscape-up {
+      padding: 100px 0 0 50vw;
+    }
+  }
+
+  &--mainDetails, &--about {
+    padding-top: 8vw;
+
+    h3 {
+      padding: 0 8vw;
+      margin-bottom: 10vw;
+
+      textarea {
+        width: 100%;
+        height: 300px;
+        text-transform: none;
+      }
+
+      @include for-tablet-landscape-up {
+        margin-bottom: unset;
+        width: 42vw;
+        padding: 0 0 0 8vw;
+        float: left;
+      }
+    }
+
+    .UploadPlayerContainer {
+      width: 100%;
+      float: right;
+
+      @include for-tablet-landscape-up {
+        width: unset;
+      }
+    }
+
+    .Uploader {
+      padding: 0 8vw;
+      margin-bottom: 10vw;
+
+      p {
+        max-width: 600px;
+        font-weight: 400;
+        font-size: 13px;
+        letter-spacing: 1px;
+      }
+
+      select {
+        width: calc(100% - 24px);
+        max-width: 386px;
+      }
+
+      textarea {
+        width: 100%;
+        max-width: 410px;
+      }
+
+      @include for-tablet-portrait-up {
+        width: 60vw;
+        padding: 0;
+        margin: 0 20vw 20px;
+      }
+
+      @include for-medium-window-up {
+        width: 100%;
+        padding: 0 8vw;
+        margin: unset;
+        margin-bottom: 20px;
+      }
+
+      @include for-tablet-landscape-up {
+        position: relative;
+        padding: 0;
+        width: calc(50vw - 10px);
+        margin: unset;
+        margin-bottom: 20px;
+      }
+    }
+
+    .VideoContainer, .ResponsiveImage--about {
+      height: 75vh;
+      max-height: 300px;
+      width: 84vw;
+      margin: 0 8vw;
+
+      @include for-tablet-portrait-up {
+        width: 60vw;
+        margin: 0 20vw;
+      }
+
+      @include for-medium-window-up {
+        height: 56vw;
+        max-height: unset;
+        width: 100%;
+        margin: unset;
+      }
+
+      @include for-tablet-landscape-up {
+        position: relative;
+        height: 33.333vw;
+        width: calc(50vw - 10px);
+        margin: unset;
+      }
+    }
+
+    .ResponsiveImage--about {
+      @include for-tablet-landscape-up {
+        float: right;
+      }
+    }
+  }
+
+  &--extraDetails {
+    padding: 0 8vw;
+    margin: 50px 0;
+
+    h3 {
+      margin-bottom: 8px;
+
+      input {
+        width: 100%;
+        max-width: 410px;
+      }
+    }
+
+
+    @include for-tablet-landscape-up {
+      padding: 0 0 0 50vw;
+      margin: 80px 0;
+    }
+  }
+
+  &--share {
+    padding: 0 8vw;
+    margin-bottom: 75px;
+    text-align: center;
+  }
+}

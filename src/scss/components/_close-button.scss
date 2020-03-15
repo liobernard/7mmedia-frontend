@@ -1,0 +1,74 @@
+$height-icon: 15px;
+$width-line: 28px;
+$height-line: 1px;
+
+$transition-time: 0.2s;
+$rotation: 45deg;
+$translateY: ($height-icon / 2);
+$translateX: 0;
+
+.CloseButton-container {
+  z-index: 3;
+  position: absolute;
+  top: 16px;
+  right: 14px;
+  width: $width-line;
+  height: $height-icon;
+
+  .CloseButton {
+    height: $width-line;
+
+    &-line {
+      background: #ffffff;
+      display: block;
+      width: $width-line;
+      height: $height-line;
+      position: absolute;
+      left: 0;
+      border-radius: ($height-line / 2);
+      -webkit-transition: all $transition-time;
+         -moz-transition: all $transition-time;
+           -o-transition: all $transition-time;
+              transition: all $transition-time;
+
+      &--line1 {
+        top: 0;
+        -webkit-transform: translateY($translateY) translateX($translateX)
+          rotate($rotation);
+        -moz-transform: translateY($translateY) translateX($translateX)
+          rotate($rotation);
+        -ms-transform: translateY($translateY) translateX($translateX)
+          rotate($rotation);
+        -o-transform: translateY($translateY) translateX($translateX)
+          rotate($rotation);
+        transform: translateY($translateY) translateX($translateX)
+          rotate($rotation);
+      }
+
+      &--line2 {
+        top: 100%;
+        -webkit-transform: translateY($translateY * -1) translateX($translateX)
+          rotate($rotation * -1);
+        -moz-transform: translateY($translateY * -1) translateX($translateX)
+          rotate($rotation * -1);
+        -ms-transform: translateY($translateY * -1) translateX($translateX)
+          rotate($rotation * -1);
+        -o-transform: translateY($translateY * -1) translateX($translateX)
+          rotate($rotation * -1);
+        transform: translateY($translateY * -1) translateX($translateX)
+          rotate($rotation * -1);
+      }
+    }
+
+    &:hover,
+    &:focus {
+      cursor: pointer;
+    }
+
+    &--showreel {
+      .CloseButton-line {
+        background: #E5DACD;
+      }
+    }
+  }
+}

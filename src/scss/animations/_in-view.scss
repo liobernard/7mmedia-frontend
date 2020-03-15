@@ -1,0 +1,35 @@
+.animate-this {
+  * {
+    opacity: 1;
+
+    @include for-big-phone-up {
+      opacity: 0;
+      webkit-transform-origin: center center;
+        -moz-transform-origin: center center;
+         -ms-transform-origin: center center;
+          -o-transform-origin: center center;
+             transform-origin: center center;
+      -webkit-transform: translate3d(0, 50px, 0) rotateY(-5deg) rotateZ(5deg);
+         -moz-transform: translate3d(0, 50px, 0) rotateY(-5deg) rotateZ(5deg);
+          -ms-transform: translate3d(0, 50px, 0) rotateY(-5deg) rotateZ(5deg);
+           -o-transform: translate3d(0, 50px, 0) rotateY(-5deg) rotateZ(5deg);
+              transform: translate3d(0, 50px, 0) rotateY(-5deg) rotateZ(5deg);
+      -webkit-transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+         -moz-transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+              transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+  }
+
+  &.in-view {
+    @include for-big-phone-up {
+      * {
+        opacity: 1;
+        -webkit-transform: translate3d(0, 0, 0) rotateY(0deg) rotateZ(0deg);
+           -moz-transform: translate3d(0, 0, 0) rotateY(0deg) rotateZ(0deg);
+            -ms-transform: translate3d(0, 0, 0) rotateY(0deg) rotateZ(0deg);
+             -o-transform: translate3d(0, 0, 0) rotateY(0deg) rotateZ(0deg);
+                transform: translate3d(0, 0, 0) rotateY(0deg) rotateZ(0deg);
+      }
+    }
+  }
+}

@@ -1,0 +1,50 @@
+.VideoThumbnail {
+  position: relative;
+  touch-action: manipulation;
+  height: 75vh;
+  max-height: 300px;
+  width: 84vw;
+
+  .VideoThumbnail-text {
+    text-align: right;
+    float: right;
+    max-width: 300px;
+
+    &-title {
+      margin: 20px 0 0;
+
+      a {
+        color: #333;
+      }
+    }
+
+    &-subtitle {
+      position: relative;
+      margin-top: 5px;
+    }
+
+    &.is-hidden {
+      display: none;
+    }
+  }
+
+  @include for-tablet-portrait-up {
+    width: 60%;
+    margin: 0 20%;
+  }
+
+  @include for-medium-window-up {
+    max-height: unset;
+    height: 56vw;
+    width: 100%;
+    margin: unset;
+  }
+
+  @include for-tablet-landscape-up {
+    width: 50vw;
+    height: 33vw;
+    left: -8vw;
+    margin: unset;
+  }
+}
+

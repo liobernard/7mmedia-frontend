@@ -1,0 +1,16 @@
+.LogoutButton {
+  z-index: 3;
+  position: absolute;
+  top: 14px;
+  right: 52px;
+  color: #e43333;
+
+  &.is-active {
+    color: #ffffff;
+  }
+
+  &:hover,
+  &:focus {
+    cursor: pointer;
+  }
+}

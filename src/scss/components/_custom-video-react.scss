@@ -1,0 +1,37 @@
+.video-react
+.video-react-poster {
+  display: block;
+  position: relative;
+  background-position: center center;
+  background-size: cover;
+  opacity: 0.75;
+}
+
+.video-react
+.video-react-big-play-button {
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+  
+  &.video-react-big-play-button-hide {
+    display: none;
+  }
+}
+
+.video-react
+.video-react-control-bar,
+.video-react 
+.video-react-play-progress::after {
+  font-family: $fontPrimary;
+}
+
+.video-react
+.video-react-progress-control:hover
+.video-react-mouse-display::after,
+.video-react
+.video-react-progress-control:hover
+.video-react-play-progress::after,
+.video-react
+.video-react-progress-control:hover
+.video-react-time-tooltip {
+  visibility: hidden;
+}

@@ -1,0 +1,141 @@
+.ToggleMenu {
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  right: 0;
+  height: 50px;
+  -webkit-transition: all 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+     -moz-transition: all 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+       -o-transition: all 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+          transition: all 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+
+  .MenuIcon-container .MenuIcon {
+    &-line {
+      background-color: #e43333;
+    }
+
+    &.is-active {
+      .MenuIcon-line {
+        background-color: #ffffff;
+      }
+    }
+  }
+
+  &.is-home {
+    .MenuIcon-container .MenuIcon .MenuIcon-line {
+      background-color: #ffffff;
+    }
+
+    .LogoutButton {
+      color: #ffffff;
+    }
+
+    &.is-pastBanner {
+      .MenuIcon-container .MenuIcon {
+        &-line {
+          background-color: #e43333;
+        }
+
+        &.is-active {
+          .MenuIcon-line {
+            background-color: #ffffff;
+          }
+        }
+      }
+
+      .LogoutButton {
+        color: #e43333;
+
+        &.is-active {
+          color: #ffffff;
+        }
+      }
+    }
+  }
+
+  &.is-hidden {
+    top: -50px;
+  }
+
+  .Menu {
+    width: 0%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    -webkit-transition: all 0.2s cubic-bezier(0.455, 0.03, 0.515, 1);
+       -moz-transition: all 0.2s cubic-bezier(0.455, 0.03, 0.515, 1);
+         -o-transition: all 0.2s cubic-bezier(0.455, 0.03, 0.515, 1);
+            transition: all 0.2s cubic-bezier(0.455, 0.03, 0.515, 1);
+
+    .Menu-list {
+      display: none;
+    }
+
+    .Contact {
+      display: none;
+    }
+
+    &.is-active {
+      width: 100%;
+      z-index: 2;
+      height: 100vh;
+      background-color: #e43333;
+
+      .Menu-list {
+        z-index: 1;
+        position: absolute;
+        display: block;
+        padding: 0;
+        left: calc(50% - 37px);
+        bottom: calc(0% + 37px);
+
+        .Menu-item {
+          display: block;
+          float: none;
+          padding: 20px 0;
+          margin: 0 10%;
+
+          a {
+            color: #ffffff;
+
+            &:hover,
+            &:focus {
+              border-bottom: 1px #ffffff solid;
+            }
+          }
+        }
+
+        @include for-medium-window-up {
+          position: relative;
+          left: unset;
+          top: 0;
+          margin-top: 50px;
+          margin-bottom: 0;
+
+          .Menu-item {
+            letter-spacing: 0.5px;
+            text-align: right;
+            margin-right: 10%;
+          }
+        }
+      }
+
+      .Contact {
+        display: block;
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+      }
+
+      @include for-medium-window-up {
+        @include for-tablet-portrait-up {
+          width: 50vw;
+        }
+
+        @include for-desktop-up {
+          width: 38.2vw;
+        }
+      }
+    }
+  }
+}

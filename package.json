@@ -1,0 +1,78 @@
+{
+  "name": "jbyrdfilm-frontend",
+  "homepage": "https://www.jbyrdfilm.com/",
+  "version": "1.0.0",
+  "description": "Server-side rendered React frontend for film site.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/liobernard/jbyrdfilm-frontend"
+  },
+  "dependencies": {
+    "@babel/core": "^7.8.7",
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@babel/polyfill": "^7.8.7",
+    "@babel/register": "^7.8.6",
+    "ajv": "^6.12.0",
+    "babel-plugin-dynamic-import-node": "^2.3.0",
+    "connected-react-router": "^6.7.0",
+    "cookie-parser": "^1.4.4",
+    "cross-env": "^7.0.2",
+    "ignore-styles": "^5.0.1",
+    "js-cookie": "^2.2.1",
+    "md5-file": "^4.0.0",
+    "morgan": "^1.9.1",
+    "node-sass": "^4.13.1",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.0",
+    "react-datetime-picker": "^2.9.0",
+    "react-dom": "^16.13.0",
+    "react-helmet": "^5.2.1",
+    "react-inview-monitor": "^2.3.0",
+    "react-loadable": "^5.5.0",
+    "react-redux": "^7.2.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "^3.4.0",
+    "react-scroll-parallax": "^2.3.1",
+    "react-share": "^4.0.1",
+    "redux": "^4.0.5",
+    "redux-persist": "^6.0.0",
+    "redux-thunk": "^2.3.0",
+    "superagent": "^5.2.2",
+    "tar": "^6.0.1",
+    "typescript": "^3.8.3",
+    "validator": "^12.2.0",
+    "video-react": "^0.14.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "serve": "cross-env NODE_ENV=production node ./server/index.js"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "devDependencies": {
+    "husky": "^4.2.3",
+    "prettier": "1.19.1",
+    "pretty-quick": "^2.0.1"
+  }
+}

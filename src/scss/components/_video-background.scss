@@ -1,0 +1,35 @@
+.VideoBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  bottom: 5px;
+
+  &:after {
+    content: "";
+    display: block;
+    background: none;
+    background: rgba(0, 0, 0, 0.66667);
+  }
+
+  &:after, video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  video {
+    max-width: 100%;
+    display: inline-block;
+    vertical-align: baseline;
+    pointer-events: none;
+    cursor: default;
+    -o-object-fit: cover;
+    object-fit: cover;
+    -o-object-position: center;
+    object-position: center;
+  }
+}

@@ -1,0 +1,167 @@
+.ImageThumbnail {
+  position: relative;
+  touch-action: manipulation;
+  height: 25vw;
+  width: 37.5vw;
+  float: left;
+
+  &:nth-of-type(2n) {
+    float: right;
+  }
+
+  &-text {
+    display: none;
+    z-index: 20;
+    color: #E5DACD;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    text-transform: uppercase;
+    width: 80%;
+    -webkit-transform: translate(-50%, -50%);
+       -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+         -o-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+
+    &-title {
+      font-weight: 300;
+      font-size: 22px;
+      line-height: 1;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      -webkit-transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+         -moz-transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+           -o-transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+              transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    &-subtitle {
+      position: relative;
+    }
+
+    &.is-hidden {
+      display: none;
+    }
+  }
+
+  &-overlay {
+    display: none;
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #000000;
+  }
+
+  @include for-tablet-landscape-up {
+    &:hover {
+      .ResponsiveImage {
+        background-image: unset;
+      }
+
+      .ImageThumbnail-overlay {
+        display: block;
+      }
+
+      .ImageThumbnail-text {
+        display: block;
+        opacity: 1;
+      }
+    }
+  }
+
+  &--videoList {
+    height: 75vh;
+    max-height: 300px;
+    width: 84vw;
+    margin-bottom: 14vw;
+
+    @include for-desktop-up {
+      margin-bottom: 7vw;
+    }
+
+    .ImageThumbnail-overlay {
+      display: block;
+      opacity: 0.4;
+    }
+
+    .ImageThumbnail-text {
+      display: block;
+      opacity: 1;
+      top: unset;
+      left: unset;
+      bottom: 3vw;
+      right: 3vw;
+      text-align: right;
+      -webkit-transform: none;
+         -moz-transform: none;
+          -ms-transform: none;
+           -o-transform: none;
+              transform: none;
+
+      &-title {
+        font-weight: 400;
+        font-size: 12px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: #ff0000;
+      }
+
+      &-subtitle {
+        display: none;
+      }
+    }
+
+    @include for-medium-window-up {
+      max-height: unset;
+      height: 56vw;
+      width: 100%;
+    }
+
+    @include for-tablet-landscape-up {
+      height: 25vw;
+      width: 37.5vw;
+
+      .ImageThumbnail-overlay {
+        display: none;
+        opacity: 1;
+      }
+
+      .ImageThumbnail-text {
+        display: none;
+        opacity: 0;
+        right: unset;
+        bottom: unset;
+        top: 50%;
+        left: 50%;
+        text-align: center;
+        -webkit-transform: translate(-50%, -50%);
+           -moz-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+             -o-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+
+        &-title {
+          font-weight: 300;
+          font-size: 22px;
+          line-height: 1;
+          letter-spacing: 1px;
+          color: inherit;
+        }
+
+        &-subtitle {
+          display: block;
+        }
+      }
+    }
+  }
+
+  &:hover, &:focus {
+    cursor: pointer;
+  }
+}
