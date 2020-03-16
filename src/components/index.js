@@ -10,7 +10,6 @@ import FileUpload from "./FileUpload";
 import Footer from "./Footer";
 import HomePage from "./HomePage";
 import ImageThumbnail from "./ImageThumbnail";
-import Input from "./Input";
 import LoadingView from "./LoadingView";
 import LoginPage from "./LoginPage";
 import LogoutButton from "./LogoutButton";
@@ -26,13 +25,11 @@ import Routes from "./Routes";
 import ScreenOverlay from "./ScreenOverlay";
 import ScrollToTop from "./ScrollToTop";
 import Section from "./Section";
-import Select from "./Select";
 import ShareButtons from "./ShareButtons";
 import Showreel from "./Showreel";
 import SignUpButton from "./SignUpButton";
 import SignUpForm from "./SignUpForm";
 import SocialIcons from "./SocialIcons";
-import TextArea from "./TextArea";
 import ToggleMenu from "./ToggleMenu";
 import VideoBackground from "./VideoBackground";
 import VideoCreate from "./VideoCreate";
@@ -53,7 +50,6 @@ export {
   Footer,
   HomePage,
   ImageThumbnail,
-  Input,
   LoadingView,
   LoginPage,
   LogoutButton,
@@ -69,13 +65,11 @@ export {
   ScreenOverlay,
   ScrollToTop,
   Section,
-  Select,
   ShareButtons,
   Showreel,
   SignUpButton,
   SignUpForm,
   SocialIcons,
-  TextArea,
   ToggleMenu,
   VideoBackground,
   VideoCreate,
