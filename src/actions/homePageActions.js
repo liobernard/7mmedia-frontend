@@ -1,10 +1,6 @@
 import request from "superagent";
 
-import { removeClass } from "../js/utils";
-
-
 const REACT_APP_API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
-
 
 export const fetchHomePage = () => {
   return dispatch => {
@@ -106,14 +102,12 @@ export const closeHomePage = () => {
 
 export const loadBanner = () => {
   return dispatch => {
-    removeClass(document.body, "is-loading");
     dispatch({ type: "LOAD_BANNER" });
   };
 };
 
 export const errorBanner = () => {
   return dispatch => {
-    removeClass(document.body, "is-loading");
     dispatch({ type: "ERROR_BANNER" });
   };
 };

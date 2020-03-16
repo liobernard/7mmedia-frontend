@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import InViewMonitor from "react-inview-monitor";
 
 import { homePage } from "../actions";
-import { recursiveCheck, addClass } from "../js/utils";
+import { recursiveCheck, addClass, removeClass } from "../js/utils";
 
 import {
   Contact,
@@ -28,15 +28,15 @@ class HomePage extends Component {
   componentDidMount() {
     this.props.fetchHomePage();
 
-    const { bannerLoaded } = this.props.homePage;
     addClass(document.body, "is-loading");
     this.checkBanner();
 
     setTimeout(() => {
-      if (!bannerLoaded) {
+      if (!this.props.bannerLoaded) {
         this.setState({ loadingDelay: true });
       }
     }, 200);
+    this.checkLoaded();
   }
 
   componentWillUnmount() {
@@ -45,13 +45,28 @@ class HomePage extends Component {
 
   checkBanner() {
     const { loadBanner, errorBanner } = this.props;
-    const banner = document.getElementById("banner");
 
-    const bannerReady = () => (
-      !!banner && banner.readyState >= 3 ? true : false
-    );
+    const bannerReady = () => {
+      const banner = document.getElementById("banner");
+      return banner && banner.readyState >= 3 ? true : false;
+    };
 
     recursiveCheck(bannerReady, loadBanner, errorBanner);
+  }
+
+  checkLoaded() {
+    const pageReady = () => (
+      (this.props.bannerLoaded || this.props.bannerError) &&
+      !this.props.featuredLoading &&
+      !this.props.latestLoading ?
+      true : false
+    );
+
+    const pageLoaded = () => {
+      removeClass(document.body, "is-loading");
+    }
+
+    recursiveCheck(pageReady, pageLoaded, pageLoaded);
   }
 
   render() {
@@ -62,7 +77,7 @@ class HomePage extends Component {
       latestLoading,
       bannerLoaded,
       bannerError
-    } = this.props.homePage;
+    } = this.props;
 
     const { loadingDelay } = this.state;
 
@@ -70,7 +85,6 @@ class HomePage extends Component {
       <Page id="homePage">
         <LoadingView
           className="LoadingView--fullscreen"
-          isHome
           loaded={
             (bannerLoaded || bannerError)
             && !featuredLoading
@@ -200,7 +214,12 @@ class HomePage extends Component {
 }
 
 const mapStateToProps = state => ({
-  homePage: state.homePage
+  featured: state.homePage.featured,
+  latest: state.homePage.latest,
+  featuredLoading: state.homePage.featuredLoading,
+  latestLoading: state.homePage.latestLoading,
+  bannerLoaded: state.homePage.bannerLoaded,
+  bannerError: state.homePage.bannerError
 });
 
 const mapDispatchToProps = dispatch => ({
