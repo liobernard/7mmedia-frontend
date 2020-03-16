@@ -463,7 +463,7 @@ class VideoCreate extends Component {
     const videoUrl = form.video_url;
 
     return (
-      <Page id="videoCreate" noCrawl>
+      <Page id="videoCreate" title="Add page" noCrawl>
         <Main>
           {header}
           {!!error && (

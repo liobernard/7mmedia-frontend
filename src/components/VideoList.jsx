@@ -194,7 +194,13 @@ class VideoList extends Component {
     }
 
     return (
-      <Page id="videoList" title="Films" noCrawl>{child}</Page>
+      <Page
+        id="videoList"
+        title={drafts ? "Drafts" : "Films"}
+        noCrawl
+      >
+        {child}
+      </Page>
     );
   }
 }
