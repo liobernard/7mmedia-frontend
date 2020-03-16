@@ -76,7 +76,7 @@ class VideoCreate extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.video.isCreating !== prevProps.video.isCreating) {
       if (!this.props.video.isCreating && !this.props.video.error) {
-        this.props.history.replace(`/films/${this.props.video.form.slug}`);
+        this.props.history.push(`/films/${this.props.video.form.slug}`);
       }
     }
 
