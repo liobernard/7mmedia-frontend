@@ -428,6 +428,19 @@ class VideoCreate extends Component {
           corrupted.
         </p>
         <h4 className="u-mf u-mt">
+          Thumbnail URL:&nbsp;&nbsp;
+          <textarea
+            id={"thumbnail_url"}
+            name={"thumbnail_url"}
+            type={"text"}
+            rows={5}
+            value={form.thumbnail_url}
+            onChange={this.handleInput}
+            onFocus={this.handleFocus}
+            placeholder={"Enter the URL of the thumbnail image for this video, if applicable"}
+          />
+        </h4>
+        <h4 className="u-mf u-mt">
           Video URL:&nbsp;&nbsp;
           <textarea
             id={"video_url"}
@@ -440,19 +453,6 @@ class VideoCreate extends Component {
             onChange={this.handleInput}
             onFocus={this.handleFocus}
             placeholder={"Enter the URL of the video file (required)"}
-          />
-        </h4>
-        <h4 className="u-mf u-mt">
-          Thumbnail URL:&nbsp;&nbsp;
-          <textarea
-            id={"thumbnail_url"}
-            name={"thumbnail_url"}
-            type={"text"}
-            rows={5}
-            value={form.thumbnail_url}
-            onChange={this.handleInput}
-            onFocus={this.handleFocus}
-            placeholder={"Enter the URL of the thumbnail image for this video, if applicable"}
           />
         </h4>
         <br/>
