@@ -83,39 +83,27 @@ class Routes extends Component {
   }
 
   render() {
-    const { isAuthenticated, updateHistory } = this.props;
+    const { isAuthenticated } = this.props;
 
     return (
       <Switch>
         <Route exact path="/" component={HomePage} />
-        <Route exact path="/add_film" render={props => {
-          if (isAuthenticated) {
-            return <VideoCreate history={props.history} />;
-          } else {
-            updateHistory({
-              hash: "",
-              pathname: "/add_film",
-              query: {},
-              search: "",
-              state: undefined
-            });
-            return <Redirect exact to="/login" />;
-          }
-        }}/>
-        <Route exact path="/drafts" render={() => {
-          if (isAuthenticated) {
-            return <VideoList drafts />;
-          } else {
-            updateHistory({
-              hash: "",
-              pathname: "/drafts",
-              query: {},
-              search: "",
-              state: undefined
-            });
-            return <Redirect exact to="/login" />;
-          }
-        }}/>
+        <Route exact path="/add_film" render={props => (
+          isAuthenticated ?
+            <VideoCreate history={props.history} /> :
+            <Redirect
+              exact
+              to={{ pathname: "/login", search: "?from=add_film" }}
+            />
+        )}/>
+        <Route exact path="/drafts" render={() => (
+          isAuthenticated ?
+            <VideoList drafts /> :
+            <Redirect
+              exact
+              to={{ pathname: "/login", search: "?from=drafts" }}
+            />
+        )}/>
         <Route exact path="/films" component={VideoList} />
         <Route exact path="/films/:slug" component={VideoDetail} />
         <Route exact path="/studio" component={AboutPage} />

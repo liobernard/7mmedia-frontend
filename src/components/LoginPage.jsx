@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+import queryString from "query-string";
 
 import { login, resetError } from "../actions/authActions";
 
@@ -30,14 +31,30 @@ class LoginPage extends Component {
   }
 
   render() {
-    const { error, isAuthenticated, isLoading, referrer } = this.props;
+    const {
+      error,
+      isAuthenticated,
+      isLoading,
+      location,
+    } = this.props;
+
+    let referrer = this.props.referrer && this.props.referrer.pathname;
 
     if (isAuthenticated) {
+      if (location && location.search) {
+        const search = queryString.parse(location.search);
+
+        if (
+          search &&
+          search["from"] &&
+          ["drafts", "add_film"].includes(search["from"])
+        ) {
+          referrer = `/${search["from"]}`;
+        }
+      }
+
       return (
-        <Redirect exact to={
-          referrer && referrer.pathname && referrer.pathname !== "/login" ?
-          referrer : "/"
-        }/>
+        <Redirect exact to={ referrer !== "/login" ? referrer : "/" } />
       );
     }
 
@@ -98,6 +115,7 @@ const mapStateToProps = state => ({
   error: state.error.error,
   isAuthenticated: state.auth.isAuthenticated,
   isLoading: state.auth.isLoading,
+  location: state.router.location,
   referrer: state.browserHistory.browserHistory[
     state.browserHistory.browserHistory.length - 2
   ],
