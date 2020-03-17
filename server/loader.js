@@ -52,9 +52,7 @@ export default (req, res) => {
         ));
       }).then(routeMarkup => {
         if (context.url) {
-          res.writeHead(302, {
-            Location: context.url
-          });
+          res.writeHead(302, { "Location": context.url });
           res.end();
         } else {
           const extractAssets = (assets, chunks) =>
@@ -87,7 +85,7 @@ export default (req, res) => {
           res.send(html);
         }
       }).catch(error => {
-        console.error("Render error", err);
+        console.error("Render error", error);
         res.status(500).end();
       });
     }
