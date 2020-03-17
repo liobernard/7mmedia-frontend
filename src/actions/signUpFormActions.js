@@ -1,5 +1,6 @@
 import request from "superagent";
 import validate from "validator/lib/escape";
+import trim from "validator/lib/trim";
 
 import {
   disableBodyScroll,
@@ -42,10 +43,10 @@ export const submitForm = () => {
 
     const clientData = getState().signUpForm.newClient;
     const cleanedData = {
-      name: validate(clientData.name),
-      email: validate(clientData.email),
-      project: validate(clientData.project),
-      message: validate(clientData.message)
+      name: validate(trim(clientData.name)),
+      email: validate(trim(clientData.email)),
+      project: validate(trim(clientData.project)),
+      message: validate(trim(clientData.message))
     };
 
     if (
@@ -67,7 +68,6 @@ export const submitForm = () => {
       .type("application/json")
       .send(cleanedData)
       .then(res => {
-        console.log(res);
         return dispatch({ type: "FORM_SUCCESSFUL" });
       })
       .catch(err => {
