@@ -42,7 +42,7 @@ class VideoThumbnail extends Component {
         return (
           !!featured &&
           !!featured.currentSrc &&
-          featured.readyState >= 3
+          featured.readyState === 4
           ? true : false
         );
       }

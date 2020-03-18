@@ -53,7 +53,7 @@ class HomePage extends Component {
       } = this.props;
 
       return (
-        banner && banner.readyState >= 3 &&
+        banner && banner.readyState === 4 &&
         featured && !!Object.keys(featured).length &&
         latest && !!latest.length &&
         !featuredLoading && !latestLoading
