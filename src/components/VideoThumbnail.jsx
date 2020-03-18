@@ -31,12 +31,21 @@ class VideoThumbnail extends Component {
     const featuredReady = () => {
       const featured = document.getElementById("featured");
 
-      return (
-        !!featured &&
-        !!featured.currentSrc &&
-        !!featured.previousElementSibling.style.backgroundImage
-        ? true : false
-      );
+      if (!!this.props.thumbnail_url) {
+        return (
+          !!featured &&
+          !!featured.currentSrc &&
+          !!featured.previousElementSibling.style.backgroundImage
+          ? true : false
+        );
+      } else {
+        return (
+          !!featured &&
+          !!featured.currentSrc &&
+          featured.readyState >= 3
+          ? true : false
+        );
+      }
     };
 
     const loadImage = () => {
@@ -87,7 +96,7 @@ class VideoThumbnail extends Component {
             height="100%"
             width="100%"
             playsInline
-            preload="none"
+            preload={!!thumbnail_url ? "none" : "auto"}
             src={video_url}
             videoId="featured"
           >
@@ -97,7 +106,7 @@ class VideoThumbnail extends Component {
               spinnerOn={loadingDelay}
             />
             <BigPlayButton position="center" />
-            <PosterImage poster={thumbnail_url} />
+            {!!thumbnail_url && <PosterImage poster={thumbnail_url} />}
             <ControlBar autoHideTime={1500} />
           </Player>
         </Parallax>
