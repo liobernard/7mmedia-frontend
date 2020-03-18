@@ -25,10 +25,10 @@ export default class ImageThumbnail extends Component {
   }
 
   checkImageLoading() {
-    const image = document.getElementById(`${this.props.id}`);
-    const imageReady = () => (
-      !!image && !!image.style.backgroundImage ? true : false
-    );
+    const imageReady = () => {
+      const image = document.getElementById(`${this.props.id}`);
+      return !!image && !!image.style.backgroundImage ? true : false;
+    };
 
     const loadImage = () => {
       this.setState({ imageLoaded: true });

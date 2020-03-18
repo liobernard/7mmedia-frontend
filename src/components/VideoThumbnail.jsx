@@ -28,13 +28,16 @@ class VideoThumbnail extends Component {
   }
 
   checkImageLoading() {
-    const featured = document.getElementById("featured");
-    const featuredReady = () => (
-      !!featured &&
-      !!featured.currentSrc &&
-      !!featured.previousElementSibling.style.backgroundImage ?
-      true : false
-    );
+    const featuredReady = () => {
+      const featured = document.getElementById("featured");
+
+      return (
+        !!featured &&
+        !!featured.currentSrc &&
+        !!featured.previousElementSibling.style.backgroundImage
+        ? true : false
+      );
+    };
 
     const loadImage = () => {
       this.setState({ imageLoaded: true });

@@ -81,7 +81,7 @@ export const recursiveCheck = (conditionFunction, onSuccess, onTimeout, timeout=
         if (typeof onTimeout === "function") {
           onTimeout();
         }
-        console.log(`Error - recursive check timed out.`);
+        console.error(`Error - recursive check timed out.`);
         return;
       } else {
         check(n + 1);

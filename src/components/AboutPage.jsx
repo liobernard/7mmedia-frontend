@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { showreel, signUpForm } from "../actions";
+import { addClass, removeClass, recursiveCheck } from "../js/utils";
 
 import {
+  LoadingView,
   Main,
   MyLink,
   Page,
@@ -12,8 +14,49 @@ import {
 } from "./";
 
 class AboutPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      imageLoaded: false,
+      imageError: false,
+      loadingDelay: false,
+    };
+  }
+
+  componentDidMount() {
+    addClass(document.body, "is-loading");
+    this.checkImageLoading();
+
+    setTimeout(() => {
+      if (!this.state.imageLoaded) {
+        this.setState({ loadingDelay: true });
+      }
+    }, 200);
+  }
+
+  checkImageLoading() {
+    const imageReady = () => {
+      const image = document.getElementById("aboutImg");
+      return !!image && !!image.style.backgroundImage ? true : false;
+    };
+
+    const loadImage = () => {
+      removeClass(document.body, "is-loading");
+      this.setState({ imageLoaded: true });
+    }
+
+    const errorImage = () => {
+      removeClass(document.body, "is-loading");
+      this.setState({ imageLoaded: false, imageError: true });
+      console.error("AboutPage image did not load properly!");
+    }
+
+    recursiveCheck(imageReady, loadImage, errorImage);
+  }
+
   render() {
     const { showShowreel, showSignUpForm } = this.props;
+    const { imageLoaded, imageError, loadingDelay } = this.state;
 
     const signUp = (
       <span
@@ -27,6 +70,11 @@ class AboutPage extends Component {
 
     return (
       <Page id="aboutPage" noCrawl>
+        <LoadingView
+          className="LoadingView--fullscreen"
+          loaded={imageLoaded || imageError ? true: false}
+          spinnerOn={loadingDelay}
+        />
         <Main>
           <Section className="Section--navLinks">
             <MyLink className="Link--home" active pathname="/">
