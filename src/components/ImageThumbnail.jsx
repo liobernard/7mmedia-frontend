@@ -36,6 +36,7 @@ export default class ImageThumbnail extends Component {
 
     const errorImage = () => {
       this.setState({ imageLoaded: false, imageError: true });
+      console.error(`ImageThumbnail-${this.props.id} did not load properly!`);
     }
 
     recursiveCheck(imageReady, loadImage, errorImage);

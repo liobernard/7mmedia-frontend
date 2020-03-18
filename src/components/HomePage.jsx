@@ -69,7 +69,7 @@ class HomePage extends Component {
     const error = () => {
       removeClass(document.body, "is-loading");
       this.setState({ pageComplete: true });
-      console.error("Error - not all HomePage content could be retrieved.");
+      console.error("Not all HomePage content loaded properly!");
     }
 
     recursiveCheck(check, loaded, error);

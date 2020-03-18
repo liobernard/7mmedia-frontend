@@ -63,7 +63,7 @@ export const getDocHeight = () => {
   );
 };
 
-export const recursiveCheck = (conditionFunction, onSuccess, onTimeout, timeout=10) => {
+export const recursiveCheck = (conditionFunction, onSuccess, onTimeout, timeout=20) => {
   if (typeof conditionFunction !== "function") {
     throw new Error("Invalid or missing conditionFunction.");
   }

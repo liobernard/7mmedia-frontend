@@ -42,6 +42,7 @@ class VideoThumbnail extends Component {
 
     const errorImage = () => {
       this.setState({ imageLoaded: false, imageError: true });
+      console.error("VideoThumbnail-featured did not load properly!");
     }
 
     recursiveCheck(featuredReady, loadImage, errorImage);
