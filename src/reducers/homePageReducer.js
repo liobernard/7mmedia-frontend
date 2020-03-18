@@ -4,8 +4,6 @@ const INITIAL_STATE = {
   featuredLoading: false,
   latestLoading: false,
   fetchError: null,
-  bannerLoaded: false,
-  bannerError: false,
 };
 
 const homePageReducer = (state = INITIAL_STATE, action) => {
@@ -43,19 +41,6 @@ const homePageReducer = (state = INITIAL_STATE, action) => {
         latestLoading: false,
         fetchError: action.err
       }
-
-    case "LOAD_BANNER":
-      return {
-        ...state,
-        bannerLoaded: true
-      };
-
-    case "ERROR_BANNER":
-      return {
-        ...state,
-        bannerLoaded: false,
-        bannerError: true
-      };
 
     case "CLOSE_HOME":
       return INITIAL_STATE;

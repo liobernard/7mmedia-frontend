@@ -22,75 +22,68 @@ import {
 class HomePage extends Component {
   constructor(props) {
     super(props);
-    this.state = { loadingDelay: false };
+    this.state = { loadingDelay: false, pageComplete: false };
   }
 
   componentDidMount() {
     this.props.fetchHomePage();
 
     addClass(document.body, "is-loading");
-    this.checkBanner();
+    this.checkPageComplete();
 
     setTimeout(() => {
-      if (!this.props.bannerLoaded) {
+      if (!this.state.pageComplete) {
         this.setState({ loadingDelay: true });
       }
     }, 200);
-    this.checkLoaded();
   }
 
   componentWillUnmount() {
     this.props.closeHomePage();
   }
 
-  checkBanner() {
-    const { loadBanner, errorBanner } = this.props;
-
-    const bannerReady = () => {
+  checkPageComplete() {
+    const check = () => {
       const banner = document.getElementById("banner");
-      return banner && banner.readyState >= 3 ? true : false;
+      const {
+        featured,
+        latest,
+        featuredLoading,
+        latestLoading
+      } = this.props;
+
+      return (
+        banner && banner.readyState >= 3 &&
+        featured && !!Object.keys(featured).length &&
+        latest && !!latest.length &&
+        !featuredLoading && !latestLoading
+        ? true : false
+      );
     };
 
-    recursiveCheck(bannerReady, loadBanner, errorBanner);
-  }
-
-  checkLoaded() {
-    const pageReady = () => (
-      (this.props.bannerLoaded || this.props.bannerError) &&
-      !this.props.featuredLoading &&
-      !this.props.latestLoading ?
-      true : false
-    );
-
-    const pageLoaded = () => {
+    const loaded = () => {
       removeClass(document.body, "is-loading");
+      this.setState({ pageComplete: true });
     }
 
-    recursiveCheck(pageReady, pageLoaded, pageLoaded);
+    const error = () => {
+      removeClass(document.body, "is-loading");
+      this.setState({ pageComplete: true });
+      console.error("Error - not all HomePage content could be retrieved.");
+    }
+
+    recursiveCheck(check, loaded, error);
   }
 
   render() {
-    const {
-      featured,
-      latest,
-      featuredLoading,
-      latestLoading,
-      bannerLoaded,
-      bannerError
-    } = this.props;
-
-    const { loadingDelay } = this.state;
+    const { featured, latest } = this.props;
+    const { loadingDelay, pageComplete } = this.state;
 
     return (
       <Page id="homePage">
         <LoadingView
           className="LoadingView--fullscreen"
-          loaded={
-            (bannerLoaded || bannerError)
-            && !featuredLoading
-            && !latestLoading
-            ? true : false
-          }
+          loaded={pageComplete}
           spinnerOn={loadingDelay}
         />
         <Main>
@@ -218,8 +211,6 @@ const mapStateToProps = state => ({
   latest: state.homePage.latest,
   featuredLoading: state.homePage.featuredLoading,
   latestLoading: state.homePage.latestLoading,
-  bannerLoaded: state.homePage.bannerLoaded,
-  bannerError: state.homePage.bannerError
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -228,12 +219,6 @@ const mapDispatchToProps = dispatch => ({
   },
   closeHomePage: () => {
     return dispatch(homePage.closeHomePage());
-  },
-  loadBanner: () => {
-    return dispatch(homePage.loadBanner());
-  },
-  errorBanner: () => {
-    return dispatch(homePage.errorBanner());
   },
 });
 

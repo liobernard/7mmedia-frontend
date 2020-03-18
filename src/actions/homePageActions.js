@@ -99,15 +99,3 @@ export const closeHomePage = () => {
     dispatch({ type: "CLOSE_HOME" });
   };
 };
-
-export const loadBanner = () => {
-  return dispatch => {
-    dispatch({ type: "LOAD_BANNER" });
-  };
-};
-
-export const errorBanner = () => {
-  return dispatch => {
-    dispatch({ type: "ERROR_BANNER" });
-  };
-};
