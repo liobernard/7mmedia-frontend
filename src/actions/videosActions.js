@@ -253,22 +253,14 @@ export const editOff = () => {
   }
 };
 
-export const editDetail = (name, value, create=false) => {
+export const editDetail = (name, value) => {
   return dispatch => {
-    if (create) {
-      return dispatch({ type: "EDIT_DETAIL_CREATE", name, value });
-    } else {
-      return dispatch({ type: "EDIT_DETAIL", name, value });
-    }
+    return dispatch({ type: "EDIT_DETAIL", name, value });
   }
 }
 
-export const editDate = (date, create=false) => {
+export const editDate = date => {
   return dispatch => {
-    if (create) {
-      return dispatch({ type: "EDIT_DATE_CREATE", date });
-    } else {
-      return dispatch({ type: "EDIT_DATE", date });
-    }
+    return dispatch({ type: "EDIT_DATE", date });
   }
 }
