@@ -66,13 +66,7 @@ class HomePage extends Component {
       this.setState({ pageComplete: true });
     }
 
-    const error = () => {
-      removeClass(document.body, "is-loading");
-      this.setState({ pageComplete: true });
-      console.error("Not all HomePage content loaded properly!");
-    }
-
-    recursiveCheck(check, loaded, error);
+    recursiveCheck(check, loaded, null, Infinity);
   }
 
   render() {
