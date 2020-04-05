@@ -79,25 +79,21 @@
     height: 75vh;
     max-height: 300px;
     width: 84vw;
-    margin-bottom: 14vw;
+    margin-bottom: 100px;
 
     @include for-desktop-up {
       margin-bottom: 7vw;
     }
 
-    .ImageThumbnail-overlay {
-      display: block;
-      opacity: 0.4;
-    }
-
     .ImageThumbnail-text {
       display: block;
+      position: relative;
+      width: unset;
       opacity: 1;
       top: unset;
       left: unset;
-      bottom: 3vw;
-      right: 3vw;
       text-align: right;
+      margin-top: 8px;
       -webkit-transform: none;
          -moz-transform: none;
           -ms-transform: none;
@@ -105,6 +101,7 @@
               transform: none;
 
       &-title {
+        line-height: 1.25;
         font-weight: 400;
         font-size: 12px;
         letter-spacing: 4px;
@@ -133,6 +130,7 @@
       }
 
       .ImageThumbnail-text {
+        position: absolute;
         display: none;
         opacity: 0;
         right: unset;
@@ -140,6 +138,8 @@
         top: 50%;
         left: 50%;
         text-align: center;
+        margin-top: unset;
+        width: 80%;
         -webkit-transform: translate(-50%, -50%);
            -moz-transform: translate(-50%, -50%);
             -ms-transform: translate(-50%, -50%);
