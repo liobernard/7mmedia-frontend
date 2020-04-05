@@ -79,10 +79,10 @@
     height: 75vh;
     max-height: 300px;
     width: 84vw;
-    margin-bottom: 100px;
+    margin-bottom: 150px;
 
     @include for-desktop-up {
-      margin-bottom: 7vw;
+      margin-bottom: 200px;
     }
 
     .ImageThumbnail-text {
@@ -106,7 +106,7 @@
         font-size: 12px;
         letter-spacing: 4px;
         text-transform: uppercase;
-        color: #ff0000;
+        color: #e43333;
       }
 
       &-subtitle {
