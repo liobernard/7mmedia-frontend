@@ -1,44 +1,31 @@
-.video-react
-.video-react-poster {
+.video-react .video-react-poster {
   display: block;
   position: relative;
   background-position: center center;
   background-size: cover;
 }
 
-.video-react
-.video-react-big-play-button {
+.video-react .video-react-big-play-button {
   border: 1px solid #ffffff;
   border-radius: 5px;
   background-color: rgba(43, 51, 63, 0.85);
-  
+
   &.video-react-big-play-button-hide {
     display: none;
   }
 }
 
-.video-react:hover
-.video-react-big-play-button,
-.video-react
-.video-react-big-play-button:focus {
-  background-color: rgba(115, 133, 159, 0.25);
-}
-
-.video-react
-.video-react-control-bar,
-.video-react 
-.video-react-play-progress::after {
+.video-react .video-react-control-bar,
+.video-react .video-react-play-progress::after {
   font-family: $fontPrimary;
 }
 
 .video-react
-.video-react-progress-control:hover
-.video-react-mouse-display::after,
+  .video-react-progress-control:hover
+  .video-react-mouse-display::after,
 .video-react
-.video-react-progress-control:hover
-.video-react-play-progress::after,
-.video-react
-.video-react-progress-control:hover
-.video-react-time-tooltip {
+  .video-react-progress-control:hover
+  .video-react-play-progress::after,
+.video-react .video-react-progress-control:hover .video-react-time-tooltip {
   visibility: hidden;
 }
