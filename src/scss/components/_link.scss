@@ -4,7 +4,8 @@
     border-bottom: solid 1px;
   }
 
-  &--home, &--videoList {
+  &--home,
+  &--videoList {
     color: #e43333;
   }
 
@@ -13,8 +14,9 @@
     float: right;
 
     span {
-      border-bottom: solid 1px;
       color: #e43333;
+      text-decoration: underline;
+      text-underline-offset: 4px;
     }
 
     @include for-tablet-landscape-up {
@@ -26,7 +28,8 @@
     span {
       position: absolute;
       right: 0;
-      border-bottom: solid 1px;
+      text-decoration: underline;
+      text-underline-offset: 4px;
       color: #e43333;
     }
   }

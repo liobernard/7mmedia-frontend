@@ -128,7 +128,7 @@ class HomePage extends Component {
                 intoViewMargin="-10%"
               >
                 <MyLink className="Link--studio" active pathname="/studio">
-                  <span className="u-mf">About us</span>
+                  <span className="u-sf">About us</span>
                 </MyLink>
               </InViewMonitor>
             </div>
@@ -161,7 +161,7 @@ class HomePage extends Component {
           <Section className="Section--help">
             <div className="Works">
               <MyLink className="Link--works" active pathname="/films">
-                <span className="u-mf">More works</span>
+                <span className="u-sf">View our work</span>
               </MyLink>
             </div>
             <div className="Help">
