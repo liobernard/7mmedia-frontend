@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import DateTimePicker from "react-datetime-picker";
-import { Player, BigPlayButton, ControlBar, PosterImage } from 'video-react';
+import { Player, BigPlayButton, ControlBar, PosterImage } from "video-react";
 import throttle from "lodash/throttle";
 
 import { showAlert } from "../actions/alertActions";
@@ -16,31 +16,33 @@ import {
   NotFound,
   Page,
   Section,
-  ShareButtons,
+  ShareButtons
 } from "./";
 
 class VideoDetail extends Component {
   constructor(props) {
     super(props);
-    this.state  = { pastDelay: false };
+    this.state = { pastDelay: false };
     this.player = React.createRef();
 
-    this.handleDate       = this.handleDate.bind(this);
-    this.handleDelete     = this.handleDelete.bind(this);
-    this.handleEdit       = this.handleEdit.bind(this);
-    this.handleFeatured   = this.handleFeatured.bind(this);
-    this.handleFocus      = this.handleFocus.bind(this);
-    this.handleInput      = this.handleInput.bind(this);
-    this.handleReset      = this.handleReset.bind(this);
+    this.handleDate = this.handleDate.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+    this.handleFeatured = this.handleFeatured.bind(this);
+    this.handleFocus = this.handleFocus.bind(this);
+    this.handleInput = this.handleInput.bind(this);
+    this.handleReset = this.handleReset.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
 
     this.resetPlayer = throttle(this.resetPlayer.bind(this), 1000, {
       leading: true
-    })
+    });
   }
 
   handleDate(date) {
-    if (!!date) { date = date.toISOString() };
+    if (!!date) {
+      date = date.toISOString();
+    }
     this.props.editDate(date);
   }
 
@@ -53,7 +55,7 @@ class VideoDetail extends Component {
   handleEdit(e) {
     e.preventDefault();
     if (!this.props.video.isEdit) this.props.editOn();
-    if (this.props.video.isEdit)  this.props.editOff();
+    if (this.props.video.isEdit) this.props.editOff();
   }
 
   handleFeatured(e) {
@@ -120,7 +122,9 @@ class VideoDetail extends Component {
       }
     }
 
-    if (this.props.video.form.thumbnail_url !== prevProps.video.form.thumbnail_url) {
+    if (
+      this.props.video.form.thumbnail_url !== prevProps.video.form.thumbnail_url
+    ) {
       if (!!prevProps.video.form.video_url) {
         this.resetPlayer(prevProps.video.form.video_url);
       }
@@ -135,20 +139,14 @@ class VideoDetail extends Component {
   render() {
     const {
       isAuthenticated,
-      video: {
-        error,
-        isEdit,
-        isLoading,
-        video,
-        form
-      }
+      video: { error, isEdit, isLoading, video, form }
     } = this.props;
 
     const { pastDelay } = this.state;
 
     if ((!video || !Object.keys(video).length) && !isLoading) {
       return <NotFound />;
-    } else if ((!video || !Object.keys(video).length) && isLoading ) {
+    } else if ((!video || !Object.keys(video).length) && isLoading) {
       const header = (
         <Section className="Section--navLinks">
           <MyLink className="Link--home" active pathname="/">
@@ -187,9 +185,11 @@ class VideoDetail extends Component {
       );
     }
 
-    let businessName = <h3 className="u-mf u-light">Client: {video.business_name}</h3>;
+    let businessName = (
+      <h3 className="u-mf u-light">Client: {video.business_name}</h3>
+    );
     let businessWebsite = (
-      <h3 className="u-mf">
+      <h3 className="u-sf">
         <a
           className="Link Link--business"
           href={video.business_website}
@@ -200,20 +200,20 @@ class VideoDetail extends Component {
         </a>
       </h3>
     );
-    let description   = <h3 className="u-mf">{video.description}</h3>;
-    let extraField1   = <h3 className="u-mf">{video.extra_field_1}</h3>;
-    let extraField2   = <h3 className="u-mf">{video.extra_field_2}</h3>;
-    let extraField3   = <h3 className="u-mf">{video.extra_field_3}</h3>;
-    let extraField4   = <h3 className="u-mf">{video.extra_field_4}</h3>;
-    let extraField5   = <h3 className="u-mf">{video.extra_field_5}</h3>;
-    let featured      = null;
-    let publishedAt   = null;
-    let slug          = null;
-    let subtitle      = null;
-    let title         = null;
-    let fileUpload    = null;
-    let thumbnailUrl  = video.thumbnail_url;
-    let videoUrl      = video.video_url;
+    let description = <h3 className="u-mf">{video.description}</h3>;
+    let extraField1 = <h3 className="u-mf">{video.extra_field_1}</h3>;
+    let extraField2 = <h3 className="u-mf">{video.extra_field_2}</h3>;
+    let extraField3 = <h3 className="u-mf">{video.extra_field_3}</h3>;
+    let extraField4 = <h3 className="u-mf">{video.extra_field_4}</h3>;
+    let extraField5 = <h3 className="u-mf">{video.extra_field_5}</h3>;
+    let featured = null;
+    let publishedAt = null;
+    let slug = null;
+    let subtitle = null;
+    let title = null;
+    let fileUpload = null;
+    let thumbnailUrl = video.thumbnail_url;
+    let videoUrl = video.video_url;
 
     if (isAuthenticated && isEdit) {
       businessName = (
@@ -245,7 +245,9 @@ class VideoDetail extends Component {
             value={form.business_website}
             onChange={this.handleInput}
             onFocus={this.handleFocus}
-            placeholder={"Enter the website url of the client/business, if applicable"}
+            placeholder={
+              "Enter the website url of the client/business, if applicable"
+            }
           />
         </h3>
       );
@@ -280,7 +282,9 @@ class VideoDetail extends Component {
             value={form.extra_field_1}
             onChange={this.handleInput}
             onFocus={this.handleFocus}
-            placeholder={"Enter any additional info (notes, credits, etc) if applicable"}
+            placeholder={
+              "Enter any additional info (notes, credits, etc) if applicable"
+            }
           />
         </h3>
       );
@@ -296,7 +300,9 @@ class VideoDetail extends Component {
             value={form.extra_field_2}
             onChange={this.handleInput}
             onFocus={this.handleFocus}
-            placeholder={"Enter any additional info (notes, credits, etc) if applicable"}
+            placeholder={
+              "Enter any additional info (notes, credits, etc) if applicable"
+            }
           />
         </h3>
       );
@@ -312,7 +318,9 @@ class VideoDetail extends Component {
             value={form.extra_field_3}
             onChange={this.handleInput}
             onFocus={this.handleFocus}
-            placeholder={"Enter any additional info (notes, credits, etc) if applicable"}
+            placeholder={
+              "Enter any additional info (notes, credits, etc) if applicable"
+            }
           />
         </h3>
       );
@@ -328,7 +336,9 @@ class VideoDetail extends Component {
             value={form.extra_field_4}
             onChange={this.handleInput}
             onFocus={this.handleFocus}
-            placeholder={"Enter any additional info (notes, credits, etc) if applicable"}
+            placeholder={
+              "Enter any additional info (notes, credits, etc) if applicable"
+            }
           />
         </h3>
       );
@@ -344,7 +354,9 @@ class VideoDetail extends Component {
             value={form.extra_field_5}
             onChange={this.handleInput}
             onFocus={this.handleFocus}
-            placeholder={"Enter any additional info (notes, credits, etc) if applicable"}
+            placeholder={
+              "Enter any additional info (notes, credits, etc) if applicable"
+            }
           />
         </h3>
       );
@@ -362,9 +374,9 @@ class VideoDetail extends Component {
             onChange={this.handleFeatured}
           />
           <p className="u-nm u-tf">
-            If checked, this video will be featured on the home page.
-            If multiple videos are set to be featured, only the most
-            recent will be displayed on the home page.
+            If checked, this video will be featured on the home page. If
+            multiple videos are set to be featured, only the most recent will be
+            displayed on the home page.
           </p>
         </h3>
       );
@@ -378,27 +390,30 @@ class VideoDetail extends Component {
             onChange={this.handleDate}
             value={!form.published_at ? null : new Date(form.published_at)}
           />
-          <br/>
-          <br/>
+          <br />
+          <br />
           <button
             className="EditorButton"
             type="button"
-            onClick={() => {this.props.editDate(new Date())}}
+            onClick={() => {
+              this.props.editDate(new Date());
+            }}
           >
             Set today
           </button>
           <button
             className="EditorButton"
             type="button"
-            onClick={() => {this.props.editDate(null)}}
+            onClick={() => {
+              this.props.editDate(null);
+            }}
           >
             Clear date (unpublish)
           </button>
           {!form.published_at && (
             <p className="u-tf">
-              No publish date set. If saved,
-              this page will not be displayed on the website 
-              and will instead be saved as a draft.
+              No publish date set. If saved, this page will not be displayed on
+              the website and will instead be saved as a draft.
             </p>
           )}
         </h3>
@@ -420,22 +435,20 @@ class VideoDetail extends Component {
             placeholder={"Enter a slug for this video (required)"}
           />
           <p className="u-tf">
-            A slug is the end part of a URL which
-            identifies a particular page on a website
-            in an easy-to-read form. In other words,
-            it’s the part of the URL that explains the page’s content.
-            For example, with the URL https://www.example.com/the_slug,
-            the slug simply is "the_slug". Must be unique to this
-            particular video page. For simplicity's sake, I recommend
-            just using an abbreviated version of the film's title,
+            A slug is the end part of a URL which identifies a particular page
+            on a website in an easy-to-read form. In other words, it’s the part
+            of the URL that explains the page’s content. For example, with the
+            URL https://www.example.com/the_slug, the slug simply is "the_slug".
+            Must be unique to this particular video page. For simplicity's sake,
+            I recommend just using an abbreviated version of the film's title,
             formatted as such:
-            <br/>
-            <br/>
+            <br />
+            <br />
             Example title: "Wedding in the Park, Summer 2020"
-            <br/>
+            <br />
             Example slugs: "wedding_in_the_park" or "wedding_park_2020" or
             "wedding_summer_2020", etc.
-            <br/>
+            <br />
             Full URL example:
             "http://www.jbyrdfilm.com/films/wedding_in_the_park"
           </p>
@@ -486,37 +499,34 @@ class VideoDetail extends Component {
             buttonText="Upload thumbnail image file"
           />
           <FileSelect type="thumbnail" />
-          <br/>
-          <br/>
-          <br/>
+          <br />
+          <br />
+          <br />
           <FileUpload
             label="Choose video file to upload"
             accept="video/*"
             buttonText="Upload video file"
           />
           <FileSelect type="video" />
-          <br/>
-          <br/>
+          <br />
+          <br />
           <p>
-            The video and thumbnail URLs will be updated 
-            automatically when either the video file or 
-            thumbnail image is uploaded to storage.
-            Alternatively, you may directly insert URLs for
-            videos and thumbnails which were previously uploaded,
-            or which are already available in cloud storage
-            or some other location on the web. Whether edited/inserted 
-            directly or after a successful upload, the following 
-            URLs will be saved to the page upon saving.
-            <br/>
-            <br/>
-            Make sure the video player is functioning properly before
-            saving! On the player below, you should see either the 
-            thumbnail image if provided, or the first frame of the video file,
-            displayed before the video has begun playing. If you see a
-            black screen and/or the video does not play, then you likely
-            have the incorrect URL(s) provided, or the file(s) have not been
-            uploaded to the provided URL(s), or the file(s) are 
-            corrupted.
+            The video and thumbnail URLs will be updated automatically when
+            either the video file or thumbnail image is uploaded to storage.
+            Alternatively, you may directly insert URLs for videos and
+            thumbnails which were previously uploaded, or which are already
+            available in cloud storage or some other location on the web.
+            Whether edited/inserted directly or after a successful upload, the
+            following URLs will be saved to the page upon saving.
+            <br />
+            <br />
+            Make sure the video player is functioning properly before saving! On
+            the player below, you should see either the thumbnail image if
+            provided, or the first frame of the video file, displayed before the
+            video has begun playing. If you see a black screen and/or the video
+            does not play, then you likely have the incorrect URL(s) provided,
+            or the file(s) have not been uploaded to the provided URL(s), or the
+            file(s) are corrupted.
           </p>
           <h4 className="u-mf u-mt">
             Thumbnail URL:&nbsp;&nbsp;
@@ -528,7 +538,9 @@ class VideoDetail extends Component {
               value={form.thumbnail_url}
               onChange={this.handleInput}
               onFocus={this.handleFocus}
-              placeholder={"Enter the URL of the thumbnail image for this video, if applicable"}
+              placeholder={
+                "Enter the URL of the thumbnail image for this video, if applicable"
+              }
             />
           </h4>
           <h4 className="u-mf u-mt">
@@ -546,12 +558,12 @@ class VideoDetail extends Component {
               placeholder={"Enter the URL of the video file"}
             />
           </h4>
-          <br/>
+          <br />
         </div>
       );
 
-      thumbnailUrl  = form.thumbnail_url;
-      videoUrl      = form.video_url;
+      thumbnailUrl = form.thumbnail_url;
+      videoUrl = form.video_url;
     }
 
     return (
@@ -574,20 +586,24 @@ class VideoDetail extends Component {
               <span className="u-sf">« Films</span>
             </MyLink>
             {!video.published_at && (
-              <><>
-              <span>&nbsp;&nbsp;</span>
-              <MyLink className="Link--videoList" active pathname="/drafts">
-                <span className="u-sf">« Drafts</span>
-              </MyLink>
-              </></>
+              <>
+                <>
+                  <span>&nbsp;&nbsp;</span>
+                  <MyLink className="Link--videoList" active pathname="/drafts">
+                    <span className="u-sf">« Drafts</span>
+                  </MyLink>
+                </>
+              </>
             )}
             {!isEdit && (
-              <><>
-              <span>&nbsp;&nbsp;</span>
-              <span className="u-sf u-red">« {video.title}</span>
-              <span>&nbsp;&nbsp;</span>
-              <span className="u-sf u-red">&mdash; {video.subtitle}</span>
-              </></>
+              <>
+                <>
+                  <span>&nbsp;&nbsp;</span>
+                  <span className="u-sf u-red">« {video.title}</span>
+                  <span>&nbsp;&nbsp;</span>
+                  <span className="u-sf u-red">&mdash; {video.subtitle}</span>
+                </>
+              </>
             )}
           </Section>
           {!!error && (
@@ -609,60 +625,68 @@ class VideoDetail extends Component {
                   </button>
                 )}
                 {isEdit && (
-                  <><>
-                    <br/>
-                    <button
-                      className="EditorButton"
-                      type="button"
-                      onClick={this.handleEdit}
-                    >
-                      Exit edit mode
-                    </button>
-                    <br/>
-                    <button
-                      className="EditorButton"
-                      type="button"
-                      onClick={this.handleReset}
-                    >
-                      Undo changes
-                    </button>
-                    <br/>
-                    <button
-                      className="EditorButton"
-                      type="button"
-                      onClick={this.handleFormSubmit}
-                    >
-                      Save changes
-                    </button>
-                    <br/>
-                    <br/>
-                  </></>
+                  <>
+                    <>
+                      <br />
+                      <button
+                        className="EditorButton"
+                        type="button"
+                        onClick={this.handleEdit}
+                      >
+                        Exit edit mode
+                      </button>
+                      <br />
+                      <button
+                        className="EditorButton"
+                        type="button"
+                        onClick={this.handleReset}
+                      >
+                        Undo changes
+                      </button>
+                      <br />
+                      <button
+                        className="EditorButton"
+                        type="button"
+                        onClick={this.handleFormSubmit}
+                      >
+                        Save changes
+                      </button>
+                      <br />
+                      <br />
+                    </>
+                  </>
                 )}
               </div>
             )}
             {isAuthenticated && isEdit && (
-              <><>
-              {slug}
-              <br/>
-              {title}
-              {subtitle}
-              {featured}
-              <br/>
-              </></>
+              <>
+                <>
+                  {slug}
+                  <br />
+                  {title}
+                  {subtitle}
+                  {featured}
+                  <br />
+                </>
+              </>
             )}
             {!video.published_at && (
-              <h3 className="u-mt">Currently unpublished draft! Only you can view this page.</h3>
+              <h3 className="u-mt">
+                Currently unpublished draft! Only you can view this page.
+              </h3>
             )}
             {publishedAt}
           </Section>
-          {((isEdit && isAuthenticated) || !!video.business_name) &&
+          {((isEdit && isAuthenticated) || !!video.business_name) && (
             <Section className="Section--business">
               {businessName}
-              {((isEdit && isAuthenticated) || !!video.business_website) && businessWebsite}
+              {((isEdit && isAuthenticated) || !!video.business_website) &&
+                businessWebsite}
             </Section>
-          }
+          )}
           <Section className="Section--mainDetails">
-            {((isEdit && isAuthenticated) || !!video.description) && description}
+            {((isEdit && isAuthenticated) || !!video.description) &&
+              description}
             <div className="UploadPlayerContainer">
               {fileUpload}
               <div className="VideoContainer">
@@ -684,22 +708,29 @@ class VideoDetail extends Component {
             </div>
           </Section>
           <Section className="Section--extraDetails">
-            {((isEdit && isAuthenticated) || !!video.extra_field_1) && extraField1}
-            {((isEdit && isAuthenticated) || !!video.extra_field_2) && extraField2}
-            {((isEdit && isAuthenticated) || !!video.extra_field_3) && extraField3}
-            {((isEdit && isAuthenticated) || !!video.extra_field_4) && extraField4}
-            {((isEdit && isAuthenticated) || !!video.extra_field_5) && extraField5}
+            {((isEdit && isAuthenticated) || !!video.extra_field_1) &&
+              extraField1}
+            {((isEdit && isAuthenticated) || !!video.extra_field_2) &&
+              extraField2}
+            {((isEdit && isAuthenticated) || !!video.extra_field_3) &&
+              extraField3}
+            {((isEdit && isAuthenticated) || !!video.extra_field_4) &&
+              extraField4}
+            {((isEdit && isAuthenticated) || !!video.extra_field_5) &&
+              extraField5}
           </Section>
           <Section className="Section--share">
             {!isEdit && (
-              <><>
-              <p className="u-sf u-light">Share</p>
-              <ShareButtons
-                slug={video.slug}
-                title={video.title}
-                description={video.description}
-              />
-              </></>
+              <>
+                <>
+                  <p className="u-sf u-light">Share</p>
+                  <ShareButtons
+                    slug={video.slug}
+                    title={video.title}
+                    description={video.description}
+                  />
+                </>
+              </>
             )}
             {isAuthenticated && isEdit && (
               <button
@@ -719,7 +750,7 @@ class VideoDetail extends Component {
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
-  video: state.videoDetail,
+  video: state.videoDetail
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -744,7 +775,12 @@ const mapDispatchToProps = dispatch => ({
   resetError: () => {
     return dispatch(resetError());
   },
-  showAlert: ({ message, isDelete=false, isUndo=false, isUpdate=false }) => {
+  showAlert: ({
+    message,
+    isDelete = false,
+    isUndo = false,
+    isUpdate = false
+  }) => {
     return dispatch(showAlert({ message, isDelete, isUndo, isUpdate }));
   }
 });
