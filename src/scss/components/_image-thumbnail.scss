@@ -12,7 +12,7 @@
   &-text {
     display: none;
     z-index: 20;
-    color: #E5DACD;
+    color: #e5dacd;
     opacity: 0;
     position: absolute;
     top: 50%;
@@ -21,10 +21,10 @@
     text-transform: uppercase;
     width: 80%;
     -webkit-transform: translate(-50%, -50%);
-       -moz-transform: translate(-50%, -50%);
-        -ms-transform: translate(-50%, -50%);
-         -o-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 
     &-title {
       font-weight: 300;
@@ -33,9 +33,9 @@
       letter-spacing: 1px;
       text-transform: uppercase;
       -webkit-transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-         -moz-transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-           -o-transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-              transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+      -moz-transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+      -o-transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+      transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
     }
 
     &-subtitle {
@@ -95,16 +95,16 @@
       text-align: right;
       margin-top: 8px;
       -webkit-transform: none;
-         -moz-transform: none;
-          -ms-transform: none;
-           -o-transform: none;
-              transform: none;
+      -moz-transform: none;
+      -ms-transform: none;
+      -o-transform: none;
+      transform: none;
 
       &-title {
         line-height: 1.25;
         font-weight: 400;
         font-size: 12px;
-        letter-spacing: 4px;
+        letter-spacing: 2px;
         text-transform: uppercase;
         color: #e43333;
       }
@@ -141,10 +141,10 @@
         margin-top: unset;
         width: 80%;
         -webkit-transform: translate(-50%, -50%);
-           -moz-transform: translate(-50%, -50%);
-            -ms-transform: translate(-50%, -50%);
-             -o-transform: translate(-50%, -50%);
-                transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
 
         &-title {
           font-weight: 300;
@@ -161,7 +161,8 @@
     }
   }
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     cursor: pointer;
   }
 }

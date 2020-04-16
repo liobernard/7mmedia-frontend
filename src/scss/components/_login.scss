@@ -16,13 +16,14 @@
       display: block;
       font-weight: 400;
       font-size: 12px;
-      letter-spacing: 4px;
+      letter-spacing: 2px;
       text-transform: uppercase;
       margin: 25px 0 5px;
       color: #e43333;
     }
 
-    button, input {
+    button,
+    input {
       font-family: inherit;
       width: 100%;
       font-weight: 400;
@@ -53,9 +54,9 @@
       border-bottom: 0.5px solid #e43333;
       border-right: 0.5px solid #e43333;
       -webkit-transition: all 0.1s linear;
-         -moz-transition: all 0.1s linear;
-           -o-transition: all 0.1s linear;
-              transition: all 0.1s linear;
+      -moz-transition: all 0.1s linear;
+      -o-transition: all 0.1s linear;
+      transition: all 0.1s linear;
 
       &:hover,
       &:focus {

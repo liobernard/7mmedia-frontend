@@ -7,9 +7,9 @@
   height: 100vh;
   color: #ffffff;
   -webkit-transition: all 0.2s cubic-bezier(0.455, 0.03, 0.515, 1);
-     -moz-transition: all 0.2s cubic-bezier(0.455, 0.03, 0.515, 1);
-       -o-transition: all 0.2s cubic-bezier(0.455, 0.03, 0.515, 1);
-          transition: all 0.2s cubic-bezier(0.455, 0.03, 0.515, 1);
+  -moz-transition: all 0.2s cubic-bezier(0.455, 0.03, 0.515, 1);
+  -o-transition: all 0.2s cubic-bezier(0.455, 0.03, 0.515, 1);
+  transition: all 0.2s cubic-bezier(0.455, 0.03, 0.515, 1);
 
   .CloseButton {
     display: none;
@@ -22,12 +22,15 @@
       display: block;
       font-weight: 400;
       font-size: 12px;
-      letter-spacing: 4px;
+      letter-spacing: 2px;
       text-transform: uppercase;
       margin: 25px 0 5px;
     }
 
-    button, input, select, textarea {
+    button,
+    input,
+    select,
+    textarea {
       font-family: inherit;
       width: 100%;
       font-weight: 400;
@@ -46,7 +49,8 @@
       color: #fff;
     }
 
-    input, select {
+    input,
+    select {
       border: none;
       outline: none;
       height: 28px;
@@ -60,8 +64,8 @@
 
       select {
         -webkit-appearance: none;
-           -moz-appearance: none;
-                appearance: none;
+        -moz-appearance: none;
+        appearance: none;
 
         &::-ms-expand {
           display: none;
@@ -77,9 +81,9 @@
         font-size: 16px;
         color: #ffffff;
         -webkit-transform: rotate(180deg);
-           -moz-transform: rotate(180deg);
-            -ms-transform: rotate(180deg);
-                transform: rotate(180deg);
+        -moz-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+        transform: rotate(180deg);
       }
     }
 
@@ -99,9 +103,9 @@
       border-bottom: 0.5px solid #fff;
       border-right: 0.5px solid #fff;
       -webkit-transition: all 0.1s linear;
-         -moz-transition: all 0.1s linear;
-           -o-transition: all 0.1s linear;
-              transition: all 0.1s linear;
+      -moz-transition: all 0.1s linear;
+      -o-transition: all 0.1s linear;
+      transition: all 0.1s linear;
 
       &:hover,
       &:focus {
