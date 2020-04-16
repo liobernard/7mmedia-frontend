@@ -1,9 +1,9 @@
 .VideoThumbnail {
   position: relative;
   touch-action: manipulation;
-  height: 75vh;
+  height: 67vh;
   max-height: 300px;
-  width: 84vw;
+  width: 100%;
 
   .VideoThumbnail-text {
     text-align: right;
@@ -43,8 +43,6 @@
   @include for-tablet-landscape-up {
     width: 50vw;
     height: 33vw;
-    left: -8vw;
     margin: unset;
   }
 }
-
