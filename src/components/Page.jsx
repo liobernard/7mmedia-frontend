@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Helmet from "react-helmet";
-
+import { Helmet } from "react-helmet";
 
 const SITE_URL =
   process.env.NODE_ENV === "development"
@@ -14,7 +13,6 @@ const defaultDescription =
   "We're committed to capturing your special moments and sculpting them into shareable, honest works of art. In need of filming, production, or editing services? We'd love to hear from you.";
 const defaultImage = `https://assets.liobernard.com/images/float/float_600.jpg`;
 
-
 class Page extends Component {
   getMetaTags(
     {
@@ -26,7 +24,7 @@ class Page extends Component {
       published,
       updated,
       category,
-      tags
+      tags,
     },
     pathname
   ) {
@@ -44,7 +42,7 @@ class Page extends Component {
       { property: "og:type", content: contentType || "website" },
       { property: "og:url", content: SITE_URL + pathname },
       { property: "og:image", content: theImage },
-      { property: "og:description", content: theDescription }
+      { property: "og:description", content: theDescription },
     ];
 
     if (noCrawl) {
@@ -76,14 +74,14 @@ class Page extends Component {
           htmlAttributes={{
             lang: "en",
             itemscope: undefined,
-            itemtype: `http://schema.org/${rest.schema || "WebPage"}`
+            itemtype: `http://schema.org/${rest.schema || "WebPage"}`,
           }}
           title={rest.title ? `${rest.title} » JByrdFilm.com` : defaultTitle}
           link={[
             {
               rel: "canonical",
-              href: SITE_URL + pathname
-            }
+              href: SITE_URL + pathname,
+            },
           ]}
           meta={this.getMetaTags(rest, pathname)}
         />
@@ -93,7 +91,7 @@ class Page extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   pathname: state.router.location.pathname,
 });
 
