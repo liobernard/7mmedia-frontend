@@ -16,7 +16,7 @@ import {
   SignUpButton,
   SocialIcons,
   VideoBackground,
-  VideoThumbnail
+  VideoThumbnail,
 } from "./";
 
 class HomePage extends Component {
@@ -135,28 +135,12 @@ class HomePage extends Component {
           </Section>
           <Section className="Section--featured">
             <h4 className="Featured u-mf u-red">Featured</h4>
-            <VideoThumbnail
-              {...featured}
-              yOffsetMin="30px"
-              yOffsetMax="-30px"
-            />
+            <VideoThumbnail {...featured} />
           </Section>
           <Section className="Section--latest">
             <h4 className="u-mf u-red">Latest</h4>
-            <ImageThumbnail
-              {...latest[0]}
-              yOffsetMin="-5px"
-              yOffsetMax="45px"
-              isHome
-              id="latest1"
-            />
-            <ImageThumbnail
-              {...latest[1]}
-              yOffsetMin="45px"
-              yOffsetMax="-5px"
-              isHome
-              id="latest2"
-            />
+            <ImageThumbnail {...latest[0]} id="latest1" />
+            <ImageThumbnail {...latest[1]} id="latest2" />
           </Section>
           <Section className="Section--help">
             <div className="Works">
@@ -193,20 +177,20 @@ class HomePage extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   featured: state.homePage.featured,
   latest: state.homePage.latest,
   featuredLoading: state.homePage.featuredLoading,
-  latestLoading: state.homePage.latestLoading
+  latestLoading: state.homePage.latestLoading,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchHomePage: () => {
     return dispatch(homePage.fetchHomePage());
   },
   closeHomePage: () => {
     return dispatch(homePage.closeHomePage());
-  }
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

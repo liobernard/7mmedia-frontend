@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Player, BigPlayButton, ControlBar, PosterImage } from 'video-react';
-import { Parallax, withController } from 'react-scroll-parallax';
+import { Player, BigPlayButton, ControlBar, PosterImage } from "video-react";
 
 import { recursiveCheck } from "../js/utils";
 
@@ -17,7 +16,6 @@ class VideoThumbnail extends Component {
   }
 
   componentDidMount() {
-    this.props.parallaxController.update();
     this.checkImageLoading();
 
     setTimeout(() => {
@@ -32,30 +30,26 @@ class VideoThumbnail extends Component {
       const featured = document.getElementById("featured");
 
       if (!!this.props.thumbnail_url) {
-        return (
-          !!featured &&
+        return !!featured &&
           !!featured.currentSrc &&
           !!featured.previousElementSibling.style.backgroundImage
-          ? true : false
-        );
+          ? true
+          : false;
       } else {
-        return (
-          !!featured &&
-          !!featured.currentSrc &&
-          featured.readyState === 4
-          ? true : false
-        );
+        return !!featured && !!featured.currentSrc && featured.readyState === 4
+          ? true
+          : false;
       }
     };
 
     const loadImage = () => {
       this.setState({ imageLoaded: true });
-    }
+    };
 
     const errorImage = () => {
       this.setState({ imageLoaded: false, imageError: true });
       console.error("VideoThumbnail-featured did not load properly!");
-    }
+    };
 
     recursiveCheck(featuredReady, loadImage, errorImage);
   }
@@ -68,51 +62,37 @@ class VideoThumbnail extends Component {
       thumbnail_url,
       title,
       video_url,
-      yOffsetMin,
-      yOffsetMax
     } = this.props;
 
-    const {
-      imageLoaded,
-      imageError,
-      loadingDelay
-    } = this.state;
+    const { imageLoaded, imageError, loadingDelay } = this.state;
 
     let classNames = ["VideoThumbnail", className].join(" ");
 
     return (
       <div className={classNames}>
-        <Parallax
-          y={[yOffsetMin, yOffsetMax]}
-          styleOuter={{ height: "inherit" }}
-          styleInner={{
-            height: "inherit",
-            WebkitTransition: "all 0.1s linear",
-            transition: "all 0.1s linear"
-          }}
+        <Player
+          fluid={false}
+          height="100%"
+          width="100%"
+          playsInline
+          preload={!!thumbnail_url ? "none" : "auto"}
+          src={video_url}
+          videoId="featured"
         >
-          <Player
-            fluid={false}
-            height="100%"
-            width="100%"
-            playsInline
-            preload={!!thumbnail_url ? "none" : "auto"}
-            src={video_url}
-            videoId="featured"
-          >
-            <LoadingView
-              className="LoadingView--thumbnail"
-              loaded={imageLoaded || imageError ? true : false}
-              spinnerOn={loadingDelay}
-            />
-            <BigPlayButton position="center" />
-            {!!thumbnail_url && <PosterImage poster={thumbnail_url} />}
-            <ControlBar autoHideTime={1500} />
-          </Player>
-        </Parallax>
+          <LoadingView
+            className="LoadingView--thumbnail"
+            loaded={imageLoaded || imageError ? true : false}
+            spinnerOn={loadingDelay}
+          />
+          <BigPlayButton position="center" />
+          {!!thumbnail_url && <PosterImage poster={thumbnail_url} />}
+          <ControlBar autoHideTime={1500} />
+        </Player>
         <div className="VideoThumbnail-text">
           <h3 className="VideoThumbnail-text-title u-mf">
-            <MyLink active pathname={`films/${slug}`}>{title}</MyLink>
+            <MyLink active pathname={`films/${slug}`}>
+              {title}
+            </MyLink>
           </h3>
           <h4 className="VideoThumbnail-text-subtitle u-sf">
             <MyLink className="u-red" active pathname={`films/${slug}`}>
@@ -125,4 +105,4 @@ class VideoThumbnail extends Component {
   }
 }
 
-export default withController(VideoThumbnail);
+export default VideoThumbnail;

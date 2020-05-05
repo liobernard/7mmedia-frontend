@@ -1,14 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { ParallaxProvider } from 'react-scroll-parallax';
 
-import {
-  alert,
-  browserHistory,
-  menu,
-  showreel,
-  signUpForm
-} from "../actions";
+import { alert, browserHistory, menu, showreel, signUpForm } from "../actions";
 
 import links from "../links";
 
@@ -21,17 +14,16 @@ import {
   ScrollToTop,
   Showreel,
   SignUpForm,
-  ToggleMenu
+  ToggleMenu,
 } from "./";
 
-
 class RootComponent extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.escFunction = this.escFunction.bind(this);
   }
 
-  escFunction(e){
+  escFunction(e) {
     if (e.keyCode === 27) {
       if (this.props.alertOn) this.props.hideAlert();
       if (this.props.menuOn) this.props.hideMenu();
@@ -40,40 +32,36 @@ class RootComponent extends Component {
     }
   }
 
-  componentDidMount(){
+  componentDidMount() {
     document.addEventListener("keydown", this.escFunction, false);
     this.props.updateHistory(this.props.location);
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     document.removeEventListener("keydown", this.escFunction, false);
   }
 
   render() {
-    const {
-      isAuthenticated,
-    } = this.props;
+    const { isAuthenticated } = this.props;
 
     return (
       <ScrollToTop>
-        <ParallaxProvider>
-          <div className="SiteContainer">
-            {isAuthenticated && <AutoLogout />}
-            <ToggleMenu isAuthenticated={isAuthenticated} links={links} />
-            <ScreenOverlay />
-            <Alert />
-            <Showreel />
-            <SignUpForm />
-            <Routes isAuthenticated={isAuthenticated} />
-            <Footer />
-          </div>
-        </ParallaxProvider>
+        <div className="SiteContainer">
+          {isAuthenticated && <AutoLogout />}
+          <ToggleMenu isAuthenticated={isAuthenticated} links={links} />
+          <ScreenOverlay />
+          <Alert />
+          <Showreel />
+          <SignUpForm />
+          <Routes isAuthenticated={isAuthenticated} />
+          <Footer />
+        </div>
       </ScrollToTop>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alertOn: state.alert.alertOn,
   isAuthenticated: state.auth.isAuthenticated,
   location: state.router.location,
@@ -82,8 +70,8 @@ const mapStateToProps = state => ({
   signUpFormOn: state.signUpForm.signUpFormOn,
 });
 
-const mapDispatchToProps = dispatch => ({
-  updateHistory: location => {
+const mapDispatchToProps = (dispatch) => ({
+  updateHistory: (location) => {
     dispatch(browserHistory.updateHistory(location));
   },
   hideAlert: () => {
@@ -97,7 +85,7 @@ const mapDispatchToProps = dispatch => ({
   },
   hideSignUpForm: () => {
     dispatch(signUpForm.hideSignUpForm());
-  }
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RootComponent);
