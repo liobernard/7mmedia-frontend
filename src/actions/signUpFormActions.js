@@ -2,19 +2,14 @@ import request from "superagent";
 import validate from "validator/lib/escape";
 import trim from "validator/lib/trim";
 
-import {
-  disableBodyScroll,
-  enableBodyScroll
-} from "../js/myBodyScrollLock";
+import { disableBodyScroll, enableBodyScroll } from "../js/myBodyScrollLock";
 
 import { isEmailValid } from "../js/utils";
 
-
 const REACT_APP_API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
 
-
 export const showSignUpForm = () => {
-  return dispatch => {
+  return (dispatch) => {
     enableBodyScroll(document.querySelector(".ToggleMenu"));
     dispatch({ type: "HIDE_MENU" });
     disableBodyScroll(document.querySelector(".SignUpForm"));
@@ -23,17 +18,17 @@ export const showSignUpForm = () => {
 };
 
 export const hideSignUpForm = () => {
-  return dispatch => {
+  return (dispatch) => {
     enableBodyScroll(document.querySelector(".SignUpForm"));
     dispatch({ type: "HIDE_SIGNUP" });
   };
 };
 
 export const inputValue = (name, value) => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({ type: "INPUT_VALUE", name, value });
-  }
-}
+  };
+};
 
 export const submitForm = () => {
   return (dispatch, getState) => {
@@ -46,7 +41,7 @@ export const submitForm = () => {
       name: validate(trim(clientData.name)),
       email: validate(trim(clientData.email)),
       project: validate(trim(clientData.project)),
-      message: validate(trim(clientData.message))
+      message: validate(trim(clientData.message)),
     };
 
     if (
@@ -57,23 +52,23 @@ export const submitForm = () => {
     ) {
       return dispatch({
         type: "FORM_ERROR",
-        error: "Make sure all fields are entered and valid."
+        error: "Make sure all fields are entered and valid.",
       });
     }
 
     dispatch({ type: "FORM_SENDING" });
 
     return request
-      .post(`http://${REACT_APP_API_DOMAIN}/email/signup_form/`)
+      .post(`${REACT_APP_API_DOMAIN}/email/signup_form/`)
       .type("application/json")
       .send(cleanedData)
-      .then(res => {
+      .then((res) => {
         return dispatch({ type: "FORM_SUCCESSFUL" });
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
         let error = err.message;
         return dispatch({ type: "FORM_ERROR", error });
       });
-  }
-}
+  };
+};

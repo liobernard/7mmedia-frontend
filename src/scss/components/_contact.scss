@@ -21,16 +21,11 @@
 
     &-email {
       a {
-        color: #333;
+        color: #e43333;
         -webkit-transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-           -moz-transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-             -o-transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-                transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-
-        &:hover,
-        &:focus {
-          color: #e43333;
-        }
+        -moz-transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        -o-transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
       }
     }
   }
@@ -75,7 +70,7 @@
     }
 
     .Contact-links .Logo--bottom .Link {
-      color: #ffffff
+      color: #ffffff;
     }
   }
 

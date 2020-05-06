@@ -83,7 +83,7 @@ class HomePage extends Component {
             <VideoBackground />
             <div className="IntroText IntroText--main">
               <div>
-                <h1>J. Byrd Film Studio</h1>
+                <h1>7 Mile Media</h1>
               </div>
             </div>
             <div className="IntroText IntroText--sub">

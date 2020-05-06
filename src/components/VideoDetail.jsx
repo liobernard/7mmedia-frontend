@@ -16,7 +16,7 @@ import {
   NotFound,
   Page,
   Section,
-  ShareButtons
+  ShareButtons,
 } from "./";
 
 class VideoDetail extends Component {
@@ -35,7 +35,7 @@ class VideoDetail extends Component {
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
 
     this.resetPlayer = throttle(this.resetPlayer.bind(this), 1000, {
-      leading: true
+      leading: true,
     });
   }
 
@@ -139,7 +139,7 @@ class VideoDetail extends Component {
   render() {
     const {
       isAuthenticated,
-      video: { error, isEdit, isLoading, video, form }
+      video: { error, isEdit, isLoading, video, form },
     } = this.props;
 
     const { pastDelay } = this.state;
@@ -449,8 +449,7 @@ class VideoDetail extends Component {
             Example slugs: "wedding_in_the_park" or "wedding_park_2020" or
             "wedding_summer_2020", etc.
             <br />
-            Full URL example:
-            "http://www.jbyrdfilm.com/films/wedding_in_the_park"
+            Full URL example: "https://7mmedia.online/films/wedding_in_the_park"
           </p>
         </h3>
       );
@@ -748,13 +747,13 @@ class VideoDetail extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
-  video: state.videoDetail
+  video: state.videoDetail,
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchVideo: slug => {
+const mapDispatchToProps = (dispatch) => ({
+  fetchVideo: (slug) => {
     return dispatch(videos.fetchVideo(slug));
   },
   resetVideo: () => {
@@ -769,7 +768,7 @@ const mapDispatchToProps = dispatch => ({
   editDetail: (name, value) => {
     return dispatch(videos.editDetail(name, value));
   },
-  editDate: date => {
+  editDate: (date) => {
     return dispatch(videos.editDate(date));
   },
   resetError: () => {
@@ -779,10 +778,10 @@ const mapDispatchToProps = dispatch => ({
     message,
     isDelete = false,
     isUndo = false,
-    isUpdate = false
+    isUpdate = false,
   }) => {
     return dispatch(showAlert({ message, isDelete, isUndo, isUpdate }));
-  }
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(VideoDetail);

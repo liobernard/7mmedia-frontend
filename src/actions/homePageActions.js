@@ -3,32 +3,32 @@ import request from "superagent";
 const REACT_APP_API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
 
 export const fetchHomePage = () => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({ type: "FEATURED_LOADING" });
 
     let headers = { "Content-Type": "application/json" };
 
-    const featuredUrl   = `http://${REACT_APP_API_DOMAIN}/videos/?featured=True&published=True&limit=1`;
-    const noFeaturedUrl = `http://${REACT_APP_API_DOMAIN}/videos/?limit=1&published=True`;
-    let latestUrl       = `http://${REACT_APP_API_DOMAIN}/videos/?limit=2&published=True&exclude=`;
+    const featuredUrl = `${REACT_APP_API_DOMAIN}/videos/?featured=True&published=True&limit=1`;
+    const noFeaturedUrl = `${REACT_APP_API_DOMAIN}/videos/?limit=1&published=True`;
+    let latestUrl = `${REACT_APP_API_DOMAIN}/videos/?limit=2&published=True&exclude=`;
 
-    let fetchFeatured = new Promise(resolve => {
+    let fetchFeatured = new Promise((resolve) => {
       request
         .get(featuredUrl)
         .set(headers)
-        .then(res => {
+        .then((res) => {
           const featured = res.body.results[0];
 
           if (!featured || !featured.slug) {
             request
               .get(noFeaturedUrl)
               .set(headers)
-              .then(res => {
+              .then((res) => {
                 const noFeatured = res.body.results[0];
                 dispatch({ type: "FEATURED_LOADED", featured: noFeatured });
                 resolve(noFeatured);
               })
-              .catch(err => {
+              .catch((err) => {
                 console.error(err);
 
                 let error = err.message;
@@ -47,7 +47,7 @@ export const fetchHomePage = () => {
             resolve(featured);
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err);
 
           let error = err.message;
@@ -63,20 +63,20 @@ export const fetchHomePage = () => {
         });
     });
 
-    fetchFeatured.then(featured => {
+    fetchFeatured.then((featured) => {
       dispatch({ type: "LATEST_LOADING" });
       latestUrl = `${latestUrl}${featured.slug}`;
 
       return request
         .get(latestUrl)
         .set(headers)
-        .then(res => {
+        .then((res) => {
           return dispatch({
             type: "LATEST_LOADED",
-            latest: res.body.results
+            latest: res.body.results,
           });
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err);
 
           let error = err.message;
@@ -95,7 +95,7 @@ export const fetchHomePage = () => {
 };
 
 export const closeHomePage = () => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({ type: "CLOSE_HOME" });
   };
 };

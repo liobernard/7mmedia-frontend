@@ -9,7 +9,7 @@ import {
 export default class ShareButtons extends Component {
   render() {
     const { description, slug, title } = this.props;
-    const url = `https://www.jbyrdfilm.com/films/${slug}`;
+    const url = `https://7mmedia.online/films/${slug}`;
 
     return (
       <div className="ShareButtons">

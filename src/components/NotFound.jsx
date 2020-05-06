@@ -19,7 +19,9 @@ class NotFound extends Component {
             <div className="NotFound-address">
               <h2 className="u-mf">{address}</h2>
               <p>
-                www.jbyrdfilm.com{pathname}{search}{hash}
+                7mmedia.online{pathname}
+                {search}
+                {hash}
               </p>
             </div>
           </Section>
@@ -29,7 +31,7 @@ class NotFound extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   pathname: state.router.location.pathname,
   search: state.router.location.search,
   hash: state.router.location.hash,

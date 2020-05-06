@@ -2,23 +2,21 @@ import request from "superagent";
 
 import { showAlert, hideAlert } from "../actions/alertActions";
 
-
 const REACT_APP_API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
 
-
 export const resetVideo = () => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({ type: "RESET_VIDEO" });
   };
 };
 
 export const resetVideos = () => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({ type: "RESET_VIDEOS" });
   };
 };
 
-export const fetchVideo = slug => {
+export const fetchVideo = (slug) => {
   return (dispatch, getState) => {
     dispatch({ type: "VIDEO_LOADING" });
 
@@ -30,15 +28,15 @@ export const fetchVideo = slug => {
       headers["Authorization"] = `Token ${token}`;
     }
 
-    const url = `http://${REACT_APP_API_DOMAIN}/videos/${slug}/`;
+    const url = `${REACT_APP_API_DOMAIN}/videos/${slug}/`;
 
     return request
       .get(url)
       .set(headers)
-      .then(res => {
+      .then((res) => {
         return dispatch({ type: "VIDEO_LOADED", video: res.body });
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
 
         let error = err.message;
@@ -59,7 +57,7 @@ export const fetchVideos = (offset = 0, drafts = false) => {
     dispatch({ type: "VIDEOS_LOADING" });
 
     let headers = { "Content-Type": "application/json" };
-    let url = `http://${REACT_APP_API_DOMAIN}/videos/?limit=4&offset=${offset}`;
+    let url = `${REACT_APP_API_DOMAIN}/videos/?limit=4&offset=${offset}`;
 
     if (drafts) {
       headers["Authorization"] = `Token ${getState().auth.token}`;
@@ -69,14 +67,14 @@ export const fetchVideos = (offset = 0, drafts = false) => {
     return request
       .get(url)
       .set(headers)
-      .then(res => {
+      .then((res) => {
         return dispatch({
           type: "VIDEOS_LOADED",
           hasMore: offset + 4 >= res.body.count ? false : true,
-          videos: res.body.results
+          videos: res.body.results,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
 
         let error = err.message;
@@ -99,25 +97,24 @@ export const createVideo = () => {
     let headers = { "Content-Type": "application/json" };
 
     const token = getState().auth.token;
-    const data  = getState().videoDetail.form;
-
+    const data = getState().videoDetail.form;
 
     if (token) {
       headers["Authorization"] = `Token ${token}`;
     }
 
-    const url = `http://${REACT_APP_API_DOMAIN}/videos/`;
+    const url = `${REACT_APP_API_DOMAIN}/videos/`;
 
     return request
       .post(url)
       .set(headers)
       .send(data)
-      .then(res => {
+      .then((res) => {
         const message = "Created page successfully.";
         dispatch(showAlert({ message }));
         return dispatch({ type: "VIDEO_CREATED" });
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
 
         let error = err.message;
@@ -143,26 +140,26 @@ export const updateVideo = () => {
     let headers = { "Content-Type": "application/json" };
 
     const token = getState().auth.token;
-    const slug  = getState().videoDetail.video.slug;
-    const data  = getState().videoDetail.form;
+    const slug = getState().videoDetail.video.slug;
+    const data = getState().videoDetail.form;
 
     if (token) {
       headers["Authorization"] = `Token ${token}`;
     }
 
-    const url = `http://${REACT_APP_API_DOMAIN}/videos/${slug}/`;
+    const url = `${REACT_APP_API_DOMAIN}/videos/${slug}/`;
 
     return request
       .put(url)
       .set(headers)
       .send(data)
-      .then(res => {
+      .then((res) => {
         const message = "Updated page successfully.";
         dispatch(showAlert({ message }));
         dispatch(editOff());
         return dispatch({ type: "VIDEO_UPDATED", video: res.body });
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
 
         let error = err.message;
@@ -188,24 +185,24 @@ export const deleteVideo = () => {
     let headers = { "Content-Type": "application/json" };
 
     const token = getState().auth.token;
-    const slug  = getState().videoDetail.video.slug;
+    const slug = getState().videoDetail.video.slug;
 
     if (token) {
       headers["Authorization"] = `Token ${token}`;
     }
 
-    const url = `http://${REACT_APP_API_DOMAIN}/videos/${slug}/`;
+    const url = `${REACT_APP_API_DOMAIN}/videos/${slug}/`;
 
     return request
       .del(url)
       .set(headers)
-      .then(res => {
+      .then((res) => {
         const message = "Deleted page successfully.";
         dispatch(showAlert({ message }));
         dispatch(editOff());
         return dispatch({ type: "VIDEO_DELETED" });
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
 
         let error = err.message;
@@ -221,8 +218,8 @@ export const deleteVideo = () => {
   };
 };
 
-export const videoError = error => {
-  return dispatch => {
+export const videoError = (error) => {
+  return (dispatch) => {
     return dispatch({ type: "VIDEO_ERROR", error });
   };
 };
@@ -244,23 +241,23 @@ export const editOn = () => {
     const video = getState().videoDetail.video;
     dispatch(resetForm(video));
     dispatch({ type: "EDIT_ON" });
-  }
+  };
 };
 
 export const editOff = () => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({ type: "EDIT_OFF" });
-  }
+  };
 };
 
 export const editDetail = (name, value) => {
-  return dispatch => {
+  return (dispatch) => {
     return dispatch({ type: "EDIT_DETAIL", name, value });
-  }
-}
+  };
+};
 
-export const editDate = date => {
-  return dispatch => {
+export const editDate = (date) => {
+  return (dispatch) => {
     return dispatch({ type: "EDIT_DATE", date });
-  }
-}
+  };
+};

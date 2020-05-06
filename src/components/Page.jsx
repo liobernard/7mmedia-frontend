@@ -5,10 +5,10 @@ import { Helmet } from "react-helmet";
 const SITE_URL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
-    : "https://www.jbyrdfilm.com";
+    : "https://7mmedia.online";
 
 const defaultTitle =
-  "J. Byrd Film Studio | Weddings, Events, Promos, Documentaries & More";
+  "7 Mile Media Productions | Weddings, Events, Promos, Documentaries & More";
 const defaultDescription =
   "We're committed to capturing your special moments and sculpting them into shareable, honest works of art. In need of filming, production, or editing services? We'd love to hear from you.";
 const defaultImage = `https://assets.liobernard.com/images/float/float_600.jpg`;
@@ -28,7 +28,7 @@ class Page extends Component {
     },
     pathname
   ) {
-    const theTitle = title ? `${title} » JByrdFilm.com` : defaultTitle;
+    const theTitle = title ? `${title} » 7MMedia.online` : defaultTitle;
     const theDescription = description ? description : defaultDescription;
     const theImage = image ? image : defaultImage;
 
@@ -74,9 +74,9 @@ class Page extends Component {
           htmlAttributes={{
             lang: "en",
             itemscope: undefined,
-            itemtype: `http://schema.org/${rest.schema || "WebPage"}`,
+            itemtype: `https://schema.org/${rest.schema || "WebPage"}`,
           }}
-          title={rest.title ? `${rest.title} » JByrdFilm.com` : defaultTitle}
+          title={rest.title ? `${rest.title} » 7MMedia.online` : defaultTitle}
           link={[
             {
               rel: "canonical",

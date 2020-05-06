@@ -1,41 +1,36 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import DateTimePicker from "react-datetime-picker";
-import { Player, BigPlayButton, ControlBar, PosterImage } from 'video-react';
+import { Player, BigPlayButton, ControlBar, PosterImage } from "video-react";
 import throttle from "lodash/throttle";
 
 import { showAlert } from "../actions/alertActions";
 import { resetError } from "../actions/authActions";
 import { videos } from "../actions";
 
-import {
-  FileSelect,
-  FileUpload,
-  Main,
-  MyLink,
-  Page,
-  Section,
-} from "./";
+import { FileSelect, FileUpload, Main, MyLink, Page, Section } from "./";
 
 class VideoCreate extends Component {
   constructor(props) {
     super(props);
     this.player = React.createRef();
 
-    this.handleDate       = this.handleDate.bind(this);
-    this.handleFeatured   = this.handleFeatured.bind(this);
-    this.handleFocus      = this.handleFocus.bind(this);
-    this.handleInput      = this.handleInput.bind(this);
-    this.handleReset      = this.handleReset.bind(this);
+    this.handleDate = this.handleDate.bind(this);
+    this.handleFeatured = this.handleFeatured.bind(this);
+    this.handleFocus = this.handleFocus.bind(this);
+    this.handleInput = this.handleInput.bind(this);
+    this.handleReset = this.handleReset.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
 
     this.resetPlayer = throttle(this.resetPlayer.bind(this), 1000, {
-      leading: true
-    })
+      leading: true,
+    });
   }
 
   handleDate(date) {
-    if (!!date) { date = date.toISOString() };
+    if (!!date) {
+      date = date.toISOString();
+    }
     this.props.editDate(date);
   }
 
@@ -80,7 +75,9 @@ class VideoCreate extends Component {
       }
     }
 
-    if (this.props.video.form.thumbnail_url !== prevProps.video.form.thumbnail_url) {
+    if (
+      this.props.video.form.thumbnail_url !== prevProps.video.form.thumbnail_url
+    ) {
       if (!!prevProps.video.form.video_url) {
         this.resetPlayer(prevProps.video.form.video_url);
       }
@@ -93,7 +90,9 @@ class VideoCreate extends Component {
   }
 
   render() {
-    const { video: { error, isCreating, form } } = this.props;
+    const {
+      video: { error, isCreating, form },
+    } = this.props;
 
     const header = (
       <Section className="Section--navLinks">
@@ -124,7 +123,7 @@ class VideoCreate extends Component {
         </Page>
       );
     }
-    
+
     const businessName = (
       <h3 className="u-mf">
         Client:&nbsp;&nbsp;
@@ -154,7 +153,9 @@ class VideoCreate extends Component {
           value={form.business_website}
           onChange={this.handleInput}
           onFocus={this.handleFocus}
-          placeholder={"Enter the website url of the client/business, if applicable"}
+          placeholder={
+            "Enter the website url of the client/business, if applicable"
+          }
         />
       </h3>
     );
@@ -189,7 +190,9 @@ class VideoCreate extends Component {
           value={form.extra_field_1}
           onChange={this.handleInput}
           onFocus={this.handleFocus}
-          placeholder={"Enter any additional info (notes, credits, etc) if applicable"}
+          placeholder={
+            "Enter any additional info (notes, credits, etc) if applicable"
+          }
         />
       </h3>
     );
@@ -205,7 +208,9 @@ class VideoCreate extends Component {
           value={form.extra_field_2}
           onChange={this.handleInput}
           onFocus={this.handleFocus}
-          placeholder={"Enter any additional info (notes, credits, etc) if applicable"}
+          placeholder={
+            "Enter any additional info (notes, credits, etc) if applicable"
+          }
         />
       </h3>
     );
@@ -221,7 +226,9 @@ class VideoCreate extends Component {
           value={form.extra_field_3}
           onChange={this.handleInput}
           onFocus={this.handleFocus}
-          placeholder={"Enter any additional info (notes, credits, etc) if applicable"}
+          placeholder={
+            "Enter any additional info (notes, credits, etc) if applicable"
+          }
         />
       </h3>
     );
@@ -237,7 +244,9 @@ class VideoCreate extends Component {
           value={form.extra_field_4}
           onChange={this.handleInput}
           onFocus={this.handleFocus}
-          placeholder={"Enter any additional info (notes, credits, etc) if applicable"}
+          placeholder={
+            "Enter any additional info (notes, credits, etc) if applicable"
+          }
         />
       </h3>
     );
@@ -253,7 +262,9 @@ class VideoCreate extends Component {
           value={form.extra_field_5}
           onChange={this.handleInput}
           onFocus={this.handleFocus}
-          placeholder={"Enter any additional info (notes, credits, etc) if applicable"}
+          placeholder={
+            "Enter any additional info (notes, credits, etc) if applicable"
+          }
         />
       </h3>
     );
@@ -271,9 +282,9 @@ class VideoCreate extends Component {
           onChange={this.handleFeatured}
         />
         <p className="u-nm u-tf">
-          If checked, this video will be featured on the home page.
-          If multiple videos are set to be featured, only the most
-          recent will be displayed on the home page.
+          If checked, this video will be featured on the home page. If multiple
+          videos are set to be featured, only the most recent will be displayed
+          on the home page.
         </p>
       </h3>
     );
@@ -287,27 +298,30 @@ class VideoCreate extends Component {
           onChange={this.handleDate}
           value={!form.published_at ? null : new Date(form.published_at)}
         />
-        <br/>
-        <br/>
+        <br />
+        <br />
         <button
           className="EditorButton"
           type="button"
-          onClick={() => {this.props.editDate(new Date())}}
+          onClick={() => {
+            this.props.editDate(new Date());
+          }}
         >
           Set today
         </button>
         <button
           className="EditorButton"
           type="button"
-          onClick={() => {this.props.editDate(null)}}
+          onClick={() => {
+            this.props.editDate(null);
+          }}
         >
           Clear date (unpublish)
         </button>
         {!form.published_at && (
           <p className="u-tf">
-            No publish date set. If saved,
-            this page will not be displayed on the website 
-            and will instead be saved as a draft.
+            No publish date set. If saved, this page will not be displayed on
+            the website and will instead be saved as a draft.
           </p>
         )}
       </h3>
@@ -329,24 +343,21 @@ class VideoCreate extends Component {
           placeholder={"Enter a slug for this video (required)"}
         />
         <p className="u-tf">
-          A slug is the end part of a URL which
-          identifies a particular page on a website
-          in an easy-to-read form. In other words,
-          it’s the part of the URL that explains the page’s content.
-          For example, with the URL https://www.example.com/the_slug,
-          the slug simply is "the_slug". Must be unique to this
-          particular video page. For simplicity's sake, I recommend
-          just using an abbreviated version of the film's title,
+          A slug is the end part of a URL which identifies a particular page on
+          a website in an easy-to-read form. In other words, it’s the part of
+          the URL that explains the page’s content. For example, with the URL
+          https://www.example.com/the_slug, the slug simply is "the_slug". Must
+          be unique to this particular video page. For simplicity's sake, I
+          recommend just using an abbreviated version of the film's title,
           formatted as such:
-          <br/>
-          <br/>
+          <br />
+          <br />
           Example title: "Wedding in the Park, Summer 2020"
-          <br/>
+          <br />
           Example slugs: "wedding_in_the_park" or "wedding_park_2020" or
           "wedding_summer_2020", etc.
-          <br/>
-          Full URL example:
-          "http://www.jbyrdfilm.com/films/wedding_in_the_park"
+          <br />
+          Full URL example: "https://7mmedia.online/films/wedding_in_the_park"
         </p>
       </h3>
     );
@@ -395,37 +406,34 @@ class VideoCreate extends Component {
           buttonText="Upload thumbnail image file"
         />
         <FileSelect type="thumbnail" />
-        <br/>
-        <br/>
-        <br/>
+        <br />
+        <br />
+        <br />
         <FileUpload
           label="Choose video file to upload"
           accept="video/*"
           buttonText="Upload video file"
         />
         <FileSelect type="video" />
-        <br/>
-        <br/>
+        <br />
+        <br />
         <p>
-          The video and thumbnail URLs will be updated 
-          automatically when either the video file or 
-          thumbnail image is uploaded to storage.
-          Alternatively, you may directly insert URLs for
-          videos and thumbnails which were previously uploaded,
-          or which are already available in cloud storage
-          or some other location on the web. Whether edited/inserted 
-          directly or after a successful upload, the following 
+          The video and thumbnail URLs will be updated automatically when either
+          the video file or thumbnail image is uploaded to storage.
+          Alternatively, you may directly insert URLs for videos and thumbnails
+          which were previously uploaded, or which are already available in
+          cloud storage or some other location on the web. Whether
+          edited/inserted directly or after a successful upload, the following
           URLs will be saved to the page upon saving.
-          <br/>
-          <br/>
-          Make sure the video player is functioning properly before
-          saving! On the player below, you should see either the 
-          thumbnail image if provided, or the first frame of the video file,
-          displayed before the video has begun playing. If you see a
-          black screen and/or the video does not play, then you likely
-          have the incorrect URL(s) provided, or the file(s) have not been
-          uploaded to the provided URL(s), or the file(s) are 
-          corrupted.
+          <br />
+          <br />
+          Make sure the video player is functioning properly before saving! On
+          the player below, you should see either the thumbnail image if
+          provided, or the first frame of the video file, displayed before the
+          video has begun playing. If you see a black screen and/or the video
+          does not play, then you likely have the incorrect URL(s) provided, or
+          the file(s) have not been uploaded to the provided URL(s), or the
+          file(s) are corrupted.
         </p>
         <h4 className="u-mf u-mt">
           Thumbnail URL:&nbsp;&nbsp;
@@ -437,7 +445,9 @@ class VideoCreate extends Component {
             value={form.thumbnail_url}
             onChange={this.handleInput}
             onFocus={this.handleFocus}
-            placeholder={"Enter the URL of the thumbnail image for this video, if applicable"}
+            placeholder={
+              "Enter the URL of the thumbnail image for this video, if applicable"
+            }
           />
         </h4>
         <h4 className="u-mf u-mt">
@@ -455,7 +465,7 @@ class VideoCreate extends Component {
             placeholder={"Enter the URL of the video file (required)"}
           />
         </h4>
-        <br/>
+        <br />
       </div>
     );
 
@@ -481,7 +491,7 @@ class VideoCreate extends Component {
               >
                 Undo changes
               </button>
-              <br/>
+              <br />
               <button
                 className="EditorButton"
                 type="button"
@@ -489,15 +499,15 @@ class VideoCreate extends Component {
               >
                 Save changes
               </button>
-              <br/>
-              <br/>
+              <br />
+              <br />
             </div>
             {slug}
-            <br/>
+            <br />
             {title}
             {subtitle}
             {featured}
-            <br/>
+            <br />
             {publishedAt}
           </Section>
           <Section className="Section--business">
@@ -533,34 +543,33 @@ class VideoCreate extends Component {
             {extraField4}
             {extraField5}
           </Section>
-          <Section className="Section--share">
-          </Section>
+          <Section className="Section--share"></Section>
         </Main>
       </Page>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  video: state.videoDetail
+const mapStateToProps = (state) => ({
+  video: state.videoDetail,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   resetVideo: () => {
     return dispatch(videos.resetVideo());
   },
   editDetail: (name, value) => {
     return dispatch(videos.editDetail(name, value));
   },
-  editDate: date => {
+  editDate: (date) => {
     return dispatch(videos.editDate(date));
   },
   resetError: () => {
     return dispatch(resetError());
   },
-  showAlert: ({ message, isUndo=false, isCreate=false }) => {
+  showAlert: ({ message, isUndo = false, isCreate = false }) => {
     return dispatch(showAlert({ message, isUndo, isCreate }));
-  }
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(VideoCreate);

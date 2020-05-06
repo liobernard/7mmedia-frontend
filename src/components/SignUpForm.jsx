@@ -5,21 +5,19 @@ import { signUpForm } from "../actions";
 
 import { CloseButton, ErrorMessage } from "./";
 
-
 const projectOptions = [
   "Wedding, entertainment, or special event",
   "Commercial or promotional work",
   "Documentary or artistic project",
-  "Other"
+  "Other",
 ];
-
 
 class SignUpForm extends Component {
   constructor(props) {
     super(props);
-    this.handleCloseForm  = this.handleCloseForm.bind(this);
+    this.handleCloseForm = this.handleCloseForm.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
-    this.handleInput      = this.handleInput.bind(this);
+    this.handleInput = this.handleInput.bind(this);
   }
 
   handleCloseForm(e) {
@@ -41,37 +39,32 @@ class SignUpForm extends Component {
     const {
       signUpForm: {
         signUpFormOn,
-        newClient: {
-          name,
-          email,
-          project,
-          message,
-        },
+        newClient: { name, email, project, message },
         formSending,
         formSent,
-        formError
-      }
+        formError,
+      },
     } = this.props;
 
     let buttonText = "Send message";
     if (formSending) {
-      buttonText = "Sending..."
+      buttonText = "Sending...";
     } else if (formSent) {
-      buttonText = "Sent!"
+      buttonText = "Sent!";
     }
 
     const address = (
       <a
-        href="mailto:hello@jbyrdfilm.com"
+        href="mailto:contact@7mmedia.online"
         style={{ borderBottom: "solid 1px", color: "#ffffff" }}
       >
-        hello@jbyrdfilm.com
+        contact@7mmedia.online
       </a>
     );
 
     return (
       <div className={`SignUpForm${signUpFormOn ? " is-active" : ""}`}>
-        <div className="CloseButton-container">        
+        <div className="CloseButton-container">
           <CloseButton action={this.handleCloseForm} />
         </div>
         {signUpFormOn && formSent && (
@@ -118,8 +111,10 @@ class SignUpForm extends Component {
                 disabled={formSending || formSent ? true : false}
               >
                 <option value="">Select a category</option>
-                {projectOptions.map(option => (
-                  <option key={option} value={option}>{option}</option>
+                {projectOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
                 ))}
               </select>
             </div>
@@ -141,10 +136,9 @@ class SignUpForm extends Component {
             </button>
             {formError && (
               <ErrorMessage>
-                Error! Please try again.
-                If the problem persists, please reach out to us at {address} or
-                give us a call at 704-555-1234.
-                <br/>
+                Error! Please try again. If the problem persists, please reach
+                out to us at {address}.
+                <br />
                 {formError}
               </ErrorMessage>
             )}
@@ -155,11 +149,11 @@ class SignUpForm extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   signUpForm: state.signUpForm,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   hideSignUpForm: () => {
     return dispatch(signUpForm.hideSignUpForm());
   },
@@ -168,7 +162,7 @@ const mapDispatchToProps = dispatch => ({
   },
   submitForm: () => {
     return dispatch(signUpForm.submitForm());
-  }
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpForm);

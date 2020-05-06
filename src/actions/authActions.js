@@ -2,25 +2,23 @@ import request from "superagent";
 
 import { showAlert } from "../actions/alertActions";
 
-
 const REACT_APP_API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
 
-
 export const login = (username, password) => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({ type: "LOGGING_IN" });
 
     let headers = { "Content-Type": "application/json" };
-    const url = `http://${REACT_APP_API_DOMAIN}/auth/login/`;
+    const url = `${REACT_APP_API_DOMAIN}/auth/login/`;
 
     return request
       .post(url)
       .set(headers)
       .send({ username, password })
-      .then(res => {
+      .then((res) => {
         return dispatch({ type: "LOGIN_SUCCESSFUL", data: res.body });
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
 
         let error = err.message;
@@ -36,8 +34,8 @@ export const login = (username, password) => {
           dispatch({ type: "LOGIN_FAILED", error });
         }
       });
-  }
-}
+  };
+};
 
 export const logout = () => {
   return (dispatch, getState) => {
@@ -51,19 +49,19 @@ export const logout = () => {
       headers["Authorization"] = `Token ${token}`;
     }
 
-    const url = `http://${REACT_APP_API_DOMAIN}/auth/logout/`;
+    const url = `${REACT_APP_API_DOMAIN}/auth/logout/`;
 
     return request
       .post(url)
       .set(headers)
       .send("")
-      .then(res => {
+      .then((res) => {
         const message = "You have been logged out successfully.";
         dispatch(showAlert({ message }));
         dispatch({ type: "EDIT_OFF" });
         return dispatch({ type: "LOGOUT_SUCCESSFUL" });
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
 
         let error = err.message;
@@ -75,17 +73,17 @@ export const logout = () => {
         dispatch(showAlert({ message }));
         return dispatch({ type: "LOGOUT_SUCCESSFUL", error });
       });
-  }
-}
+  };
+};
 
 export const resetAuth = () => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({ type: "RESET_AUTH" });
   };
 };
 
 export const resetError = () => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({ type: "RESET_ERROR" });
   };
 };
@@ -102,15 +100,15 @@ export const loadUser = () => {
       headers["Authorization"] = `Token ${token}`;
     }
 
-    const url = `http://${REACT_APP_API_DOMAIN}/auth/user/`;
+    const url = `${REACT_APP_API_DOMAIN}/auth/user/`;
 
     return request
       .get(url)
       .set(headers)
-      .then(res => {
+      .then((res) => {
         return dispatch({ type: "USER_LOADED", user: res.body });
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
 
         let error = err.message;
@@ -126,5 +124,5 @@ export const loadUser = () => {
           dispatch({ type: "USER_FAILED", error });
         }
       });
-  }
-}
+  };
+};

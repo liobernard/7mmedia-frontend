@@ -4,14 +4,7 @@ import { connect } from "react-redux";
 import { showreel, signUpForm } from "../actions";
 import { addClass, removeClass, recursiveCheck } from "../js/utils";
 
-import {
-  LoadingView,
-  Main,
-  MyLink,
-  Page,
-  ResponsiveImage,
-  Section
-} from "./";
+import { LoadingView, Main, MyLink, Page, ResponsiveImage, Section } from "./";
 
 class AboutPage extends Component {
   constructor(props) {
@@ -43,13 +36,13 @@ class AboutPage extends Component {
     const loadImage = () => {
       removeClass(document.body, "is-loading");
       this.setState({ imageLoaded: true });
-    }
+    };
 
     const errorImage = () => {
       removeClass(document.body, "is-loading");
       this.setState({ imageLoaded: false, imageError: true });
       console.error("AboutPage image did not load properly!");
-    }
+    };
 
     recursiveCheck(imageReady, loadImage, errorImage);
   }
@@ -72,7 +65,7 @@ class AboutPage extends Component {
       <Page id="aboutPage" noCrawl>
         <LoadingView
           className="LoadingView--fullscreen"
-          loaded={imageLoaded || imageError ? true: false}
+          loaded={imageLoaded || imageError ? true : false}
           spinnerOn={loadingDelay}
         />
         <Main>
@@ -85,22 +78,20 @@ class AboutPage extends Component {
           </Section>
           <Section className="Section--about">
             <h3 className="u-mf">
-              J. Byrd Film Studio provides film solutions for 
-              any event. Our mission is to meet your needs through 
-              stellar videography, sharp attention to detail, 
-              and outstanding service. 
-              <br/>
-              <br/>
-              Our team works closely with each of our clients to help bring 
-              their vision to life. We offer 
-              reasonably priced and customizable packages guaranteed to fit 
-              your needs.
-              <br/>
-              <br/>
-              {signUp} &mdash; we'd love to work with 
-              you on your next project or event.
-              <br/>
-              <br/>
+              7 Mile Media Productions provides film solutions for any event.
+              Our mission is to meet your needs through stellar videography,
+              sharp attention to detail, and outstanding service.
+              <br />
+              <br />
+              Our team works closely with each of our clients to help bring
+              their vision to life. We offer reasonably priced and customizable
+              packages guaranteed to fit your needs.
+              <br />
+              <br />
+              {signUp} &mdash; we'd love to work with you on your next project
+              or event.
+              <br />
+              <br />
               <p
                 className="ShowreelButton u-mf u-red"
                 onClick={showShowreel}
@@ -123,13 +114,13 @@ class AboutPage extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   showShowreel: () => {
     dispatch(showreel.showShowreel());
   },
   showSignUpForm: () => {
     dispatch(signUpForm.showSignUpForm());
-  }
+  },
 });
 
 export default connect(null, mapDispatchToProps)(AboutPage);

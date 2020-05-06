@@ -9,15 +9,12 @@ export default class Contact extends Component {
     return (
       <div className={`${classNames}${menu ? " Contact--menu" : ""}`}>
         <div className="Contact-info">
-          <SignUpButton className="SignUpButton--contact"/>
-          <h5>
-            Filming Charlotte, NC and surrounding areas
-          </h5>
-          <p>704<b>.</b>555<b>.</b>1234</p>
+          <SignUpButton className="SignUpButton--contact" />
+          <h5>Filming Charlotte, NC and surrounding areas</h5>
           <h5 className="Contact-info-email">
-            <a href="mailto:hello@jbyrdfilm.com">
-              hello@jbyrdfilm.com
-            </a>
+            Question or concerns? Talk to us at
+            <br />
+            <a href="mailto:contact@7mmedia.online">contact@7mmedia.online</a>
           </h5>
         </div>
         <div className="Contact-links">
@@ -26,7 +23,9 @@ export default class Contact extends Component {
             color={`${menu ? "white" : "red"}`}
           />
           <div className="Logo Logo--bottom">
-            <MyLink active pathname="/">J. Byrd Film Studio</MyLink>
+            <MyLink active pathname="/">
+              7 Mile Media
+            </MyLink>
           </div>
         </div>
       </div>
