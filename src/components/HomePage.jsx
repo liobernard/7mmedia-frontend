@@ -22,7 +22,11 @@ import {
 class HomePage extends Component {
   constructor(props) {
     super(props);
-    this.state = { loadingDelay: false, pageComplete: false };
+    this.state = {
+      logoLoaded: false,
+      loadingDelay: false,
+      pageComplete: false,
+    };
   }
 
   componentDidMount() {
@@ -45,9 +49,11 @@ class HomePage extends Component {
   checkPageComplete() {
     const check = () => {
       const banner = document.getElementById("banner");
+      const { logoLoaded } = this.state;
       const { featured, latest, featuredLoading, latestLoading } = this.props;
 
-      return banner &&
+      return logoLoaded &&
+        banner &&
         banner.readyState === 4 &&
         featured &&
         !!Object.keys(featured).length &&
@@ -86,6 +92,7 @@ class HomePage extends Component {
                 src="https://assets.7mmedia.online/media/images/logos/7mm-red-lg.png"
                 width="300"
                 alt="7MileMedia"
+                onLoad={() => this.setState({ logoLoaded: true })}
               />
             </div>
             <div className="IntroText IntroText--sub">
