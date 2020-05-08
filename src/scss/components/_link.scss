@@ -1,4 +1,11 @@
 .Link {
+  &--logo {
+    display: inline-block;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+
   &--business {
     color: #e43333;
     text-decoration: underline;

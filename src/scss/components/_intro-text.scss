@@ -3,47 +3,35 @@
   color: #ffffff;
 
   &--main {
-    div {
-      @include for-tablet-portrait-up {
-        width: 50%;
-      }
-
-      h1 {
-        font-family: $fontSecondary;
-        font-size: 63px;
-        font-weight: 500;
-        min-width: 166px;
-
-        @include for-big-phone-up {
-          font-size: 71px;
-          max-width: 303px;
-        }
-
-        @include for-tablet-portrait-up {
-          max-width: 250px;
-          text-align: right;
-          float: right;
-          font-size: 76px;
-        }
-
-        @include for-tablet-landscape-up {
-          font-size: 96px;
-          max-width: 300px;
-        }
-
-        @include for-desktop-up {
-          font-size: 108px;
-        }
-      }
+    img {
+      width: 100%;
+      min-width: 198px;
+      max-width: 300px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     @include for-tablet-portrait-up {
-      height: 45vh;
+      display: inline-block;
+      vertical-align: top;
+      width: 50%;
     }
   }
 
   &--sub {
-    margin: 100px 0 0;
+    margin-top: 80px;
+    text-align: justify;
+
+    h2,
+    h3,
+    .SignUpButton,
+    .SocialIcons {
+      max-width: 300px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
 
     h2 {
       margin-bottom: 20px;
@@ -54,17 +42,22 @@
     h3 {
       font-size: 16px;
       font-weight: 300;
-      color: #ffffff;
     }
 
     @include for-tablet-portrait-up {
+      display: inline-block;
+      vertical-align: top;
       width: 50%;
-      float: right;
-    }
+      margin-top: unset;
+      text-align: left;
+      padding-left: 40px;
 
-    @include for-desktop-up {
-      h2, h3 {
-        width: 50%;
+      h2,
+      h3,
+      .SignUpButton,
+      .SocialIcons {
+        margin-left: unset;
+        margin-right: unset;
       }
     }
   }

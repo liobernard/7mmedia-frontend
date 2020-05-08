@@ -11,7 +11,8 @@ const defaultTitle =
   "7 Mile Media Productions | Weddings, Events, Promos, Documentaries & More";
 const defaultDescription =
   "We're committed to capturing your special moments and sculpting them into shareable, honest works of art. In need of filming, production, or editing services? We'd love to hear from you.";
-const defaultImage = `https://assets.liobernard.com/images/float/float_600.jpg`;
+const defaultImage =
+  "https://assets.7mmedia.online/media/images/logos/7mm-r-lg.png";
 
 class Page extends Component {
   getMetaTags(

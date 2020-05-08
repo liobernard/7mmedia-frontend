@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Player, BigPlayButton, ControlBar } from 'video-react';
+import { Player, BigPlayButton, ControlBar } from "video-react";
 
 import { hideShowreel } from "../actions/showreelActions";
 
@@ -29,7 +29,7 @@ class Showreel extends Component {
   render() {
     return (
       <div className={`Showreel${this.props.showreelOn ? " is-active" : ""}`}>
-        <div className="CloseButton-container">        
+        <div className="CloseButton-container">
           <CloseButton
             className="CloseButton--showreel"
             action={this.handleCloseForm}
@@ -42,7 +42,7 @@ class Showreel extends Component {
             width="100%"
             playsInline
             ref={this.player}
-            src="https://assets.liobernard.com/images/james/port.mp4"
+            src="https://assets.7mmedia.online/media/videos/films/port.mp4"
             videoId="showreel"
           >
             <BigPlayButton position="center" />
@@ -54,14 +54,14 @@ class Showreel extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  showreelOn: state.showreel.showreelOn
+const mapStateToProps = (state) => ({
+  showreelOn: state.showreel.showreelOn,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   hideShowreel: () => {
     return dispatch(hideShowreel());
-  }
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Showreel);

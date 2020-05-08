@@ -5,9 +5,9 @@
   right: 0;
   height: 50px;
   -webkit-transition: all 0.5s cubic-bezier(0.86, 0, 0.07, 1);
-     -moz-transition: all 0.5s cubic-bezier(0.86, 0, 0.07, 1);
-       -o-transition: all 0.5s cubic-bezier(0.86, 0, 0.07, 1);
-          transition: all 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+  -moz-transition: all 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+  -o-transition: all 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+  transition: all 0.5s cubic-bezier(0.86, 0, 0.07, 1);
 
   .MenuIcon-container .MenuIcon {
     &-line {
@@ -63,9 +63,9 @@
     top: 0;
     right: 0;
     -webkit-transition: all 0.2s cubic-bezier(0.455, 0.03, 0.515, 1);
-       -moz-transition: all 0.2s cubic-bezier(0.455, 0.03, 0.515, 1);
-         -o-transition: all 0.2s cubic-bezier(0.455, 0.03, 0.515, 1);
-            transition: all 0.2s cubic-bezier(0.455, 0.03, 0.515, 1);
+    -moz-transition: all 0.2s cubic-bezier(0.455, 0.03, 0.515, 1);
+    -o-transition: all 0.2s cubic-bezier(0.455, 0.03, 0.515, 1);
+    transition: all 0.2s cubic-bezier(0.455, 0.03, 0.515, 1);
 
     .Menu-list {
       display: none;
@@ -93,7 +93,7 @@
           display: block;
           float: none;
           padding: 20px 0;
-          margin: 0 10%;
+          margin: 0 7%;
 
           a {
             color: #ffffff;
@@ -115,7 +115,7 @@
           .Menu-item {
             letter-spacing: 0.5px;
             text-align: right;
-            margin-right: 10%;
+            margin-right: 7%;
           }
         }
       }
@@ -132,8 +132,12 @@
           width: 50vw;
         }
 
-        @include for-desktop-up {
+        @include for-tablet-landscape-up {
           width: 38.2vw;
+        }
+
+        @include for-desktop-up {
+          width: 33.3vw;
         }
       }
     }

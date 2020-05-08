@@ -134,8 +134,12 @@
         padding: 0 5%;
       }
 
-      @include for-desktop-up {
+      @include for-tablet-landscape-up {
         width: 38.2vw;
+      }
+
+      @include for-desktop-up {
+        width: 33.3vw;
       }
     }
 

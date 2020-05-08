@@ -82,13 +82,15 @@ class HomePage extends Component {
           <Section className="Section--intro">
             <VideoBackground />
             <div className="IntroText IntroText--main">
-              <div>
-                <h1>7 Mile Media</h1>
-              </div>
+              <img
+                src="https://assets.7mmedia.online/media/images/logos/7mm-red-lg.png"
+                width="300"
+                alt="7MileMedia"
+              />
             </div>
             <div className="IntroText IntroText--sub">
               <h2>
-                We're committed to capturing your special moments and sculpting
+                We are committed to capturing your special moments and sculpting
                 them into shareable, honest works of art.
               </h2>
               <h3>

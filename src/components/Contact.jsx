@@ -22,11 +22,15 @@ export default class Contact extends Component {
             className="SocialIcons--contact"
             color={`${menu ? "white" : "red"}`}
           />
-          <div className="Logo Logo--bottom">
-            <MyLink active pathname="/">
-              7 Mile Media
-            </MyLink>
-          </div>
+          <MyLink active pathname="/" className="Link--logo">
+            <img
+              src={`https://assets.7mmedia.online/media/images/logos/7mm-${
+                menu ? "wh" : "red"
+              }-lg.png`}
+              width="75"
+              alt="7MileMedia"
+            />
+          </MyLink>
         </div>
       </div>
     );

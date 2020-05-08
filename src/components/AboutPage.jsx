@@ -104,7 +104,7 @@ class AboutPage extends Component {
               className="ResponsiveImage--about"
               id="aboutImg"
               alt="Hey it's James!"
-              lg="filmmaker-stock.jpg"
+              lg="https://assets.7mmedia.online/media/images/filmmaker-stock.jpg"
             />
           </Section>
           <Section className="Section--extraDetails" />

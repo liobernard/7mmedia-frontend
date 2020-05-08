@@ -1,7 +1,7 @@
 {
   "name": "jbyrdfilm-frontend",
   "homepage": "https://7mmedia.online/",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Server-side rendered React frontend for film site.",
   "repository": {
     "type": "git",
@@ -21,7 +21,7 @@
     "js-cookie": "^2.2.1",
     "md5-file": "^5.0.0",
     "morgan": "^1.10.0",
-    "node-sass": "^4.14.0",
+    "node-sass": "^4.14.1",
     "prop-types": "^15.7.2",
     "query-string": "^5.1.1",
     "react": "^16.13.1",

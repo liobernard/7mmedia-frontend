@@ -107,7 +107,7 @@ class FileUpload extends Component {
       .field(signedUrl.fields)
       .attach("file", file)
       .then((res) => {
-        const value = `${signedUrl.url}${signedUrl.fields["key"]}`;
+        const value = `https://assets.7mmedia.online/${signedUrl.fields["key"]}`;
         this.props.editDetail(fieldName, value);
         this.setState(this.getInitialState());
         this.upload.current.value = "";
