@@ -216,9 +216,9 @@
 
     .VideoContainer,
     .ResponsiveImage--about {
-      height: 75vh;
       max-height: 300px;
-      width: 84vw;
+      height: 25vw;
+      width: 50vw;
       margin: 0 8vw;
 
       @include for-tablet-portrait-up {

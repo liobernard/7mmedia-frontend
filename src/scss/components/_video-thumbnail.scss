@@ -1,7 +1,7 @@
 .VideoThumbnail {
   position: relative;
   touch-action: manipulation;
-  height: 67vh;
+  height: 25vw;
   max-height: 300px;
   width: 100%;
 
@@ -29,8 +29,8 @@
   }
 
   @include for-tablet-portrait-up {
-    width: 60%;
-    margin: 0 20%;
+    width: 50%;
+    margin: 0 25%;
   }
 
   @include for-medium-window-up {
