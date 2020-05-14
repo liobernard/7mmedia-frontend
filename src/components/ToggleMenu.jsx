@@ -15,10 +15,10 @@ class ToggleMenu extends Component {
     this.state = {
       isPastBanner: false,
       isHidden: false,
-    }
+    };
 
     this.onScroll = throttle(this.onScroll.bind(this), 100, {
-      trailing: true
+      trailing: true,
     });
   }
 
@@ -64,33 +64,33 @@ class ToggleMenu extends Component {
 
   render() {
     const { isHidden, isPastBanner } = this.state;
-    const {
-      pathname,
-      isAuthenticated,
-      links,
-      menuOn
-    } = this.props;
+    const { pathname, isAuthenticated, menuOn } = this.props;
+
+    let links = [...this.props.links];
+    if (isAuthenticated) links.push({ path: "/upload", name: "upload" });
 
     return (
-      <div className={
-          `ToggleMenu
-          ${pathname === "/" ?  "is-home": ""}
+      <div
+        className={`ToggleMenu
+          ${pathname === "/" ? "is-home" : ""}
           ${isHidden ? "is-hidden" : ""}
-          ${isPastBanner ? "is-pastBanner" : ""}`
-      }>
-        <div className="MenuIcon-container">        
+          ${isPastBanner ? "is-pastBanner" : ""}`}
+      >
+        <div className="MenuIcon-container">
           <MenuIcon menuOn={menuOn} />
         </div>
-        {isAuthenticated && <LogoutButton className={menuOn ? "is-active" : ""} />}
+        {isAuthenticated && (
+          <LogoutButton className={menuOn ? "is-active" : ""} />
+        )}
         <Menu links={links} className={menuOn ? "is-active" : ""} />
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   menuOn: state.menu.menuOn,
-  pathname: state.router.location.pathname
+  pathname: state.router.location.pathname,
 });
 
 export default connect(mapStateToProps)(ToggleMenu);

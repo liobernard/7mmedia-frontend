@@ -15,6 +15,14 @@
     padding: 12.5vw 8vw 0;
     z-index: 1;
 
+    @include for-tablet-portrait-up {
+      .Description {
+        max-width: 300px;
+        position: relative;
+        left: calc(100% - 300px);
+      }
+    }
+
     @include for-tablet-landscape-up {
       .Description {
         position: absolute;
@@ -33,10 +41,10 @@
     }
 
     .Help {
-      margin-top: 150px;
+      margin-top: 100px;
 
-      @include for-tablet-landscape-up {
-        width: 300px;
+      @include for-tablet-portrait-up {
+        max-width: 300px;
       }
     }
   }
@@ -115,6 +123,7 @@
 
     h3 {
       margin-bottom: 6px;
+      max-width: 410px;
 
       input,
       textarea {
@@ -131,12 +140,13 @@
 
   &--mainDetails,
   &--about {
-    padding-top: 8vw;
+    padding-top: 5vw;
 
     h3 {
       padding: 0 8vw;
       margin-bottom: 10vw;
       white-space: pre-wrap;
+      max-width: calc(410px + 16vw);
 
       textarea {
         width: 100%;
@@ -244,10 +254,10 @@
 
     h3 {
       margin-bottom: 8px;
+      max-width: 410px;
 
       input {
         width: 100%;
-        max-width: 410px;
       }
     }
 
@@ -261,5 +271,32 @@
     padding: 0 8vw;
     margin-bottom: 75px;
     text-align: center;
+  }
+
+  &--upload {
+    padding: 50px 8vw 25px;
+    min-height: 367px;
+
+    .Uploader {
+      max-width: 600px;
+
+      p {
+        font-weight: 400;
+        font-size: 13px;
+        letter-spacing: 1px;
+      }
+
+      @include for-tablet-portrait-up {
+        margin: 0 15vw 20px;
+      }
+
+      @include for-medium-window-up {
+        margin: unset;
+      }
+
+      @include for-tablet-landscape-up {
+        margin: unset;
+      }
+    }
   }
 }

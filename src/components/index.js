@@ -31,6 +31,7 @@ import SignUpButton from "./SignUpButton";
 import SignUpForm from "./SignUpForm";
 import SocialIcons from "./SocialIcons";
 import ToggleMenu from "./ToggleMenu";
+import UploadPage from "./UploadPage";
 import VideoBackground from "./VideoBackground";
 import VideoCreate from "./VideoCreate";
 import VideoDetail from "./VideoDetail";
@@ -71,6 +72,7 @@ export {
   SignUpForm,
   SocialIcons,
   ToggleMenu,
+  UploadPage,
   VideoBackground,
   VideoCreate,
   VideoDetail,

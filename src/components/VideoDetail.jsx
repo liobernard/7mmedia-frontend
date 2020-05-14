@@ -493,6 +493,7 @@ class VideoDetail extends Component {
       fileUpload = (
         <div className="Uploader">
           <FileUpload
+            type="film_thumbnail"
             label="Choose thumbnail image to upload"
             accept="image/*"
             buttonText="Upload thumbnail image file"
@@ -502,6 +503,7 @@ class VideoDetail extends Component {
           <br />
           <br />
           <FileUpload
+            type="film"
             label="Choose video file to upload"
             accept="video/*"
             buttonText="Upload video file"
@@ -676,11 +678,10 @@ class VideoDetail extends Component {
             )}
             {publishedAt}
           </Section>
-          {((isEdit && isAuthenticated) || !!video.business_name) && (
+          {((isEdit && isAuthenticated) || !!video.business_website) && (
             <Section className="Section--business">
               {businessName}
-              {((isEdit && isAuthenticated) || !!video.business_website) &&
-                businessWebsite}
+              {businessWebsite}
             </Section>
           )}
           <Section className="Section--mainDetails">

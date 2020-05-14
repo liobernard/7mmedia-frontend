@@ -10,7 +10,7 @@ import { Main, Page, Section } from "./";
 class LoginPage extends Component {
   constructor(props) {
     super(props);
-    this.state = { username: "", password: "" }
+    this.state = { username: "", password: "" };
     this.handleInput = this.handleInput.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
@@ -31,12 +31,7 @@ class LoginPage extends Component {
   }
 
   render() {
-    const {
-      error,
-      isAuthenticated,
-      isLoading,
-      location,
-    } = this.props;
+    const { error, isAuthenticated, isLoading, location } = this.props;
 
     let referrer = this.props.referrer && this.props.referrer.pathname;
 
@@ -47,15 +42,13 @@ class LoginPage extends Component {
         if (
           search &&
           search["from"] &&
-          ["drafts", "add_film"].includes(search["from"])
+          ["drafts", "add_film", "upload"].includes(search["from"])
         ) {
           referrer = `/${search["from"]}`;
         }
       }
 
-      return (
-        <Redirect exact to={ referrer !== "/login" ? referrer : "/" } />
-      );
+      return <Redirect exact to={referrer !== "/login" ? referrer : "/"} />;
     }
 
     const buttonText = isLoading ? "Logging in..." : "Login";
@@ -111,23 +104,24 @@ class LoginPage extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   error: state.error.error,
   isAuthenticated: state.auth.isAuthenticated,
   isLoading: state.auth.isLoading,
   location: state.router.location,
-  referrer: state.browserHistory.browserHistory[
-    state.browserHistory.browserHistory.length - 2
-  ],
+  referrer:
+    state.browserHistory.browserHistory[
+      state.browserHistory.browserHistory.length - 2
+    ],
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   login: (username, password) => {
     return dispatch(login(username, password));
   },
   resetError: () => {
     return dispatch(resetError());
-  }
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

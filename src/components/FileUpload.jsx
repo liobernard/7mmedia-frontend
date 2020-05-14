@@ -22,6 +22,7 @@ class FileUpload extends Component {
       file: null,
       isGettingUrl: false,
       isUploading: false,
+      uploaded: false,
       signedUrl: {
         url: "",
         fields: {
@@ -46,13 +47,13 @@ class FileUpload extends Component {
   handleFile(e) {
     e.preventDefault();
     const file = e.target.files[0];
-    this.setState({ file });
+    this.setState({ file, uploaded: false });
     this.getSignedUrl(file);
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    this.setState({ error: null, isUploading: false });
+    this.setState({ error: null });
     this.uploadFile();
   }
 
@@ -61,7 +62,7 @@ class FileUpload extends Component {
 
     let headers = { "Content-Type": "application/json" };
 
-    const { token } = this.props;
+    const { token, type } = this.props;
 
     if (token) {
       headers["Authorization"] = `Token ${token}`;
@@ -71,9 +72,17 @@ class FileUpload extends Component {
     let object_name;
 
     if (/^image/.test(file.type)) {
-      object_name = `media/images/film_thumbnails/${file.name}`;
+      if (type === "film_thumbnail") {
+        object_name = `media/images/film_thumbnails/${file.name}`;
+      } else {
+        object_name = `media/images/${file.name}`;
+      }
     } else if (/^video/.test(file.type)) {
-      object_name = `media/videos/films/${file.name}`;
+      if (type === "film") {
+        object_name = `media/videos/films/${file.name}`;
+      } else {
+        object_name = `media/videos/${file.name}`;
+      }
     }
 
     return request
@@ -94,11 +103,12 @@ class FileUpload extends Component {
     this.setState({ isUploading: true });
 
     const { file, signedUrl } = this.state;
+    const { type, editDetail } = this.props;
     let fieldName;
 
-    if (/^image/.test(file.type)) {
+    if (/^image/.test(file.type) && type === "film_thumbnail") {
       fieldName = "thumbnail_url";
-    } else if (/^video/.test(file.type)) {
+    } else if (/^video/.test(file.type) && type === "film") {
       fieldName = "video_url";
     }
 
@@ -108,20 +118,28 @@ class FileUpload extends Component {
       .attach("file", file)
       .then((res) => {
         const value = `https://assets.7mmedia.online/${signedUrl.fields["key"]}`;
-        this.props.editDetail(fieldName, value);
+        if (fieldName) editDetail(fieldName, value);
         this.setState(this.getInitialState());
         this.upload.current.value = "";
+        this.setState({ uploaded: true });
       })
       .catch((err) => {
         console.error(err);
         let error = err.message;
-        this.setState({ error, isUploading: false });
+        this.setState({ error, isUploading: false, uploaded: false });
       });
   }
 
   render() {
     const { className, accept } = this.props;
-    const { error, file, signedUrl, isGettingUrl, isUploading } = this.state;
+    const {
+      error,
+      file,
+      signedUrl,
+      isGettingUrl,
+      isUploading,
+      uploaded,
+    } = this.state;
 
     let { buttonText, label } = this.props;
     let classNames = ["FileUpload", className].join(" ");
@@ -132,6 +150,8 @@ class FileUpload extends Component {
       buttonText = "Ready to upload, click again!";
     } else if (isUploading) {
       buttonText = "Uploading file...";
+    } else if (uploaded) {
+      buttonText = "Upload successful!";
     }
 
     if (error) {

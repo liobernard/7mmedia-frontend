@@ -171,7 +171,7 @@ class HomePage extends Component {
               <InViewMonitor
                 classNameInView="animate-this in-view"
                 classNameNotInView="animate-this"
-                intoViewMargin="-20%"
+                intoViewMargin="-10%"
               >
                 <h3 className="u-mf">Let's discuss how we can help.</h3>
               </InViewMonitor>

@@ -401,6 +401,7 @@ class VideoCreate extends Component {
     const fileUpload = (
       <div className="Uploader">
         <FileUpload
+          type="film_thumbnail"
           label="Choose thumbnail image to upload"
           accept="image/*"
           buttonText="Upload thumbnail image file"
@@ -410,6 +411,7 @@ class VideoCreate extends Component {
         <br />
         <br />
         <FileUpload
+          type="film"
           label="Choose video file to upload"
           accept="video/*"
           buttonText="Upload video file"
