@@ -101,10 +101,10 @@ class VideoCreate extends Component {
         </MyLink>
         <span>&nbsp;&nbsp;</span>
         <MyLink className="Link--videoList" active pathname="/films">
-          <span className="u-sf">« Films</span>
+          <span className="u-sf">«&nbsp;&nbsp;Films</span>
         </MyLink>
         <span>&nbsp;&nbsp;</span>
-        <span className="u-sf u-red">« Add page</span>
+        <span className="u-sf u-red">«&nbsp;&nbsp;Add page</span>
       </Section>
     );
 

@@ -6,20 +6,14 @@ import { resetError } from "../actions/authActions";
 import { fetchVideos, resetVideos } from "../actions/videosActions";
 import { getScrollY, getDocHeight } from "../js/utils";
 
-import {
-  ImageThumbnail,
-  Main,
-  MyLink,
-  Page,
-  Section
-} from "./";
+import { ImageThumbnail, Main, MyLink, Page, Section } from "./";
 
 class VideoList extends Component {
   constructor(props) {
     super(props);
     this.state = { pastDelay: false };
     this.onScroll = throttle(this.onScroll.bind(this), 1000, {
-      trailing: true
+      trailing: true,
     });
   }
 
@@ -27,7 +21,7 @@ class VideoList extends Component {
     const {
       videos: { error, isLoading, hasMore, videos },
       fetchVideos,
-      drafts
+      drafts,
     } = this.props;
 
     if (error || isLoading || !hasMore) return;
@@ -95,12 +89,7 @@ class VideoList extends Component {
     const {
       drafts,
       isAuthenticated,
-      videos: {
-        error,
-        hasMore,
-        isLoading,
-        videos
-      }
+      videos: { error, hasMore, isLoading, videos },
     } = this.props;
 
     const { pastDelay } = this.state;
@@ -112,15 +101,21 @@ class VideoList extends Component {
         </MyLink>
         <span>&nbsp;&nbsp;</span>
         <MyLink className="Link--videoList" active={drafts} pathname="/films">
-          <span className="u-sf u-red">« Films</span>
+          <span className="u-sf u-red">«&nbsp;&nbsp;Films</span>
         </MyLink>
         {isAuthenticated && (
-          <><>
-          <span>&nbsp;&nbsp;</span>
-          <MyLink className="Link--videoList" active={!drafts} pathname="/drafts">
-            <span className="u-sf u-red">« Drafts</span>
-          </MyLink>
-          </></>
+          <>
+            <>
+              <span>&nbsp;&nbsp;</span>
+              <MyLink
+                className="Link--videoList"
+                active={!drafts}
+                pathname="/drafts"
+              >
+                <span className="u-sf u-red">«&nbsp;&nbsp;Drafts</span>
+              </MyLink>
+            </>
+          </>
         )}
       </Section>
     );
@@ -133,7 +128,7 @@ class VideoList extends Component {
               Add a film
             </button>
           </MyLink>
-          <br/>
+          <br />
         </div>
       </Section>
     );
@@ -143,8 +138,8 @@ class VideoList extends Component {
         {navLinks}
         {editor}
         <Section className="Section--videoList">
-          {videos.map(video => (
-            <ImageThumbnail 
+          {videos.map((video) => (
+            <ImageThumbnail
               className="ImageThumbnail--videoList"
               key={video.id}
               {...video}
@@ -194,23 +189,19 @@ class VideoList extends Component {
     }
 
     return (
-      <Page
-        id="videoList"
-        title={drafts ? "Drafts" : "Films"}
-        noCrawl
-      >
+      <Page id="videoList" title={drafts ? "Drafts" : "Films"} noCrawl>
         {child}
       </Page>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   videos: state.videoList,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   resetError: () => {
     return dispatch(resetError());
   },
@@ -219,7 +210,7 @@ const mapDispatchToProps = dispatch => ({
   },
   fetchVideos: (offset = 0, drafts = false) => {
     return dispatch(fetchVideos(offset, drafts));
-  }
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(VideoList);

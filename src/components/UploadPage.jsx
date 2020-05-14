@@ -12,7 +12,9 @@ export default class UploadPage extends Component {
               <span className="u-sf">⟵ Home</span>
             </MyLink>
             <span>&nbsp;&nbsp;</span>
-            <span className="u-sf u-red">« Miscellaneous File Upload</span>
+            <span className="u-sf u-red">
+              «&nbsp;&nbsp;Miscellaneous File Upload
+            </span>
           </Section>
           <Section className="Section--upload">
             <div className="Uploader">

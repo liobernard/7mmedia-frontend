@@ -74,7 +74,7 @@ class AboutPage extends Component {
               <span className="u-sf">⟵ Home</span>
             </MyLink>
             <span>&nbsp;&nbsp;</span>
-            <span className="u-sf u-red">« Studio</span>
+            <span className="u-sf u-red">«&nbsp;&nbsp;Studio</span>
           </Section>
           <Section className="Section--about">
             <h3 className="u-mf">

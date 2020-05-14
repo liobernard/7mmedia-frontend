@@ -154,7 +154,7 @@ class VideoDetail extends Component {
           </MyLink>
           <span>&nbsp;&nbsp;</span>
           <MyLink className="Link--videoList" active pathname="/films">
-            <span className="u-sf">« Films</span>
+            <span className="u-sf">«&nbsp;&nbsp;Films</span>
           </MyLink>
         </Section>
       );
@@ -584,14 +584,14 @@ class VideoDetail extends Component {
             </MyLink>
             <span>&nbsp;&nbsp;</span>
             <MyLink className="Link--videoList" active pathname="/films">
-              <span className="u-sf">« Films</span>
+              <span className="u-sf">«&nbsp;&nbsp;Films</span>
             </MyLink>
             {!video.published_at && (
               <>
                 <>
                   <span>&nbsp;&nbsp;</span>
                   <MyLink className="Link--videoList" active pathname="/drafts">
-                    <span className="u-sf">« Drafts</span>
+                    <span className="u-sf">«&nbsp;&nbsp;Drafts</span>
                   </MyLink>
                 </>
               </>
@@ -600,9 +600,11 @@ class VideoDetail extends Component {
               <>
                 <>
                   <span>&nbsp;&nbsp;</span>
-                  <span className="u-sf u-red">« {video.title}</span>
+                  <span className="u-sf u-red">«&nbsp;&nbsp;{video.title}</span>
                   <span>&nbsp;&nbsp;</span>
-                  <span className="u-sf u-red">&mdash; {video.subtitle}</span>
+                  <span className="u-sf u-red">
+                    &mdash;&nbsp;&nbsp;{video.subtitle}
+                  </span>
                 </>
               </>
             )}
