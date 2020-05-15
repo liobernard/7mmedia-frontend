@@ -527,7 +527,6 @@ class VideoCreate extends Component {
                   width="100%"
                   ref={this.player}
                   playsInline
-                  preload={!!thumbnailUrl ? "none" : "auto"}
                   src={videoUrl}
                   videoId={`video-${form.slug}`}
                 >

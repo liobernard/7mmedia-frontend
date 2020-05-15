@@ -698,7 +698,6 @@ class VideoDetail extends Component {
                   width="100%"
                   ref={this.player}
                   playsInline
-                  preload={!!thumbnailUrl ? "none" : "auto"}
                   src={videoUrl}
                   videoId={`video-${video.slug}`}
                 >

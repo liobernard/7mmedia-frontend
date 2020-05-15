@@ -3,12 +3,14 @@
   position: relative;
   background-position: center center;
   background-size: cover;
+  z-index: 1;
 }
 
 .video-react .video-react-big-play-button {
   border: 1px solid #ffffff;
   border-radius: 5px;
   background-color: rgba(43, 51, 63, 0.85);
+  z-index: 2;
 
   &.video-react-big-play-button-hide {
     display: none;

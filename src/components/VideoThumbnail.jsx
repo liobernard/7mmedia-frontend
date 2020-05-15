@@ -75,7 +75,6 @@ class VideoThumbnail extends Component {
           height="100%"
           width="100%"
           playsInline
-          preload={!!thumbnail_url ? "none" : "auto"}
           src={video_url}
           videoId="featured"
         >
