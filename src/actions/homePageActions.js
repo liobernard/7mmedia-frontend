@@ -2,68 +2,47 @@ import request from "superagent";
 
 const REACT_APP_API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
 
-export const fetchHomePage = () => {
+const handleError = (err) => {
   return (dispatch) => {
-    dispatch({ type: "FEATURED_LOADING" });
+    console.error(err);
 
-    let headers = { "Content-Type": "application/json" };
+    let error = err.message;
+    if (err && err.response && err.response.text) {
+      error = err.response.text;
+    }
 
-    const featuredUrl = `${REACT_APP_API_DOMAIN}/videos/?featured=True&published=True&limit=1`;
-    const noFeaturedUrl = `${REACT_APP_API_DOMAIN}/videos/?limit=1&published=True`;
+    if (err.status === 403 || err.status === 401) {
+      dispatch({ type: "AUTHENTICATION_ERROR", error });
+    }
+    dispatch({ type: "HOMEPAGE_ERROR", error });
+    throw err;
+  };
+};
+
+export const fetchHomeInfo = () => {
+  return (dispatch) => {
+    dispatch({ type: "HOME_INFO_LOADING" });
+
+    const headers = { "Content-Type": "application/json" };
+
+    const homeInfoUrl = `${REACT_APP_API_DOMAIN}/info/home/`;
     let latestUrl = `${REACT_APP_API_DOMAIN}/videos/?limit=2&published=True&exclude=`;
 
-    let fetchFeatured = new Promise((resolve) => {
+    let fetchInfoResolveFeatured = new Promise((resolve) => {
       request
-        .get(featuredUrl)
+        .get(homeInfoUrl)
         .set(headers)
         .then((res) => {
-          const featured = res.body.results[0];
-
-          if (!featured || !featured.slug) {
-            request
-              .get(noFeaturedUrl)
-              .set(headers)
-              .then((res) => {
-                const noFeatured = res.body.results[0];
-                dispatch({ type: "FEATURED_LOADED", featured: noFeatured });
-                resolve(noFeatured);
-              })
-              .catch((err) => {
-                console.error(err);
-
-                let error = err.message;
-                if (err && err.response && err.response.text) {
-                  error = err.response.text;
-                }
-
-                if (err.status === 403 || err.status === 401) {
-                  dispatch({ type: "AUTHENTICATION_ERROR", error });
-                }
-                dispatch({ type: "HOMEPAGE_ERROR", error });
-                throw err;
-              });
-          } else {
-            dispatch({ type: "FEATURED_LOADED", featured });
-            resolve(featured);
-          }
+          dispatch({ type: "HOME_INFO_LOADED", homeInfo: res.body });
+          const featured = res.body.featured_video;
+          resolve(featured);
         })
         .catch((err) => {
-          console.error(err);
-
-          let error = err.message;
-          if (err && err.response && err.response.text) {
-            error = err.response.text;
-          }
-
-          if (err.status === 403 || err.status === 401) {
-            dispatch({ type: "AUTHENTICATION_ERROR", error });
-          }
-          dispatch({ type: "HOMEPAGE_ERROR", error });
-          throw err;
+          dispatch(handleError(err));
         });
     });
 
-    fetchFeatured.then((featured) => {
+    fetchInfoResolveFeatured.then((featured) => {
       dispatch({ type: "LATEST_LOADING" });
       latestUrl = `${latestUrl}${featured.slug}`;
 
@@ -77,18 +56,7 @@ export const fetchHomePage = () => {
           });
         })
         .catch((err) => {
-          console.error(err);
-
-          let error = err.message;
-          if (err && err.response && err.response.text) {
-            error = err.response.text;
-          }
-
-          if (err.status === 403 || err.status === 401) {
-            dispatch({ type: "AUTHENTICATION_ERROR", error });
-          }
-          dispatch({ type: "HOMEPAGE_ERROR", error });
-          throw err;
+          dispatch(handleError(err));
         });
     });
   };

@@ -42,7 +42,7 @@ class Showreel extends Component {
             width="100%"
             playsInline
             ref={this.player}
-            src="https://assets.7mmedia.online/media/videos/films/port.mp4"
+            src={this.props.url}
             videoId="showreel"
           >
             <BigPlayButton position="center" />
@@ -56,6 +56,7 @@ class Showreel extends Component {
 
 const mapStateToProps = (state) => ({
   showreelOn: state.showreel.showreelOn,
+  url: state.aboutPage.aboutInfo.showreel_url,
 });
 
 const mapDispatchToProps = (dispatch) => ({

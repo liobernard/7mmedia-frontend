@@ -9,49 +9,43 @@ class VideoThumbnail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      imageLoaded: false,
-      imageError: false,
+      videoLoaded: false,
+      videoError: false,
       loadingDelay: false,
     };
   }
 
   componentDidMount() {
-    this.checkImageLoading();
+    this.checkVideoLoading();
 
     setTimeout(() => {
-      if (!this.state.imageLoaded) {
+      if (!this.state.videoLoaded) {
         this.setState({ loadingDelay: true });
       }
     }, 200);
   }
 
-  checkImageLoading() {
+  checkVideoLoading() {
     const featuredReady = () => {
       const featured = document.getElementById("featured");
-
-      if (!!this.props.thumbnail_url) {
-        return !!featured &&
-          !!featured.currentSrc &&
-          !!featured.previousElementSibling.style.backgroundImage
-          ? true
-          : false;
-      } else {
-        return !!featured && !!featured.currentSrc && featured.readyState === 4
-          ? true
-          : false;
-      }
+      return !!featured &&
+        !!featured.currentSrc &&
+        !!featured.previousElementSibling.style.backgroundImage &&
+        featured.readyState === 4
+        ? true
+        : false;
     };
 
-    const loadImage = () => {
-      this.setState({ imageLoaded: true });
+    const loadVideo = () => {
+      this.setState({ videoLoaded: true });
     };
 
-    const errorImage = () => {
-      this.setState({ imageLoaded: false, imageError: true });
+    const errorVideo = () => {
+      this.setState({ videoLoaded: false, videoError: true });
       console.error("VideoThumbnail-featured did not load properly!");
     };
 
-    recursiveCheck(featuredReady, loadImage, errorImage);
+    recursiveCheck(featuredReady, loadVideo, errorVideo);
   }
 
   render() {
@@ -64,7 +58,7 @@ class VideoThumbnail extends Component {
       video_url,
     } = this.props;
 
-    const { imageLoaded, imageError, loadingDelay } = this.state;
+    const { videoLoaded, videoError, loadingDelay } = this.state;
 
     let classNames = ["VideoThumbnail", className].join(" ");
 
@@ -80,7 +74,7 @@ class VideoThumbnail extends Component {
         >
           <LoadingView
             className="LoadingView--thumbnail"
-            loaded={imageLoaded || imageError ? true : false}
+            loaded={videoLoaded || videoError ? true : false}
             spinnerOn={loadingDelay}
           />
           <BigPlayButton position="center" />

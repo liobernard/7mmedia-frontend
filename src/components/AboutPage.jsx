@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { showreel, signUpForm } from "../actions";
+import { aboutPage, showreel, signUpForm } from "../actions";
 import { addClass, removeClass, recursiveCheck } from "../js/utils";
 
 import { LoadingView, Main, MyLink, Page, ResponsiveImage, Section } from "./";
@@ -17,6 +17,8 @@ class AboutPage extends Component {
   }
 
   componentDidMount() {
+    this.props.fetchAboutInfo();
+
     addClass(document.body, "is-loading");
     this.checkImageLoading();
 
@@ -48,7 +50,11 @@ class AboutPage extends Component {
   }
 
   render() {
-    const { showShowreel, showSignUpForm } = this.props;
+    const {
+      showShowreel,
+      showSignUpForm,
+      aboutPage: { aboutInfo },
+    } = this.props;
     const { imageLoaded, imageError, loadingDelay } = this.state;
 
     const signUp = (
@@ -78,14 +84,7 @@ class AboutPage extends Component {
           </Section>
           <Section className="Section--about">
             <h3 className="u-mf">
-              7 Mile Media Productions provides film solutions for any event.
-              Our mission is to meet your needs through stellar videography,
-              sharp attention to detail, and outstanding service.
-              <br />
-              <br />
-              Our team works closely with each of our clients to help bring
-              their vision to life. We offer reasonably priced and customizable
-              packages guaranteed to fit your needs.
+              {aboutInfo.text}
               <br />
               <br />
               {signUp} &mdash; we'd love to work with you on your next project
@@ -104,7 +103,7 @@ class AboutPage extends Component {
               className="ResponsiveImage--about"
               id="aboutImg"
               alt="Hey it's James!"
-              lg="https://assets.7mmedia.online/media/images/film_crew.jpg"
+              lg={aboutInfo.photo_url}
             />
           </Section>
           <Section className="Section--extraDetails" />
@@ -114,7 +113,14 @@ class AboutPage extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  aboutPage: state.aboutPage,
+});
+
 const mapDispatchToProps = (dispatch) => ({
+  fetchAboutInfo: () => {
+    dispatch(aboutPage.fetchAboutInfo());
+  },
   showShowreel: () => {
     dispatch(showreel.showShowreel());
   },
@@ -123,4 +129,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(null, mapDispatchToProps)(AboutPage);
+export default connect(mapStateToProps, mapDispatchToProps)(AboutPage);

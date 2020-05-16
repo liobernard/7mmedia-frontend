@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 import { connectRouter } from "connected-react-router";
 
+import aboutPageReducer from "./aboutPageReducer";
 import alertReducer from "./alertReducer";
 import authReducer from "./authReducer";
 import browserHistoryReducer from "./browserHistoryReducer";
@@ -12,16 +13,18 @@ import signUpFormReducer from "./signUpFormReducer";
 import videoDetailReducer from "./videoDetailReducer";
 import videoListReducer from "./videoListReducer";
 
-export default history => combineReducers({
-  router: connectRouter(history),
-  alert: alertReducer,
-  auth: authReducer,
-  browserHistory: browserHistoryReducer,
-  error: errorReducer,
-  homePage: homePageReducer,
-  menu: menuReducer,
-  showreel: showreelReducer,
-  signUpForm: signUpFormReducer,
-  videoDetail: videoDetailReducer,
-  videoList: videoListReducer
-});
+export default (history) =>
+  combineReducers({
+    router: connectRouter(history),
+    aboutPage: aboutPageReducer,
+    alert: alertReducer,
+    auth: authReducer,
+    browserHistory: browserHistoryReducer,
+    error: errorReducer,
+    homePage: homePageReducer,
+    menu: menuReducer,
+    showreel: showreelReducer,
+    signUpForm: signUpFormReducer,
+    videoDetail: videoDetailReducer,
+    videoList: videoListReducer,
+  });

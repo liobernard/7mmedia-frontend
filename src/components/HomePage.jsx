@@ -15,7 +15,6 @@ import {
   Section,
   SignUpButton,
   SocialIcons,
-  VideoBackground,
   VideoThumbnail,
 } from "./";
 
@@ -23,6 +22,7 @@ class HomePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      bannerLoaded: false,
       logoLoaded: false,
       loadingDelay: false,
       pageComplete: false,
@@ -30,7 +30,7 @@ class HomePage extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchHomePage();
+    this.props.fetchHomeInfo();
 
     addClass(document.body, "is-loading");
     this.checkPageComplete();
@@ -48,18 +48,22 @@ class HomePage extends Component {
 
   checkPageComplete() {
     const check = () => {
-      const banner = document.getElementById("banner");
-      const { logoLoaded } = this.state;
-      const { featured, latest, featuredLoading, latestLoading } = this.props;
+      const { bannerLoaded, logoLoaded } = this.state;
+      const {
+        homeInfo,
+        homeInfoLoading,
+        latest,
+        latestLoading,
+      } = this.props.homePage;
 
-      return logoLoaded &&
-        banner &&
-        banner.readyState === 4 &&
-        featured &&
-        !!Object.keys(featured).length &&
+      return bannerLoaded &&
+        logoLoaded &&
+        homeInfo &&
+        homeInfo.featured_video &&
+        !!Object.keys(homeInfo.featured_video).length &&
         latest &&
         !!latest.length &&
-        !featuredLoading &&
+        !homeInfoLoading &&
         !latestLoading
         ? true
         : false;
@@ -70,11 +74,11 @@ class HomePage extends Component {
       this.setState({ pageComplete: true });
     };
 
-    recursiveCheck(check, loaded, null, Infinity);
+    recursiveCheck(check, loaded, null, 20);
   }
 
   render() {
-    const { featured, latest } = this.props;
+    const { latest, homeInfo } = this.props.homePage;
     const { loadingDelay, pageComplete } = this.state;
 
     return (
@@ -86,10 +90,19 @@ class HomePage extends Component {
         />
         <Main>
           <Section className="Section--intro">
-            <VideoBackground />
+            <div className="VideoBackground" id="video-banner">
+              <video
+                autoPlay="autoplay"
+                muted="muted"
+                loop="loop"
+                type="video/mp4"
+                src={homeInfo.video_banner_url}
+                onCanPlayThrough={() => this.setState({ bannerLoaded: true })}
+              />
+            </div>
             <div className="IntroText IntroText--main">
               <img
-                src="https://assets.7mmedia.online/media/images/logos/7mm-red-lg.png"
+                src={homeInfo.logo_url}
                 width="300"
                 alt="7MileMedia"
                 onLoad={() => this.setState({ logoLoaded: true })}
@@ -144,7 +157,7 @@ class HomePage extends Component {
           </Section>
           <Section className="Section--featured">
             <h4 className="Featured u-mf u-red">Featured</h4>
-            <VideoThumbnail {...featured} />
+            <VideoThumbnail {...homeInfo.featured_video} />
           </Section>
           <Section className="Section--latest">
             <h4 className="u-mf u-red">Latest</h4>
@@ -187,15 +200,12 @@ class HomePage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  featured: state.homePage.featured,
-  latest: state.homePage.latest,
-  featuredLoading: state.homePage.featuredLoading,
-  latestLoading: state.homePage.latestLoading,
+  homePage: state.homePage,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchHomePage: () => {
-    return dispatch(homePage.fetchHomePage());
+  fetchHomeInfo: () => {
+    return dispatch(homePage.fetchHomeInfo());
   },
   closeHomePage: () => {
     return dispatch(homePage.closeHomePage());

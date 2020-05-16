@@ -1,46 +1,46 @@
 const INITIAL_STATE = {
-  featured: {},
+  homeInfo: {},
+  homeInfoLoading: false,
   latest: [],
-  featuredLoading: false,
   latestLoading: false,
   fetchError: null,
 };
 
 const homePageReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case "FEATURED_LOADING":
+    case "HOME_INFO_LOADING":
       return {
         ...state,
-        featuredLoading: true
+        homeInfoLoading: true,
       };
 
     case "LATEST_LOADING":
       return {
         ...state,
-        latestLoading: true
+        latestLoading: true,
       };
 
-    case "FEATURED_LOADED":
+    case "HOME_INFO_LOADED":
       return {
         ...state,
-        featuredLoading: false,
-        featured: action.featured
-      }
+        homeInfoLoading: false,
+        homeInfo: action.homeInfo,
+      };
 
     case "LATEST_LOADED":
       return {
         ...state,
         latestLoading: false,
-        latest: action.latest
-      }
+        latest: action.latest,
+      };
 
     case "HOMEPAGE_ERROR":
       return {
         ...state,
-        featuredLoading: false,
+        homeInfoLoading: false,
         latestLoading: false,
-        fetchError: action.err
-      }
+        fetchError: action.error,
+      };
 
     case "CLOSE_HOME":
       return INITIAL_STATE;
