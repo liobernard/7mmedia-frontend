@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Player, BigPlayButton, ControlBar, PosterImage } from "video-react";
 
+import { loadHomeMedia } from "../actions/mediaLoadActions";
 import { recursiveCheck } from "../js/utils";
 
 import { LoadingView, MyLink } from "./";
@@ -8,44 +10,53 @@ import { LoadingView, MyLink } from "./";
 class VideoThumbnail extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      videoLoaded: false,
-      videoError: false,
-      loadingDelay: false,
-    };
+    this.state = { loadingDelay: false };
   }
 
   componentDidMount() {
     this.checkVideoLoading();
 
+    const {
+      mediaLoad: { featuredVideo, featuredThumbnail },
+    } = this.props;
+
     setTimeout(() => {
-      if (!this.state.videoLoaded) {
+      if (!(featuredVideo && featuredThumbnail)) {
         this.setState({ loadingDelay: true });
       }
-    }, 200);
+    }, 250);
   }
 
   checkVideoLoading() {
+    const checkVideo = (featured) => {
+      return !!featured && featured.readyState === 4;
+    };
+
+    const checkThumbnail = (featured) => {
+      return (
+        !!featured && !!featured.previousElementSibling.style.backgroundImage
+      );
+    };
+
     const featuredReady = () => {
       const featured = document.getElementById("featured");
-      return !!featured &&
-        !!featured.currentSrc &&
-        !!featured.previousElementSibling.style.backgroundImage &&
-        featured.readyState === 4
-        ? true
-        : false;
+      const videoLoaded = checkVideo(featured);
+      const thumbnailLoaded = checkThumbnail(featured);
+      return videoLoaded && thumbnailLoaded;
     };
 
-    const loadVideo = () => {
-      this.setState({ videoLoaded: true });
+    const load = () => {
+      this.props.loadHomeMedia("featuredVideo");
+      this.props.loadHomeMedia("featuredThumbnail");
     };
 
-    const errorVideo = () => {
-      this.setState({ videoLoaded: false, videoError: true });
+    const error = () => {
+      this.props.loadHomeMedia("featuredVideo");
+      this.props.loadHomeMedia("featuredThumbnail");
       console.error("VideoThumbnail-featured did not load properly!");
     };
 
-    recursiveCheck(featuredReady, loadVideo, errorVideo);
+    recursiveCheck(featuredReady, load, error, 60);
   }
 
   render() {
@@ -56,9 +67,12 @@ class VideoThumbnail extends Component {
       thumbnail_url,
       title,
       video_url,
+      mediaLoad: {
+        homePage: { featuredThumbnail, featuredVideo },
+      },
     } = this.props;
 
-    const { videoLoaded, videoError, loadingDelay } = this.state;
+    const { loadingDelay } = this.state;
 
     let classNames = ["VideoThumbnail", className].join(" ");
 
@@ -74,7 +88,7 @@ class VideoThumbnail extends Component {
         >
           <LoadingView
             className="LoadingView--thumbnail"
-            loaded={videoLoaded || videoError ? true : false}
+            loaded={featuredVideo && featuredThumbnail ? true : false}
             spinnerOn={loadingDelay}
           />
           <BigPlayButton position="center" />
@@ -98,4 +112,14 @@ class VideoThumbnail extends Component {
   }
 }
 
-export default VideoThumbnail;
+const mapStateToProps = (state) => ({
+  mediaLoad: state.mediaLoad,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  loadHomeMedia: (media) => {
+    return dispatch(loadHomeMedia(media));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(VideoThumbnail);

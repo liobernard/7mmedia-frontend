@@ -10,10 +10,10 @@ class Showreel extends Component {
   constructor(props) {
     super(props);
     this.player = React.createRef();
-    this.handleCloseForm = this.handleCloseForm.bind(this);
+    this.handleCloseShowreel = this.handleCloseShowreel.bind(this);
   }
 
-  handleCloseForm(e) {
+  handleCloseShowreel(e) {
     e.preventDefault();
     this.props.hideShowreel();
   }
@@ -32,7 +32,7 @@ class Showreel extends Component {
         <div className="CloseButton-container">
           <CloseButton
             className="CloseButton--showreel"
-            action={this.handleCloseForm}
+            action={this.handleCloseShowreel}
           />
         </div>
         <div className="ShowreelVideo">
@@ -42,7 +42,7 @@ class Showreel extends Component {
             width="100%"
             playsInline
             ref={this.player}
-            src={this.props.url}
+            src={this.props.showreel_url}
             videoId="showreel"
           >
             <BigPlayButton position="center" />
@@ -56,7 +56,7 @@ class Showreel extends Component {
 
 const mapStateToProps = (state) => ({
   showreelOn: state.showreel.showreelOn,
-  url: state.aboutPage.aboutInfo.showreel_url,
+  showreel_url: state.aboutPage.aboutInfo.showreel_url,
 });
 
 const mapDispatchToProps = (dispatch) => ({

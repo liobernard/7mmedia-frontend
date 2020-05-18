@@ -1,9 +1,12 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import { LoadingView, MyLink, ResponsiveImage } from "./";
+import { loadHomeMedia } from "../actions/mediaLoadActions";
 import { recursiveCheck } from "../js/utils";
 
-export default class ImageThumbnail extends Component {
+import { LoadingView, MyLink, ResponsiveImage } from "./";
+
+class ImageThumbnail extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,13 +23,19 @@ export default class ImageThumbnail extends Component {
       if (!this.state.imageLoaded) {
         this.setState({ loadingDelay: true });
       }
-    }, 200);
+    }, 250);
   }
 
   checkImageLoading() {
     const imageReady = () => {
       const image = document.getElementById(`${this.props.id}`);
-      return !!image && !!image.style.backgroundImage ? true : false;
+      if (!!image && !!image.style.backgroundImage) {
+        if (/^latest[1,2]$/.test(this.props.id)) {
+          this.props.loadHomeMedia(this.props.id);
+        }
+        return true;
+      }
+      return false;
     };
 
     const loadImage = () => {
@@ -38,7 +47,7 @@ export default class ImageThumbnail extends Component {
       console.error(`ImageThumbnail-${this.props.id} did not load properly!`);
     };
 
-    recursiveCheck(imageReady, loadImage, errorImage);
+    recursiveCheck(imageReady, loadImage, errorImage, 60);
   }
 
   render() {
@@ -74,3 +83,11 @@ export default class ImageThumbnail extends Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  loadHomeMedia: (media) => {
+    return dispatch(loadHomeMedia(media));
+  },
+});
+
+export default connect(null, mapDispatchToProps)(ImageThumbnail);

@@ -56,7 +56,7 @@ class VideoList extends Component {
       if (!videos.length) {
         this.setState({ pastDelay: true });
       }
-    }, 250);
+    }, 1000);
   }
 
   componentDidUpdate(prevProps) {

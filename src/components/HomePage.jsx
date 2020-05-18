@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import InViewMonitor from "react-inview-monitor";
 
-import { homePage } from "../actions";
+import { homePage, mediaLoad } from "../actions";
 import { recursiveCheck, addClass, removeClass } from "../js/utils";
 
 import {
@@ -21,71 +21,59 @@ import {
 class HomePage extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      bannerLoaded: false,
-      logoLoaded: false,
-      loadingDelay: false,
-      pageComplete: false,
-    };
+    this.state = { loadingDelay: false };
+  }
+
+  isLoaded(media) {
+    return !Object.keys(media).some((key) => !media[key]);
   }
 
   componentDidMount() {
-    this.props.fetchHomeInfo();
+    if (!this.isLoaded(this.props.mediaLoad.homePage)) {
+      this.props.fetchHomeInfo();
 
-    addClass(document.body, "is-loading");
-    this.checkPageComplete();
+      addClass(document.body, "is-loading");
+      this.checkPageComplete();
 
-    setTimeout(() => {
-      if (!this.state.pageComplete) {
-        this.setState({ loadingDelay: true });
-      }
-    }, 200);
-  }
-
-  componentWillUnmount() {
-    this.props.closeHomePage();
+      setTimeout(() => {
+        if (!this.isLoaded(this.props.mediaLoad.homePage)) {
+          this.setState({ loadingDelay: true });
+        }
+      }, 250);
+    }
   }
 
   checkPageComplete() {
     const check = () => {
-      const { bannerLoaded, logoLoaded } = this.state;
-      const {
-        homeInfo,
-        homeInfoLoading,
-        latest,
-        latestLoading,
-      } = this.props.homePage;
-
-      return bannerLoaded &&
-        logoLoaded &&
-        homeInfo &&
-        homeInfo.featured_video &&
-        !!Object.keys(homeInfo.featured_video).length &&
-        latest &&
-        !!latest.length &&
-        !homeInfoLoading &&
-        !latestLoading
-        ? true
-        : false;
+      return this.isLoaded(this.props.mediaLoad.homePage);
     };
 
     const loaded = () => {
       removeClass(document.body, "is-loading");
-      this.setState({ pageComplete: true });
     };
 
-    recursiveCheck(check, loaded, null, 20);
+    const error = () => {
+      removeClass(document.body, "is-loading");
+      console.error("HomePage did not load properly!");
+    };
+
+    recursiveCheck(check, loaded, error, 60);
   }
 
   render() {
-    const { latest, homeInfo } = this.props.homePage;
-    const { loadingDelay, pageComplete } = this.state;
+    const {
+      loadHomeMedia,
+      homePage: { latest, homeInfo },
+      mediaLoad: { homePage },
+    } = this.props;
+    const { loadingDelay } = this.state;
+    const loaded = this.isLoaded(homePage);
 
     return (
       <Page id="homePage">
         <LoadingView
           className="LoadingView--fullscreen"
-          loaded={pageComplete}
+          loaded={loaded}
           spinnerOn={loadingDelay}
         />
         <Main>
@@ -97,7 +85,9 @@ class HomePage extends Component {
                 loop="loop"
                 type="video/mp4"
                 src={homeInfo.video_banner_url}
-                onCanPlayThrough={() => this.setState({ bannerLoaded: true })}
+                onCanPlayThrough={() => {
+                  loadHomeMedia("banner");
+                }}
               />
             </div>
             <div className="IntroText IntroText--main">
@@ -105,7 +95,9 @@ class HomePage extends Component {
                 src={homeInfo.logo_url}
                 width="300"
                 alt="7MileMedia"
-                onLoad={() => this.setState({ logoLoaded: true })}
+                onLoad={() => {
+                  loadHomeMedia("logo");
+                }}
               />
             </div>
             <div className="IntroText IntroText--sub">
@@ -201,14 +193,15 @@ class HomePage extends Component {
 
 const mapStateToProps = (state) => ({
   homePage: state.homePage,
+  mediaLoad: state.mediaLoad,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   fetchHomeInfo: () => {
     return dispatch(homePage.fetchHomeInfo());
   },
-  closeHomePage: () => {
-    return dispatch(homePage.closeHomePage());
+  loadHomeMedia: (media) => {
+    return dispatch(mediaLoad.loadHomeMedia(media));
   },
 });
 

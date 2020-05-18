@@ -3,6 +3,7 @@ import * as alert from "./alertActions";
 import * as auth from "./authActions";
 import * as browserHistory from "./browserHistoryActions";
 import * as homePage from "./homePageActions";
+import * as mediaLoad from "./mediaLoadActions";
 import * as menu from "./menuActions";
 import * as showreel from "./showreelActions";
 import * as signUpForm from "./signUpFormActions";
@@ -14,6 +15,7 @@ export {
   auth,
   browserHistory,
   homePage,
+  mediaLoad,
   menu,
   showreel,
   signUpForm,

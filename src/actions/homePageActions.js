@@ -21,7 +21,7 @@ const handleError = (err) => {
 
 export const fetchHomeInfo = () => {
   return (dispatch) => {
-    dispatch({ type: "HOME_INFO_LOADING" });
+    dispatch({ type: "HOME_INFO_FETCHING" });
 
     const headers = { "Content-Type": "application/json" };
 
@@ -33,7 +33,7 @@ export const fetchHomeInfo = () => {
         .get(homeInfoUrl)
         .set(headers)
         .then((res) => {
-          dispatch({ type: "HOME_INFO_LOADED", homeInfo: res.body });
+          dispatch({ type: "HOME_INFO_FETCHED", homeInfo: res.body });
           const featured = res.body.featured_video;
           resolve(featured);
         })
@@ -43,7 +43,7 @@ export const fetchHomeInfo = () => {
     });
 
     fetchInfoResolveFeatured.then((featured) => {
-      dispatch({ type: "LATEST_LOADING" });
+      dispatch({ type: "LATEST_FETCHING" });
       latestUrl = `${latestUrl}${featured.slug}`;
 
       return request
@@ -51,7 +51,7 @@ export const fetchHomeInfo = () => {
         .set(headers)
         .then((res) => {
           return dispatch({
-            type: "LATEST_LOADED",
+            type: "LATEST_FETCHED",
             latest: res.body.results,
           });
         })
@@ -59,11 +59,5 @@ export const fetchHomeInfo = () => {
           dispatch(handleError(err));
         });
     });
-  };
-};
-
-export const closeHomePage = () => {
-  return (dispatch) => {
-    dispatch({ type: "CLOSE_HOME" });
   };
 };

@@ -1,44 +1,44 @@
 const INITIAL_STATE = {
   homeInfo: {},
-  homeInfoLoading: false,
+  homeInfoFetching: false,
   latest: [],
-  latestLoading: false,
+  latestFetching: false,
   fetchError: null,
 };
 
 const homePageReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case "HOME_INFO_LOADING":
+    case "HOME_INFO_FETCHING":
       return {
         ...state,
-        homeInfoLoading: true,
+        homeInfoFetching: true,
       };
 
-    case "LATEST_LOADING":
+    case "LATEST_FETCHING":
       return {
         ...state,
-        latestLoading: true,
+        latestFetching: true,
       };
 
-    case "HOME_INFO_LOADED":
+    case "HOME_INFO_FETCHED":
       return {
         ...state,
-        homeInfoLoading: false,
+        homeInfoFetching: false,
         homeInfo: action.homeInfo,
       };
 
-    case "LATEST_LOADED":
+    case "LATEST_FETCHED":
       return {
         ...state,
-        latestLoading: false,
+        latestFetching: false,
         latest: action.latest,
       };
 
     case "HOMEPAGE_ERROR":
       return {
         ...state,
-        homeInfoLoading: false,
-        latestLoading: false,
+        homeInfoFetching: false,
+        latestFetching: false,
         fetchError: action.error,
       };
 

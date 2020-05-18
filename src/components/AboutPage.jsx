@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { aboutPage, showreel, signUpForm } from "../actions";
+import { aboutPage, showreel, signUpForm, mediaLoad } from "../actions";
 import { addClass, removeClass, recursiveCheck } from "../js/utils";
 
 import { LoadingView, Main, MyLink, Page, ResponsiveImage, Section } from "./";
@@ -9,44 +9,54 @@ import { LoadingView, Main, MyLink, Page, ResponsiveImage, Section } from "./";
 class AboutPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      imageLoaded: false,
-      imageError: false,
-      loadingDelay: false,
-    };
+    this.state = { loadingDelay: false };
+  }
+
+  isLoaded(media) {
+    return !Object.keys(media).some((key) => !media[key]);
   }
 
   componentDidMount() {
-    this.props.fetchAboutInfo();
+    if (!this.isLoaded(this.props.mediaLoad.aboutPage)) {
+      this.props.fetchAboutInfo();
 
-    addClass(document.body, "is-loading");
-    this.checkImageLoading();
+      addClass(document.body, "is-loading");
+      this.checkPageComplete();
 
-    setTimeout(() => {
-      if (!this.state.imageLoaded) {
-        this.setState({ loadingDelay: true });
-      }
-    }, 200);
+      setTimeout(() => {
+        if (!this.isLoaded(this.props.mediaLoad.aboutPage)) {
+          this.setState({ loadingDelay: true });
+        }
+      }, 250);
+    }
   }
 
-  checkImageLoading() {
-    const imageReady = () => {
+  checkPageComplete() {
+    const check = () => {
       const image = document.getElementById("aboutImg");
-      return !!image && !!image.style.backgroundImage ? true : false;
+      const showreel = document.getElementById("showreel");
+      return (
+        !!image &&
+        !!image.style.backgroundImage &&
+        !!showreel &&
+        showreel.readyState === 4
+      );
     };
 
-    const loadImage = () => {
+    const loaded = () => {
       removeClass(document.body, "is-loading");
-      this.setState({ imageLoaded: true });
+      this.props.loadAboutMedia("image");
+      this.props.loadAboutMedia("showreel");
     };
 
-    const errorImage = () => {
+    const error = () => {
       removeClass(document.body, "is-loading");
-      this.setState({ imageLoaded: false, imageError: true });
-      console.error("AboutPage image did not load properly!");
+      this.props.loadAboutMedia("image");
+      this.props.loadAboutMedia("showreel");
+      console.error("AboutPage did not load properly!");
     };
 
-    recursiveCheck(imageReady, loadImage, errorImage);
+    recursiveCheck(check, loaded, error, 60);
   }
 
   render() {
@@ -54,8 +64,10 @@ class AboutPage extends Component {
       showShowreel,
       showSignUpForm,
       aboutPage: { aboutInfo },
+      mediaLoad: { aboutPage },
     } = this.props;
-    const { imageLoaded, imageError, loadingDelay } = this.state;
+    const { loadingDelay } = this.state;
+    const loaded = this.isLoaded(aboutPage);
 
     const signUp = (
       <span
@@ -71,7 +83,7 @@ class AboutPage extends Component {
       <Page id="aboutPage" noCrawl>
         <LoadingView
           className="LoadingView--fullscreen"
-          loaded={imageLoaded || imageError ? true : false}
+          loaded={loaded}
           spinnerOn={loadingDelay}
         />
         <Main>
@@ -115,17 +127,21 @@ class AboutPage extends Component {
 
 const mapStateToProps = (state) => ({
   aboutPage: state.aboutPage,
+  mediaLoad: state.mediaLoad,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   fetchAboutInfo: () => {
-    dispatch(aboutPage.fetchAboutInfo());
+    return dispatch(aboutPage.fetchAboutInfo());
+  },
+  loadAboutMedia: (media) => {
+    return dispatch(mediaLoad.loadAboutMedia(media));
   },
   showShowreel: () => {
-    dispatch(showreel.showShowreel());
+    return dispatch(showreel.showShowreel());
   },
   showSignUpForm: () => {
-    dispatch(signUpForm.showSignUpForm());
+    return dispatch(signUpForm.showSignUpForm());
   },
 });
 

@@ -7,6 +7,7 @@ import authReducer from "./authReducer";
 import browserHistoryReducer from "./browserHistoryReducer";
 import errorReducer from "./errorReducer";
 import homePageReducer from "./homePageReducer";
+import mediaLoadReducer from "./mediaLoadReducer";
 import menuReducer from "./menuReducer";
 import showreelReducer from "./showreelReducer";
 import signUpFormReducer from "./signUpFormReducer";
@@ -22,6 +23,7 @@ export default (history) =>
     browserHistory: browserHistoryReducer,
     error: errorReducer,
     homePage: homePageReducer,
+    mediaLoad: mediaLoadReducer,
     menu: menuReducer,
     showreel: showreelReducer,
     signUpForm: signUpFormReducer,
