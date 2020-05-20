@@ -6,13 +6,13 @@ const SITE_URL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
     : "https://7mmedia.online";
+const REACT_APP_CDN_DOMAIN = process.env.REACT_APP_CDN_DOMAIN;
 
 const defaultTitle =
   "7 Mile Media Productions | Weddings, Events, Promos, Documentaries & More";
 const defaultDescription =
   "We're committed to capturing your special moments and sculpting them into shareable, honest works of art. In need of filming, production, or editing services? We'd love to hear from you.";
-const defaultImage =
-  "https://assets.7mmedia.online/media/images/logos/7mm-red-lg.png";
+const defaultImage = `${REACT_APP_CDN_DOMAIN}/media/images/logos/7mm-red-lg.png`;
 
 class Page extends Component {
   getMetaTags(

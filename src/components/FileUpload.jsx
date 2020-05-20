@@ -5,6 +5,7 @@ import request from "superagent";
 import { editDetail } from "../actions/videosActions";
 
 const REACT_APP_API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
+const REACT_APP_CDN_DOMAIN = process.env.REACT_APP_CDN_DOMAIN;
 
 class FileUpload extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class FileUpload extends Component {
     this.state = this.getInitialState();
     this.upload = React.createRef();
     this.handleReset = this.handleReset.bind(this);
-    this.handleFile = this.handleFile.bind(this);
+    this.handleSelectFile = this.handleSelectFile.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -22,7 +23,7 @@ class FileUpload extends Component {
       file: null,
       isGettingUrl: false,
       isUploading: false,
-      uploaded: false,
+      isUploaded: false,
       signedUrl: {
         url: "",
         fields: {
@@ -40,75 +41,58 @@ class FileUpload extends Component {
 
   handleReset(e) {
     e.preventDefault();
+    if (this.state.isGettingUrl || this.state.isUploading) return;
     this.setState(this.getInitialState());
     this.upload.current.value = "";
   }
 
-  handleFile(e) {
+  handleSelectFile(e) {
     e.preventDefault();
+    if (this.state.isGettingUrl || this.state.isUploading) return;
     const file = e.target.files[0];
-    this.setState({ file, uploaded: false });
-    this.getSignedUrl(file);
+    this.setState({ isUploaded: false });
+    this.getSignedURL(file);
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    this.setState({ error: null });
+    const { file, isGettingUrl, isUploading } = this.state;
+    if (!file || isGettingUrl || isUploading) return;
     this.uploadFile();
   }
 
-  getSignedUrl(file) {
-    this.setState({ isGettingUrl: true });
+  getSignedURL(file) {
+    this.setState({ isGettingUrl: true, error: null });
 
-    let headers = { "Content-Type": "application/json" };
+    const { token, prefix } = this.props;
 
-    const { token, type } = this.props;
-
-    if (token) {
-      headers["Authorization"] = `Token ${token}`;
-    }
-
-    const url = `${REACT_APP_API_DOMAIN}/s3/signed_url/`;
-    let object_name;
-
-    if (/^image/.test(file.type)) {
-      if (type === "film_thumbnail") {
-        object_name = `media/images/film_thumbnails/${file.name}`;
-      } else {
-        object_name = `media/images/${file.name}`;
-      }
-    } else if (/^video/.test(file.type)) {
-      if (type === "film") {
-        object_name = `media/videos/films/${file.name}`;
-      } else {
-        object_name = `media/videos/${file.name}`;
-      }
-    }
+    const url = `${REACT_APP_API_DOMAIN}/s3/${prefix}`;
 
     return request
       .post(url)
-      .set(headers)
-      .send({ object_name })
+      .set({ Authorization: `Token ${token}` })
+      .attach("file", file)
       .then((res) => {
-        this.setState({ isGettingUrl: false, signedUrl: res.body });
+        this.setState({ file, isGettingUrl: false, signedUrl: res.body });
       })
       .catch((err) => {
         console.error(err);
-        let error = err.message;
+        let error = err.response.body;
         this.setState({ error, isGettingUrl: false });
       });
   }
 
   uploadFile() {
-    this.setState({ isUploading: true });
+    this.setState({ isUploading: true, error: null });
 
     const { file, signedUrl } = this.state;
-    const { type, editDetail } = this.props;
+    const { prefix, editDetail } = this.props;
+
     let fieldName;
 
-    if (/^image/.test(file.type) && type === "film_thumbnail") {
+    if (prefix === "media/images/film_thumbnails/") {
       fieldName = "thumbnail_url";
-    } else if (/^video/.test(file.type) && type === "film") {
+    } else if (prefix === "media/videos/films/") {
       fieldName = "video_url";
     }
 
@@ -117,16 +101,15 @@ class FileUpload extends Component {
       .field(signedUrl.fields)
       .attach("file", file)
       .then((res) => {
-        const value = `https://assets.7mmedia.online/${signedUrl.fields["key"]}`;
+        const value = `${REACT_APP_CDN_DOMAIN}/${signedUrl.fields["key"]}`;
         if (fieldName) editDetail(fieldName, value);
-        this.setState(this.getInitialState());
+        this.setState({ ...this.getInitialState(), isUploaded: true });
         this.upload.current.value = "";
-        this.setState({ uploaded: true });
       })
       .catch((err) => {
         console.error(err);
-        let error = err.message;
-        this.setState({ error, isUploading: false, uploaded: false });
+        let error = err.response.body;
+        this.setState({ error, isUploading: false, isUploaded: false });
       });
   }
 
@@ -138,19 +121,19 @@ class FileUpload extends Component {
       signedUrl,
       isGettingUrl,
       isUploading,
-      uploaded,
+      isUploaded,
     } = this.state;
 
     let { buttonText, label } = this.props;
     let classNames = ["FileUpload", className].join(" ");
 
     if (isGettingUrl) {
-      buttonText = "Getting signed URL...";
+      buttonText = "Validating file...";
     } else if (signedUrl && signedUrl.url) {
       buttonText = "Ready to upload, click again!";
     } else if (isUploading) {
       buttonText = "Uploading file...";
-    } else if (uploaded) {
+    } else if (isUploaded) {
       buttonText = "Upload successful!";
     }
 
@@ -167,7 +150,7 @@ class FileUpload extends Component {
           ref={this.upload}
           accept={accept}
           disabled={isGettingUrl || isUploading}
-          onChange={this.handleFile}
+          onChange={this.handleSelectFile}
         />
         <span onClick={this.handleReset}>&times;</span>
         <br />

@@ -23,25 +23,20 @@ class FileSelect extends Component {
 
   handleInput(e) {
     e.preventDefault();
+    if (!["thumbnail_url", "video_url"].includes(e.target.name)) return;
     this.props.editDetail(e.target.name, e.target.value);
   }
 
   getFiles() {
     this.setState({ isLoading: true, error: null });
 
-    let headers = { "Content-Type": "application/json" };
+    const { prefix, token } = this.props;
 
-    const { token, type } = this.props;
-
-    if (token) {
-      headers["Authorization"] = `Token ${token}`;
-    }
-
-    const url = `${REACT_APP_API_DOMAIN}/s3/list_objects/${type}/`;
+    const url = `${REACT_APP_API_DOMAIN}/s3/${prefix}`;
 
     return request
       .get(url)
-      .set(headers)
+      .set({ Authorization: `Token ${token}` })
       .then((res) => {
         const files = res.body;
         this.setState({ isLoading: false, files });
@@ -60,9 +55,16 @@ class FileSelect extends Component {
   }
 
   render() {
-    const { className, type } = this.props;
-    const { files, isLoading, error, isInitiated } = this.state;
+    const { className, prefix } = this.props;
+    const { error, files, isLoading, isInitiated } = this.state;
     let classNames = ["FileSelect", className].join(" ");
+    let type = "file";
+
+    if (prefix === "media/images/film_thumbnails/") {
+      type = "thumbnail";
+    } else if (prefix === "media/videos/films/") {
+      type = "video";
+    }
 
     if (isInitiated) {
       return (
@@ -72,7 +74,7 @@ class FileSelect extends Component {
             {!isLoading && (
               <>
                 <>
-                  <p className="u-mt">Select a {type} from cloud storage</p>
+                  <p className="u-mt">Select {type} from cloud storage</p>
                   {!!error && <p className="u-red u-nm">Error: {error}</p>}
                   <select
                     className={classNames}

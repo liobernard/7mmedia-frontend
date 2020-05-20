@@ -19,16 +19,18 @@ export default class UploadPage extends Component {
           <Section className="Section--upload">
             <div className="Uploader">
               <FileUpload
-                label="Choose image file to upload"
                 accept="image/*"
                 buttonText="Upload image file"
+                label="Choose image file to upload"
+                prefix="media/images/"
               />
               <br />
               <br />
               <FileUpload
-                label="Choose video file to upload"
-                accept="video/*"
+                accept="video/mp4"
                 buttonText="Upload video file"
+                label="Choose video file to upload"
+                prefix="media/videos/"
               />
               <br />
             </div>

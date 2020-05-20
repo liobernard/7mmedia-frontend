@@ -2,6 +2,8 @@ import React, { Component } from "react";
 
 import { MyLink, SignUpButton, SocialIcons } from "./";
 
+const REACT_APP_CDN_DOMAIN = process.env.REACT_APP_CDN_DOMAIN;
+
 export default class Contact extends Component {
   render() {
     const { className, menu } = this.props;
@@ -24,7 +26,7 @@ export default class Contact extends Component {
           />
           <MyLink active pathname="/" className="Link--logo">
             <img
-              src={`https://assets.7mmedia.online/media/images/logos/7mm-${
+              src={`${REACT_APP_CDN_DOMAIN}/media/images/logos/7mm-${
                 menu ? "wh" : "red"
               }-lg.png`}
               width="75"
