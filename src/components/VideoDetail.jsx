@@ -438,18 +438,18 @@ class VideoDetail extends Component {
             A slug is the end part of a URL which identifies a particular page
             on a website in an easy-to-read form. In other words, it’s the part
             of the URL that explains the page’s content. For example, with the
-            URL https://www.example.com/the_slug, the slug simply is "the_slug".
-            Must be unique to this particular video page. For simplicity's sake,
-            I recommend just using an abbreviated version of the film's title,
-            formatted as such:
+            URL https://www.example.com/the-slug, the slug simply is "the-slug"
+            portion of the URL. Must be unique to this particular video page.
+            For simplicity's sake, I recommend just using an abbreviated version
+            of the film's title, formatted as such:
             <br />
             <br />
             Example title: "Wedding in the Park, Summer 2020"
             <br />
-            Example slugs: "wedding_in_the_park" or "wedding_park_2020" or
-            "wedding_summer_2020", etc.
+            Example slugs: "wedding-in-the-park" or "wedding-park-2020" or
+            "wedding-summer-2020", etc.
             <br />
-            Full URL example: "https://7mmedia.online/films/wedding_in_the_park"
+            Full URL example: "https://7mmedia.online/films/wedding-in-the-park"
           </p>
         </h3>
       );
