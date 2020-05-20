@@ -5,6 +5,7 @@
 
   &--intro {
     padding: 120px 55px;
+    min-height: 100vh;
 
     @include for-tablet-portrait-up {
       padding: 150px 12.5vw;
