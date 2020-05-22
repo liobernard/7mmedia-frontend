@@ -25,10 +25,10 @@ const VideoList = Loadable({
   },
 });
 
-const VideoCreate = Loadable({
-  loader: () => import(/* webpackChunkName: "videoCreate" */ "./VideoCreate"),
+const VideoEdit = Loadable({
+  loader: () => import(/* webpackChunkName: "videoEdit" */ "./VideoEdit"),
   loading: () => null,
-  modules: ["videoCreate"],
+  modules: ["videoEdit"],
   render(loaded, props) {
     let Loaded = loaded.default;
     return <Loaded history={props.history} />;
@@ -103,7 +103,7 @@ class Routes extends Component {
           path="/add_film"
           render={(props) =>
             isAuthenticated ? (
-              <VideoCreate history={props.history} />
+              <VideoEdit history={props.history} />
             ) : (
               <Redirect
                 exact

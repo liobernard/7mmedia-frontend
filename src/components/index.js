@@ -32,8 +32,8 @@ import SignUpForm from "./SignUpForm";
 import SocialIcons from "./SocialIcons";
 import ToggleMenu from "./ToggleMenu";
 import UploadPage from "./UploadPage";
-import VideoCreate from "./VideoCreate";
 import VideoDetail from "./VideoDetail";
+import VideoEdit from "./VideoEdit";
 import VideoList from "./VideoList";
 import VideoThumbnail from "./VideoThumbnail";
 
@@ -72,8 +72,8 @@ export {
   SocialIcons,
   ToggleMenu,
   UploadPage,
-  VideoCreate,
   VideoDetail,
+  VideoEdit,
   VideoList,
   VideoThumbnail,
 };

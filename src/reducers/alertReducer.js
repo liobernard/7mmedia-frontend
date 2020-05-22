@@ -1,11 +1,11 @@
 const INITIAL_STATE = {
   alertOn: false,
-  isCreate: false,
-  isDelete: false,
-  isLogout: false,
-  isUpdate: false,
-  isUndo: false,
-  message: ""
+  willCreate: false,
+  willDelete: false,
+  willLogout: false,
+  willUpdate: false,
+  willUndo: false,
+  message: "",
 };
 
 const alertReducer = (state = INITIAL_STATE, action) => {
@@ -14,11 +14,11 @@ const alertReducer = (state = INITIAL_STATE, action) => {
       return {
         alertOn: true,
         message: action.message,
-        isCreate: action.isCreate,
-        isDelete: action.isDelete,
-        isLogout: action.isLogout,
-        isUpdate: action.isUpdate,
-        isUndo: action.isUndo
+        willCreate: action.willCreate,
+        willDelete: action.willDelete,
+        willLogout: action.willLogout,
+        willUpdate: action.willUpdate,
+        willUndo: action.willUndo,
       };
 
     case "HIDE_ALERT":
@@ -26,6 +26,7 @@ const alertReducer = (state = INITIAL_STATE, action) => {
 
     default:
       return state;
-  }}
+  }
+};
 
 export default alertReducer;

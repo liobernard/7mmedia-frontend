@@ -14,7 +14,7 @@ class AutoLogout extends Component {
       "mousedown",
       "click",
       "scroll",
-      "keypress"
+      "keypress",
     ];
 
     this.warn = this.warn.bind(this);
@@ -23,7 +23,7 @@ class AutoLogout extends Component {
   }
 
   componentDidMount() {
-    this.events.forEach(event => {
+    this.events.forEach((event) => {
       window.addEventListener(event, this.resetTimeout);
     });
 
@@ -46,8 +46,9 @@ class AutoLogout extends Component {
   }
 
   warn() {
-    const message = "You will be logged out automatically after 30 seconds of inactivity.";
-    this.props.showAlert({ message, isLogout: true });
+    const message =
+      "You will be logged out automatically after 30 seconds of inactivity.";
+    this.props.showAlert({ message, willLogout: true });
   }
 
   logout() {
@@ -58,8 +59,8 @@ class AutoLogout extends Component {
   destroy() {
     this.clearTimeout();
 
-    this.events.forEach(event => {
-      window.removeEventListener(event, this.resetTimeout);      
+    this.events.forEach((event) => {
+      window.removeEventListener(event, this.resetTimeout);
     });
   }
 
@@ -68,20 +69,24 @@ class AutoLogout extends Component {
   }
 
   render() {
-    return <><></></>;
+    return (
+      <>
+        <></>
+      </>
+    );
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   logout: () => {
     return dispatch(logout());
   },
   hideAlert: () => {
     return dispatch(hideAlert());
   },
-  showAlert: ({ message, isLogout=false }) => {
-    return dispatch(showAlert({ message, isLogout }));
-  }
+  showAlert: ({ message, willLogout = false }) => {
+    return dispatch(showAlert({ message, willLogout }));
+  },
 });
 
 export default connect(null, mapDispatchToProps)(AutoLogout);

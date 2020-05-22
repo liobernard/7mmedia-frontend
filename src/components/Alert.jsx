@@ -7,7 +7,7 @@ import {
   createVideo,
   updateVideo,
   deleteVideo,
-  resetForm
+  resetForm,
 } from "../actions/videosActions";
 
 import { Button } from "./";
@@ -19,8 +19,8 @@ class Alert extends Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
-    this.handleUndo   = this.handleUndo.bind(this);
-    this.handleClose  = this.handleClose.bind(this);
+    this.handleUndo = this.handleUndo.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
   handleCreate(e) {
@@ -56,76 +56,92 @@ class Alert extends Component {
   render() {
     const {
       alertOn,
-      isCreate,
-      isDelete,
-      isLogout,
-      isUpdate,
-      isUndo,
-      message
+      willCreate,
+      willDelete,
+      willLogout,
+      willUpdate,
+      willUndo,
+      message,
     } = this.props;
 
     return (
       <div className={`Alert${alertOn ? " is-active" : ""}`}>
         <p className="u-sf u-red u-nm">{message}</p>
         <div className="Alert-buttons">
-          {isCreate && !isLogout && !isUndo && !isUpdate && !isDelete && (
-            <Button
-              title={"Create page"}
-              action={this.handleCreate}
-              type="button"
-            />
-          )}
-          {isLogout && !isUndo && !isUpdate && !isDelete && !isCreate && (
-            <Button
-              title={"Logout now"}
-              action={this.handleLogout}
-              type="button"
-            />
-          )}
-          {isUpdate && !isLogout && !isUndo && !isDelete && !isCreate && (
-            <Button
-              title={"Save changes"}
-              action={this.handleUpdate}
-              type="button"
-            />
-          )}
-          {isUndo && !isLogout && !isUpdate && !isDelete && !isCreate && (
-            <Button
-              title={"Undo changes"}
-              action={this.handleUndo}
-              type="button"
-            />
-          )}
-          {isDelete && !isLogout && !isUpdate && !isUndo && !isCreate && (
-            <Button
-              title={"Delete page"}
-              action={this.handleDelete}
-              type="button"
-            />
-          )}
-          <Button
-            title={"Close"}
-            action={this.handleClose}
-            type="button"
-          />
+          {willCreate &&
+            !willLogout &&
+            !willUndo &&
+            !willUpdate &&
+            !willDelete && (
+              <Button
+                title={"Create page"}
+                action={this.handleCreate}
+                type="button"
+              />
+            )}
+          {willLogout &&
+            !willUndo &&
+            !willUpdate &&
+            !willDelete &&
+            !willCreate && (
+              <Button
+                title={"Logout now"}
+                action={this.handleLogout}
+                type="button"
+              />
+            )}
+          {willUpdate &&
+            !willLogout &&
+            !willUndo &&
+            !willDelete &&
+            !willCreate && (
+              <Button
+                title={"Save changes"}
+                action={this.handleUpdate}
+                type="button"
+              />
+            )}
+          {willUndo &&
+            !willLogout &&
+            !willUpdate &&
+            !willDelete &&
+            !willCreate && (
+              <Button
+                title={"Undo changes"}
+                action={this.handleUndo}
+                type="button"
+              />
+            )}
+          {willDelete &&
+            !willLogout &&
+            !willUpdate &&
+            !willUndo &&
+            !willCreate && (
+              <Button
+                title={"Delete page"}
+                action={this.handleDelete}
+                type="button"
+              />
+            )}
+          <Button title={"Close"} action={this.handleClose} type="button" />
         </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   alertOn: state.alert.alertOn,
   message: state.alert.message,
-  isCreate: state.alert.isCreate,
-  isDelete: state.alert.isDelete,
-  isLogout: state.alert.isLogout,
-  isUpdate: state.alert.isUpdate,
-  isUndo: state.alert.isUndo,
-  video: state.videoDetail.video
+  willCreate: state.alert.willCreate,
+  willDelete: state.alert.willDelete,
+  willLogout: state.alert.willLogout,
+  willUpdate: state.alert.willUpdate,
+  willUndo: state.alert.willUndo,
+  video: state.videoDetail.video,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   logout: () => {
     return dispatch(logout());
   },
@@ -143,7 +159,7 @@ const mapDispatchToProps = dispatch => ({
   },
   createVideo: () => {
     return dispatch(createVideo());
-  }
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Alert);

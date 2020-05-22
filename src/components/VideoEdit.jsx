@@ -10,16 +10,17 @@ import { videos } from "../actions";
 
 import { FileSelect, FileUpload, Main, MyLink, Page, Section } from "./";
 
-class VideoCreate extends Component {
+class VideoEdit extends Component {
   constructor(props) {
     super(props);
     this.player = React.createRef();
 
     this.handleDate = this.handleDate.bind(this);
-    this.handleFeatured = this.handleFeatured.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleEditOff = this.handleEditOff.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
     this.handleInput = this.handleInput.bind(this);
-    this.handleReset = this.handleReset.bind(this);
+    this.handleUndo = this.handleUndo.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
 
     this.resetPlayer = throttle(this.resetPlayer.bind(this), 1000, {
@@ -34,8 +35,15 @@ class VideoCreate extends Component {
     this.props.editDate(date);
   }
 
-  handleFeatured(e) {
-    this.props.editDetail("featured", e.target.checked);
+  handleDelete(e) {
+    e.preventDefault();
+    const message = "Are you sure you want to delete this page?";
+    this.props.showAlert({ message, willDelete: true });
+  }
+
+  handleEditOff(e) {
+    e.preventDefault();
+    if (this.props.videoDetail.isEdit) this.props.editOff();
   }
 
   handleFocus(e) {
@@ -48,16 +56,20 @@ class VideoCreate extends Component {
     this.props.editDetail(e.target.name, e.target.value);
   }
 
-  handleReset(e) {
+  handleUndo(e) {
     e.preventDefault();
     const message = "Are you sure you want to undo all unsaved changes?";
-    this.props.showAlert({ message, isUndo: true });
+    this.props.showAlert({ message, willUndo: true });
   }
 
   handleFormSubmit(e) {
     e.preventDefault();
-    const message = "Are you sure you want to save this as a new page?";
-    this.props.showAlert({ message, isCreate: true });
+    const message = "Are you sure you want to save this page?";
+    if (this.props.videoDetail.isEdit) {
+      this.props.showAlert({ message, willUpdate: true });
+    } else {
+      this.props.showAlert({ message, willCreate: true });
+    }
   }
 
   resetPlayer(url) {
@@ -69,32 +81,39 @@ class VideoCreate extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.video.isCreating !== prevProps.video.isCreating) {
-      if (!this.props.video.isCreating && !this.props.video.error) {
-        this.props.history.push(`/films/${this.props.video.form.slug}`);
+    if (
+      this.props.videoDetail.isCreating !== prevProps.videoDetail.isCreating
+    ) {
+      if (!this.props.videoDetail.isCreating && !this.props.videoDetail.error) {
+        this.props.history.push(`/films/${this.props.videoDetail.form.slug}`);
       }
     }
 
     if (
-      this.props.video.form.thumbnail_url !== prevProps.video.form.thumbnail_url
+      this.props.videoDetail.form.thumbnail_url !==
+      prevProps.videoDetail.form.thumbnail_url
     ) {
-      if (!!prevProps.video.form.video_url) {
-        this.resetPlayer(prevProps.video.form.video_url);
+      if (!!prevProps.videoDetail.form.video_url) {
+        this.resetPlayer(prevProps.videoDetail.form.video_url);
       }
     }
   }
 
   componentWillUnmount() {
     this.props.resetError();
-    this.props.resetVideo();
   }
 
   render() {
     const {
-      video: { error, isCreating, form },
-    } = this.props;
+      error,
+      isCreating,
+      isUpdating,
+      isEdit,
+      form,
+      video,
+    } = this.props.videoDetail;
 
-    const header = (
+    let header = (
       <Section className="Section--navLinks">
         <MyLink className="Link--home" active pathname="/">
           <span className="u-sf">⟵ Home</span>
@@ -108,9 +127,47 @@ class VideoCreate extends Component {
       </Section>
     );
 
-    if (isCreating) {
+    if (isEdit) {
+      header = (
+        <Section className="Section--navLinks">
+          <MyLink className="Link--home" active pathname="/">
+            <span className="u-sf">⟵ Home</span>
+          </MyLink>
+          <span>&nbsp;&nbsp;</span>
+          <MyLink className="Link--videoList" active pathname="/films">
+            <span className="u-sf">«&nbsp;&nbsp;Films</span>
+          </MyLink>
+          {!video.published_at && (
+            <>
+              <>
+                <span>&nbsp;&nbsp;</span>
+                <MyLink className="Link--videoList" active pathname="/drafts">
+                  <span className="u-sf">«&nbsp;&nbsp;Drafts</span>
+                </MyLink>
+              </>
+            </>
+          )}
+          <span>&nbsp;&nbsp;</span>
+          <span className="u-sf u-red">«&nbsp;&nbsp;{video.title}</span>
+          {video.subtitle && (
+            <>
+              <>
+                <span>&nbsp;&nbsp;</span>
+                <span className="u-sf u-red">
+                  &mdash;&nbsp;&nbsp;{video.subtitle}
+                </span>
+              </>
+            </>
+          )}
+          <span>&nbsp;&nbsp;</span>
+          <span className="u-sf u-red">«&nbsp;&nbsp;Edit page</span>
+        </Section>
+      );
+    }
+
+    if (isCreating || isUpdating) {
       return (
-        <Page id="videoCreate" noCrawl>
+        <Page id="videoEdit" noCrawl>
           <Main>
             {header}
             <Section className="Section--error u-sf u-red">
@@ -266,26 +323,6 @@ class VideoCreate extends Component {
             "Enter any additional info (notes, credits, etc) if applicable"
           }
         />
-      </h3>
-    );
-
-    const featured = (
-      <h3 className="u-mt">
-        <label className="u-mf" htmlFor="featured">
-          Featured ?&nbsp;&nbsp;
-        </label>
-        <input
-          type="checkbox"
-          id="featured"
-          name="featured"
-          checked={form.featured}
-          onChange={this.handleFeatured}
-        />
-        <p className="u-nm u-tf">
-          If checked, this video will be featured on the home page. If multiple
-          videos are set to be featured, only the most recent will be displayed
-          on the home page.
-        </p>
       </h3>
     );
 
@@ -475,7 +512,7 @@ class VideoCreate extends Component {
     const videoUrl = form.video_url;
 
     return (
-      <Page id="videoCreate" title="Add page" noCrawl>
+      <Page id="videoEdit" title={`${isEdit ? "Edit" : "Add"} page`} noCrawl>
         <Main>
           {header}
           {!!error && (
@@ -486,10 +523,24 @@ class VideoCreate extends Component {
           )}
           <Section className="Section--editor">
             <div className="EditorButtons">
+              {isEdit && (
+                <>
+                  <>
+                    <button
+                      className="EditorButton"
+                      type="button"
+                      onClick={this.handleEditOff}
+                    >
+                      Exit edit mode
+                    </button>
+                    <br />
+                  </>
+                </>
+              )}
               <button
                 className="EditorButton"
                 type="button"
-                onClick={this.handleReset}
+                onClick={this.handleUndo}
               >
                 Undo changes
               </button>
@@ -508,7 +559,6 @@ class VideoCreate extends Component {
             <br />
             {title}
             {subtitle}
-            {featured}
             <br />
             {publishedAt}
           </Section>
@@ -528,7 +578,7 @@ class VideoCreate extends Component {
                   ref={this.player}
                   playsInline
                   src={videoUrl}
-                  videoId={`video-${form.slug}`}
+                  videoId={`video-${isEdit ? video.slug : form.slug}`}
                 >
                   {!!thumbnailUrl && <PosterImage poster={thumbnailUrl} />}
                   <BigPlayButton position="center" />
@@ -544,7 +594,30 @@ class VideoCreate extends Component {
             {extraField4}
             {extraField5}
           </Section>
-          <Section className="Section--share"></Section>
+          <Section className="Section--share">
+            <button
+              className="EditorButton"
+              type="button"
+              onClick={this.handleFormSubmit}
+            >
+              Save changes
+            </button>
+            <br />
+            {isEdit && (
+              <>
+                <>
+                  <button
+                    className="EditorButton"
+                    type="button"
+                    onClick={this.handleDelete}
+                  >
+                    Delete this page
+                  </button>
+                  <br />
+                </>
+              </>
+            )}
+          </Section>
         </Main>
       </Page>
     );
@@ -552,25 +625,33 @@ class VideoCreate extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  video: state.videoDetail,
+  videoDetail: state.videoDetail,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  resetVideo: () => {
-    return dispatch(videos.resetVideo());
+  editOff: () => {
+    dispatch(videos.editOff());
   },
   editDetail: (name, value) => {
-    return dispatch(videos.editDetail(name, value));
+    dispatch(videos.editDetail(name, value));
   },
   editDate: (date) => {
-    return dispatch(videos.editDate(date));
+    dispatch(videos.editDate(date));
   },
   resetError: () => {
-    return dispatch(resetError());
+    dispatch(resetError());
   },
-  showAlert: ({ message, isUndo = false, isCreate = false }) => {
-    return dispatch(showAlert({ message, isUndo, isCreate }));
+  showAlert: ({
+    message,
+    willCreate = false,
+    willDelete = false,
+    willUndo = false,
+    willUpdate = false,
+  }) => {
+    dispatch(
+      showAlert({ message, willCreate, willDelete, willUndo, willUpdate })
+    );
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(VideoCreate);
+export default connect(mapStateToProps, mapDispatchToProps)(VideoEdit);

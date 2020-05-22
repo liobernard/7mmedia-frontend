@@ -2,29 +2,29 @@ import { disableBodyScroll, enableBodyScroll } from "../js/myBodyScrollLock";
 
 export const showAlert = ({
   message,
-  isCreate=false,
-  isDelete=false,
-  isLogout=false,
-  isUndo=false,
-  isUpdate=false
+  willCreate = false,
+  willDelete = false,
+  willLogout = false,
+  willUndo = false,
+  willUpdate = false,
 }) => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(hideAlert());
     disableBodyScroll(document.querySelector(".Alert"));
     dispatch({
       type: "SHOW_ALERT",
       message,
-      isCreate,
-      isDelete,
-      isLogout,
-      isUndo,
-      isUpdate
+      willCreate,
+      willDelete,
+      willLogout,
+      willUndo,
+      willUpdate,
     });
   };
 };
 
 export const hideAlert = () => {
-  return dispatch => {
+  return (dispatch) => {
     enableBodyScroll(document.querySelector(".Alert"));
     dispatch({ type: "HIDE_ALERT" });
   };

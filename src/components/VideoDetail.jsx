@@ -1,22 +1,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import DateTimePicker from "react-datetime-picker";
 import { Player, BigPlayButton, ControlBar, PosterImage } from "video-react";
-import throttle from "lodash/throttle";
 
-import { showAlert } from "../actions/alertActions";
 import { resetError } from "../actions/authActions";
 import { videos } from "../actions";
 
 import {
-  FileSelect,
-  FileUpload,
   Main,
   MyLink,
   NotFound,
   Page,
   Section,
   ShareButtons,
+  VideoEdit,
 } from "./";
 
 class VideoDetail extends Component {
@@ -24,109 +20,47 @@ class VideoDetail extends Component {
     super(props);
     this.state = { pastDelay: false };
     this.player = React.createRef();
-
-    this.handleDate = this.handleDate.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
-    this.handleEdit = this.handleEdit.bind(this);
-    this.handleFeatured = this.handleFeatured.bind(this);
-    this.handleFocus = this.handleFocus.bind(this);
-    this.handleInput = this.handleInput.bind(this);
-    this.handleReset = this.handleReset.bind(this);
-    this.handleFormSubmit = this.handleFormSubmit.bind(this);
-
-    this.resetPlayer = throttle(this.resetPlayer.bind(this), 1000, {
-      leading: true,
-    });
+    this.handleEditOn = this.handleEditOn.bind(this);
   }
 
-  handleDate(date) {
-    if (!!date) {
-      date = date.toISOString();
-    }
-    this.props.editDate(date);
-  }
-
-  handleDelete(e) {
+  handleEditOn(e) {
     e.preventDefault();
-    const message = "Are you sure you want to delete this page?";
-    this.props.showAlert({ message, isDelete: true });
-  }
-
-  handleEdit(e) {
-    e.preventDefault();
-    if (!this.props.video.isEdit) this.props.editOn();
-    if (this.props.video.isEdit) this.props.editOff();
-  }
-
-  handleFeatured(e) {
-    this.props.editDetail("featured", e.target.checked);
-  }
-
-  handleFocus(e) {
-    e.preventDefault();
-    e.target.setSelectionRange(0, 500);
-  }
-
-  handleInput(e) {
-    e.preventDefault();
-    this.props.editDetail(e.target.name, e.target.value);
-  }
-
-  handleReset(e) {
-    e.preventDefault();
-    const message = "Are you sure you want to undo all unsaved changes?";
-    this.props.showAlert({ message, isUndo: true });
-  }
-
-  handleFormSubmit(e) {
-    e.preventDefault();
-    const message = "Are you sure you want to save changes to this page?";
-    this.props.showAlert({ message, isUpdate: true });
-  }
-
-  resetPlayer(url) {
-    this.props.editDetail("video_url", "Loading...");
-
-    setTimeout(() => {
-      this.props.editDetail("video_url", url);
-    }, 1);
+    if (!this.props.videoDetail.isEdit) this.props.editOn();
   }
 
   componentDidMount() {
     this.props.fetchVideo(this.props.match.params.slug);
 
     setTimeout(() => {
-      const { video } = this.props.video;
+      const { video } = this.props.videoDetail;
       if (!video || !Object.keys(video).length) {
         this.setState({ pastDelay: true });
       }
-    }, 250);
+    }, 1000);
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.isAuthenticated !== prevProps.isAuthenticated) {
       if (!this.props.isAuthenticated) {
-        this.props.fetchVideo(this.props.video.video.slug);
-      }
-    }
-
-    if (this.props.video.isUpdating !== prevProps.video.isUpdating) {
-      if (!this.props.video.isUpdating && !this.props.video.error) {
-        this.props.history.replace(`/films/${this.props.video.video.slug}`);
-      }
-    }
-
-    if (this.props.video.isDeleting !== prevProps.video.isDeleting) {
-      if (!this.props.video.isDeleting && !this.props.video.error) {
-        this.props.history.push("/films");
+        this.props.fetchVideo(this.props.videoDetail.video.slug);
       }
     }
 
     if (
-      this.props.video.form.thumbnail_url !== prevProps.video.form.thumbnail_url
+      this.props.videoDetail.isUpdating !== prevProps.videoDetail.isUpdating
     ) {
-      if (!!prevProps.video.form.video_url) {
-        this.resetPlayer(prevProps.video.form.video_url);
+      if (!this.props.videoDetail.isUpdating && !this.props.videoDetail.error) {
+        this.props.history.replace(
+          `/films/${this.props.videoDetail.video.slug}`
+        );
+      }
+    }
+
+    if (
+      this.props.videoDetail.isDeleting !== prevProps.videoDetail.isDeleting
+    ) {
+      if (!this.props.videoDetail.isDeleting && !this.props.videoDetail.error) {
+        this.props.history.push("/films");
       }
     }
   }
@@ -139,26 +73,30 @@ class VideoDetail extends Component {
   render() {
     const {
       isAuthenticated,
-      video: { error, isEdit, isLoading, video, form },
+      videoDetail: { error, isLoading, isEdit, video },
     } = this.props;
 
+    if (isAuthenticated && isEdit) {
+      return <VideoEdit />;
+    }
+
     const { pastDelay } = this.state;
+
+    let header = (
+      <Section className="Section--navLinks">
+        <MyLink className="Link--home" active pathname="/">
+          <span className="u-sf">⟵ Home</span>
+        </MyLink>
+        <span>&nbsp;&nbsp;</span>
+        <MyLink className="Link--videoList" active pathname="/films">
+          <span className="u-sf">«&nbsp;&nbsp;Films</span>
+        </MyLink>
+      </Section>
+    );
 
     if ((!video || !Object.keys(video).length) && !isLoading) {
       return <NotFound />;
     } else if ((!video || !Object.keys(video).length) && isLoading) {
-      const header = (
-        <Section className="Section--navLinks">
-          <MyLink className="Link--home" active pathname="/">
-            <span className="u-sf">⟵ Home</span>
-          </MyLink>
-          <span>&nbsp;&nbsp;</span>
-          <MyLink className="Link--videoList" active pathname="/films">
-            <span className="u-sf">«&nbsp;&nbsp;Films</span>
-          </MyLink>
-        </Section>
-      );
-
       if (pastDelay) {
         return (
           <Page id="videoDetail" noCrawl>
@@ -185,387 +123,39 @@ class VideoDetail extends Component {
       );
     }
 
-    let businessName = (
-      <h3 className="u-mf u-light">Client: {video.business_name}</h3>
+    header = (
+      <Section className="Section--navLinks">
+        <MyLink className="Link--home" active pathname="/">
+          <span className="u-sf">⟵ Home</span>
+        </MyLink>
+        <span>&nbsp;&nbsp;</span>
+        <MyLink className="Link--videoList" active pathname="/films">
+          <span className="u-sf">«&nbsp;&nbsp;Films</span>
+        </MyLink>
+        {!video.published_at && (
+          <>
+            <>
+              <span>&nbsp;&nbsp;</span>
+              <MyLink className="Link--videoList" active pathname="/drafts">
+                <span className="u-sf">«&nbsp;&nbsp;Drafts</span>
+              </MyLink>
+            </>
+          </>
+        )}
+        <span>&nbsp;&nbsp;</span>
+        <span className="u-sf u-red">«&nbsp;&nbsp;{video.title}</span>
+        {video.subtitle && (
+          <>
+            <>
+              <span>&nbsp;&nbsp;</span>
+              <span className="u-sf u-red">
+                &mdash;&nbsp;&nbsp;{video.subtitle}
+              </span>
+            </>
+          </>
+        )}
+      </Section>
     );
-    let businessWebsite = (
-      <h3 className="u-sf">
-        <a
-          className="Link Link--business"
-          href={video.business_website}
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Visit website
-        </a>
-      </h3>
-    );
-    let description = <h3 className="u-mf">{video.description}</h3>;
-    let extraField1 = <h3 className="u-mf">{video.extra_field_1}</h3>;
-    let extraField2 = <h3 className="u-mf">{video.extra_field_2}</h3>;
-    let extraField3 = <h3 className="u-mf">{video.extra_field_3}</h3>;
-    let extraField4 = <h3 className="u-mf">{video.extra_field_4}</h3>;
-    let extraField5 = <h3 className="u-mf">{video.extra_field_5}</h3>;
-    let featured = null;
-    let publishedAt = null;
-    let slug = null;
-    let subtitle = null;
-    let title = null;
-    let fileUpload = null;
-    let thumbnailUrl = video.thumbnail_url;
-    let videoUrl = video.video_url;
-
-    if (isAuthenticated && isEdit) {
-      businessName = (
-        <h3 className="u-mf">
-          Client:&nbsp;&nbsp;
-          <textarea
-            className="u-mf"
-            id={"business_name"}
-            name={"business_name"}
-            type={"text"}
-            maxLength={255}
-            rows={5}
-            value={form.business_name}
-            onChange={this.handleInput}
-            onFocus={this.handleFocus}
-            placeholder={"Enter the name of the client/business, if applicable"}
-          />
-        </h3>
-      );
-
-      businessWebsite = (
-        <h3 className="u-mf">
-          Client website url:&nbsp;&nbsp;
-          <input
-            id={"business_website"}
-            name={"business_website"}
-            type={"text"}
-            maxLength={255}
-            value={form.business_website}
-            onChange={this.handleInput}
-            onFocus={this.handleFocus}
-            placeholder={
-              "Enter the website url of the client/business, if applicable"
-            }
-          />
-        </h3>
-      );
-
-      description = (
-        <h3 className="u-mf">
-          Video description:&nbsp;&nbsp;
-          <textarea
-            className="u-mf"
-            id={"description"}
-            name={"description"}
-            type={"text"}
-            minLength={1}
-            maxLength={500}
-            required
-            value={form.description}
-            onChange={this.handleInput}
-            onFocus={this.handleFocus}
-            placeholder={"Enter a description for the video project (required)"}
-          />
-        </h3>
-      );
-
-      extraField1 = (
-        <h3 className="u-mf">
-          Extra field 1:&nbsp;&nbsp;
-          <input
-            id={"extra_field_1"}
-            name={"extra_field_1"}
-            type={"text"}
-            maxLength={255}
-            value={form.extra_field_1}
-            onChange={this.handleInput}
-            onFocus={this.handleFocus}
-            placeholder={
-              "Enter any additional info (notes, credits, etc) if applicable"
-            }
-          />
-        </h3>
-      );
-
-      extraField2 = (
-        <h3 className="u-mf">
-          Extra field 2:&nbsp;&nbsp;
-          <input
-            id={"extra_field_2"}
-            name={"extra_field_2"}
-            type={"text"}
-            maxLength={255}
-            value={form.extra_field_2}
-            onChange={this.handleInput}
-            onFocus={this.handleFocus}
-            placeholder={
-              "Enter any additional info (notes, credits, etc) if applicable"
-            }
-          />
-        </h3>
-      );
-
-      extraField3 = (
-        <h3 className="u-mf">
-          Extra field 3:&nbsp;&nbsp;
-          <input
-            id={"extra_field_3"}
-            name={"extra_field_3"}
-            type={"text"}
-            maxLength={255}
-            value={form.extra_field_3}
-            onChange={this.handleInput}
-            onFocus={this.handleFocus}
-            placeholder={
-              "Enter any additional info (notes, credits, etc) if applicable"
-            }
-          />
-        </h3>
-      );
-
-      extraField4 = (
-        <h3 className="u-mf">
-          Extra field 4:&nbsp;&nbsp;
-          <input
-            id={"extra_field_4"}
-            name={"extra_field_4"}
-            type={"text"}
-            maxLength={255}
-            value={form.extra_field_4}
-            onChange={this.handleInput}
-            onFocus={this.handleFocus}
-            placeholder={
-              "Enter any additional info (notes, credits, etc) if applicable"
-            }
-          />
-        </h3>
-      );
-
-      extraField5 = (
-        <h3 className="u-mf">
-          Extra field 5:&nbsp;&nbsp;
-          <input
-            id={"extra_field_5"}
-            name={"extra_field_5"}
-            type={"text"}
-            maxLength={255}
-            value={form.extra_field_5}
-            onChange={this.handleInput}
-            onFocus={this.handleFocus}
-            placeholder={
-              "Enter any additional info (notes, credits, etc) if applicable"
-            }
-          />
-        </h3>
-      );
-
-      featured = (
-        <h3 className="u-mt">
-          <label className="u-mf" htmlFor="featured">
-            Featured ?&nbsp;&nbsp;
-          </label>
-          <input
-            type="checkbox"
-            id="featured"
-            name="featured"
-            checked={form.featured}
-            onChange={this.handleFeatured}
-          />
-          <p className="u-nm u-tf">
-            If checked, this video will be featured on the home page. If
-            multiple videos are set to be featured, only the most recent will be
-            displayed on the home page.
-          </p>
-        </h3>
-      );
-
-      publishedAt = (
-        <h3 className="u-mt u-mf">
-          <span>Published date:&nbsp;&nbsp;</span>
-          <DateTimePicker
-            disableCalendar
-            disableClock
-            onChange={this.handleDate}
-            value={!form.published_at ? null : new Date(form.published_at)}
-          />
-          <br />
-          <br />
-          <button
-            className="EditorButton"
-            type="button"
-            onClick={() => {
-              this.props.editDate(new Date());
-            }}
-          >
-            Set today
-          </button>
-          <button
-            className="EditorButton"
-            type="button"
-            onClick={() => {
-              this.props.editDate(null);
-            }}
-          >
-            Clear date (unpublish)
-          </button>
-          {!form.published_at && (
-            <p className="u-tf">
-              No publish date set. If saved, this page will not be displayed on
-              the website and will instead be saved as a draft.
-            </p>
-          )}
-        </h3>
-      );
-
-      slug = (
-        <h3 className="u-mf">
-          Video slug (url keyword):&nbsp;&nbsp;
-          <input
-            id={"slug"}
-            name={"slug"}
-            type={"text"}
-            maxLength={255}
-            minLength={1}
-            required
-            value={form.slug}
-            onChange={this.handleInput}
-            onFocus={this.handleFocus}
-            placeholder={"Enter a slug for this video (required)"}
-          />
-          <p className="u-tf">
-            A slug is the end part of a URL which identifies a particular page
-            on a website in an easy-to-read form. In other words, it’s the part
-            of the URL that explains the page’s content. For example, with the
-            URL https://www.example.com/the-slug, the slug simply is "the-slug"
-            portion of the URL. Must be unique to this particular video page.
-            For simplicity's sake, I recommend just using an abbreviated version
-            of the film's title, formatted as such:
-            <br />
-            <br />
-            Example title: "Wedding in the Park, Summer 2020"
-            <br />
-            Example slugs: "wedding-in-the-park" or "wedding-park-2020" or
-            "wedding-summer-2020", etc.
-            <br />
-            Full URL example: "https://7mmedia.online/films/wedding-in-the-park"
-          </p>
-        </h3>
-      );
-
-      title = (
-        <h3 className="u-mf u-mt">
-          Video title:&nbsp;&nbsp;
-          <textarea
-            className="u-mf"
-            id={"title"}
-            name={"title"}
-            type={"text"}
-            maxLength={255}
-            minLength={1}
-            required
-            rows={5}
-            value={form.title}
-            onChange={this.handleInput}
-            onFocus={this.handleFocus}
-            placeholder={"Enter the title of this video (required)"}
-          />
-        </h3>
-      );
-
-      subtitle = (
-        <h3 className="u-mf">
-          Video subtitle:&nbsp;&nbsp;
-          <input
-            id={"subtitle"}
-            name={"subtitle"}
-            type={"text"}
-            maxLength={255}
-            value={form.subtitle}
-            onChange={this.handleInput}
-            onFocus={this.handleFocus}
-            placeholder={"Enter a subtitle to this video, if applicable"}
-          />
-        </h3>
-      );
-
-      fileUpload = (
-        <div className="Uploader">
-          <FileUpload
-            accept="image/*"
-            buttonText="Upload thumbnail image file"
-            label="Choose thumbnail image to upload"
-            prefix="media/images/film_thumbnails/"
-          />
-          <FileSelect prefix="media/images/film_thumbnails/" />
-          <br />
-          <br />
-          <br />
-          <FileUpload
-            accept="video/mp4"
-            buttonText="Upload video file"
-            label="Choose video file to upload"
-            prefix="media/videos/films/"
-          />
-          <FileSelect prefix="media/videos/films/" />
-          <br />
-          <br />
-          <p>
-            The video and thumbnail URLs will be updated automatically when
-            either the video file or thumbnail image is uploaded to storage.
-            Alternatively, you may directly insert URLs for videos and
-            thumbnails which were previously uploaded, or which are already
-            available in cloud storage or some other location on the web.
-            Whether edited/inserted directly or after a successful upload, the
-            following URLs will be saved to the page upon saving.
-            <br />
-            <br />
-            Make sure the video player is functioning properly before saving! On
-            the player below, you should see either the thumbnail image if
-            provided, or the first frame of the video file, displayed before the
-            video has begun playing. If you see a black screen and/or the video
-            does not play, then you likely have the incorrect URL(s) provided,
-            or the file(s) have not been uploaded to the provided URL(s), or the
-            file(s) are corrupted.
-          </p>
-          <h4 className="u-mf u-mt">
-            Thumbnail URL:&nbsp;&nbsp;
-            <textarea
-              id={"thumbnail_url"}
-              name={"thumbnail_url"}
-              type={"text"}
-              rows={5}
-              value={form.thumbnail_url}
-              onChange={this.handleInput}
-              onFocus={this.handleFocus}
-              placeholder={
-                "Enter the URL of the thumbnail image for this video, if applicable"
-              }
-            />
-          </h4>
-          <h4 className="u-mf u-mt">
-            Video URL:&nbsp;&nbsp;
-            <textarea
-              id={"video_url"}
-              name={"video_url"}
-              type={"text"}
-              minLength={1}
-              required
-              rows={5}
-              value={form.video_url}
-              onChange={this.handleInput}
-              onFocus={this.handleFocus}
-              placeholder={"Enter the URL of the video file"}
-            />
-          </h4>
-          <br />
-        </div>
-      );
-
-      thumbnailUrl = form.thumbnail_url;
-      videoUrl = form.video_url;
-    }
 
     return (
       <Page
@@ -578,37 +168,7 @@ class VideoDetail extends Component {
         noCrawl
       >
         <Main>
-          <Section className="Section--navLinks">
-            <MyLink className="Link--home" active pathname="/">
-              <span className="u-sf">⟵ Home</span>
-            </MyLink>
-            <span>&nbsp;&nbsp;</span>
-            <MyLink className="Link--videoList" active pathname="/films">
-              <span className="u-sf">«&nbsp;&nbsp;Films</span>
-            </MyLink>
-            {!video.published_at && (
-              <>
-                <>
-                  <span>&nbsp;&nbsp;</span>
-                  <MyLink className="Link--videoList" active pathname="/drafts">
-                    <span className="u-sf">«&nbsp;&nbsp;Drafts</span>
-                  </MyLink>
-                </>
-              </>
-            )}
-            {!isEdit && (
-              <>
-                <>
-                  <span>&nbsp;&nbsp;</span>
-                  <span className="u-sf u-red">«&nbsp;&nbsp;{video.title}</span>
-                  <span>&nbsp;&nbsp;</span>
-                  <span className="u-sf u-red">
-                    &mdash;&nbsp;&nbsp;{video.subtitle}
-                  </span>
-                </>
-              </>
-            )}
-          </Section>
+          {header}
           {!!error && (
             <Section className="Section--error u-sf u-red">
               <p className="u-nm">Error!</p>
@@ -618,79 +178,39 @@ class VideoDetail extends Component {
           <Section className="Section--editor">
             {isAuthenticated && (
               <div className="EditorButtons">
-                {!isEdit && (
-                  <button
-                    className="EditorButton"
-                    type="button"
-                    onClick={this.handleEdit}
-                  >
-                    Edit this page
-                  </button>
-                )}
-                {isEdit && (
-                  <>
-                    <>
-                      <br />
-                      <button
-                        className="EditorButton"
-                        type="button"
-                        onClick={this.handleEdit}
-                      >
-                        Exit edit mode
-                      </button>
-                      <br />
-                      <button
-                        className="EditorButton"
-                        type="button"
-                        onClick={this.handleReset}
-                      >
-                        Undo changes
-                      </button>
-                      <br />
-                      <button
-                        className="EditorButton"
-                        type="button"
-                        onClick={this.handleFormSubmit}
-                      >
-                        Save changes
-                      </button>
-                      <br />
-                      <br />
-                    </>
-                  </>
-                )}
+                <button
+                  className="EditorButton"
+                  type="button"
+                  onClick={this.handleEditOn}
+                >
+                  Edit this page
+                </button>
               </div>
-            )}
-            {isAuthenticated && isEdit && (
-              <>
-                <>
-                  {slug}
-                  <br />
-                  {title}
-                  {subtitle}
-                  {featured}
-                  <br />
-                </>
-              </>
             )}
             {!video.published_at && (
               <h3 className="u-mt">
                 Currently unpublished draft! Only you can view this page.
               </h3>
             )}
-            {publishedAt}
           </Section>
-          {((isEdit && isAuthenticated) || !!video.business_website) && (
+          {!!video.business_website && (
             <Section className="Section--business">
-              {businessName}
-              {businessWebsite}
+              <h3 className="u-mf u-light">Client: {video.business_name}</h3>
+              <h3 className="u-sf">
+                <a
+                  className="Link Link--business"
+                  href={video.business_website}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Visit website
+                </a>
+              </h3>
             </Section>
           )}
           <Section className="Section--mainDetails">
-            {((isEdit && isAuthenticated) || !!video.description) &&
-              description}
+            <h3 className="u-mf">{video.description}</h3>
             <div className="UploadPlayerContainer">
-              {fileUpload}
               <div className="VideoContainer">
                 <Player
                   fluid={false}
@@ -698,10 +218,12 @@ class VideoDetail extends Component {
                   width="100%"
                   ref={this.player}
                   playsInline
-                  src={videoUrl}
+                  src={video.video_url}
                   videoId={`video-${video.slug}`}
                 >
-                  {!!thumbnailUrl && <PosterImage poster={thumbnailUrl} />}
+                  {!!video.thumbnail_url && (
+                    <PosterImage poster={video.thumbnail_url} />
+                  )}
                   <BigPlayButton position="center" />
                   <ControlBar autoHideTime={1500} />
                 </Player>
@@ -709,39 +231,19 @@ class VideoDetail extends Component {
             </div>
           </Section>
           <Section className="Section--extraDetails">
-            {((isEdit && isAuthenticated) || !!video.extra_field_1) &&
-              extraField1}
-            {((isEdit && isAuthenticated) || !!video.extra_field_2) &&
-              extraField2}
-            {((isEdit && isAuthenticated) || !!video.extra_field_3) &&
-              extraField3}
-            {((isEdit && isAuthenticated) || !!video.extra_field_4) &&
-              extraField4}
-            {((isEdit && isAuthenticated) || !!video.extra_field_5) &&
-              extraField5}
+            <h3 className="u-mf">{video.extra_field_1}</h3>
+            <h3 className="u-mf">{video.extra_field_2}</h3>
+            <h3 className="u-mf">{video.extra_field_3}</h3>
+            <h3 className="u-mf">{video.extra_field_4}</h3>
+            <h3 className="u-mf">{video.extra_field_5}</h3>
           </Section>
           <Section className="Section--share">
-            {!isEdit && (
-              <>
-                <>
-                  <p className="u-sf u-light">Share</p>
-                  <ShareButtons
-                    slug={video.slug}
-                    title={video.title}
-                    description={video.description}
-                  />
-                </>
-              </>
-            )}
-            {isAuthenticated && isEdit && (
-              <button
-                className="EditorButton"
-                type="button"
-                onClick={this.handleDelete}
-              >
-                Delete this page
-              </button>
-            )}
+            <p className="u-sf u-light">Share</p>
+            <ShareButtons
+              slug={video.slug}
+              title={video.title}
+              description={video.description}
+            />
           </Section>
         </Main>
       </Page>
@@ -751,38 +253,21 @@ class VideoDetail extends Component {
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
-  video: state.videoDetail,
+  videoDetail: state.videoDetail,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   fetchVideo: (slug) => {
-    return dispatch(videos.fetchVideo(slug));
+    dispatch(videos.fetchVideo(slug));
   },
   resetVideo: () => {
-    return dispatch(videos.resetVideo());
+    dispatch(videos.resetVideo());
   },
   editOn: () => {
-    return dispatch(videos.editOn());
-  },
-  editOff: () => {
-    return dispatch(videos.editOff());
-  },
-  editDetail: (name, value) => {
-    return dispatch(videos.editDetail(name, value));
-  },
-  editDate: (date) => {
-    return dispatch(videos.editDate(date));
+    dispatch(videos.editOn());
   },
   resetError: () => {
-    return dispatch(resetError());
-  },
-  showAlert: ({
-    message,
-    isDelete = false,
-    isUndo = false,
-    isUpdate = false,
-  }) => {
-    return dispatch(showAlert({ message, isDelete, isUndo, isUpdate }));
+    dispatch(resetError());
   },
 });
 

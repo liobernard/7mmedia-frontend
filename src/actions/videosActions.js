@@ -4,6 +4,21 @@ import { showAlert, hideAlert } from "../actions/alertActions";
 
 const REACT_APP_API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
 
+const handleError = (err) => {
+  return (dispatch) => {
+    console.error(err);
+
+    let error = err.message;
+    if (err && err.response && err.response.text) {
+      error = err.response.text;
+    }
+
+    if (err.status === 403 || err.status === 401) {
+      dispatch({ type: "AUTHENTICATION_ERROR", error });
+    }
+  };
+};
+
 export const resetVideo = () => {
   return (dispatch) => {
     dispatch({ type: "RESET_VIDEO" });
@@ -37,15 +52,11 @@ export const fetchVideo = (slug) => {
         return dispatch({ type: "VIDEO_LOADED", video: res.body });
       })
       .catch((err) => {
-        console.error(err);
+        dispatch(handleError(err));
 
         let error = err.message;
         if (err && err.response && err.response.text) {
           error = err.response.text;
-        }
-
-        if (err.status === 403 || err.status === 401) {
-          dispatch({ type: "AUTHENTICATION_ERROR", error });
         }
         return dispatch({ type: "VIDEO_ERROR", error });
       });
@@ -75,15 +86,11 @@ export const fetchVideos = (offset = 0, drafts = false) => {
         });
       })
       .catch((err) => {
-        console.error(err);
+        dispatch(handleError(err));
 
         let error = err.message;
         if (err && err.response && err.response.text) {
           error = err.response.text;
-        }
-
-        if (err.status === 403 || err.status === 401) {
-          dispatch({ type: "AUTHENTICATION_ERROR", error });
         }
         return dispatch({ type: "VIDEOS_ERROR", error });
       });
@@ -203,24 +210,14 @@ export const deleteVideo = () => {
         return dispatch({ type: "VIDEO_DELETED" });
       })
       .catch((err) => {
-        console.error(err);
+        dispatch(handleError(err));
 
         let error = err.message;
         if (err && err.response && err.response.text) {
           error = err.response.text;
         }
-
-        if (err.status === 403 || err.status === 401) {
-          dispatch({ type: "AUTHENTICATION_ERROR", error });
-        }
         return dispatch({ type: "VIDEO_ERROR", error });
       });
-  };
-};
-
-export const videoError = (error) => {
-  return (dispatch) => {
-    return dispatch({ type: "VIDEO_ERROR", error });
   };
 };
 
@@ -237,9 +234,8 @@ export const resetForm = () => {
 };
 
 export const editOn = () => {
-  return (dispatch, getState) => {
-    const video = getState().videoDetail.video;
-    dispatch(resetForm(video));
+  return (dispatch) => {
+    dispatch(resetForm());
     dispatch({ type: "EDIT_ON" });
   };
 };
