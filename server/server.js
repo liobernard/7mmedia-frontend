@@ -16,6 +16,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan("dev"));
 app.use(cookieParser());
+app.use((req, res, next) => {
+  res.set({
+    "X-XSS-Protection": "1; mode=block",
+    "X-Content-Type-Options": "nosniff",
+    "Content-Security-Policy": "script-src 'self' assets.7mmedia.online data:",
+    "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+  });
+  next();
+});
 
 app.use(express.Router().get("/", loader));
 app.use(express.static(path.resolve(__dirname, "../build")));
@@ -25,7 +34,7 @@ Loadable.preloadAll().then(() => {
   app.listen(PORT, console.log(`App listening on port ${PORT}!`));
 });
 
-app.on("error", error => {
+app.on("error", (error) => {
   if (error.syscall !== "listen") {
     throw error;
   }
