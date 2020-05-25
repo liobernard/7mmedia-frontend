@@ -1,18 +1,27 @@
 import isEmail from "validator/lib/isEmail";
 
-export const isNameValid = name => {
-  if (!name) {
-    return false;
+export const validate = (str, quote = false) => {
+  if (!str || typeof str !== "string") {
+    return null;
   }
-  return true;
-}
 
-export const isEmailValid = email => {
-  if (!email || !isEmail(email)) {
+  let n = str
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/&/g, "&amp;");
+
+  if (quote === true) {
+    n = n.replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+  }
+  return n;
+};
+
+export const isEmailValid = (email) => {
+  if (!email || typeof email !== "string" || !isEmail(email)) {
     return false;
   }
   return true;
-}
+};
 
 export const hasClass = (el, className) => {
   if (el.classList) {
@@ -63,7 +72,12 @@ export const getDocHeight = () => {
   );
 };
 
-export const recursiveCheck = (conditionFunction, onSuccess, onTimeout, timeout=20) => {
+export const recursiveCheck = (
+  conditionFunction,
+  onSuccess,
+  onTimeout,
+  timeout = 20
+) => {
   if (typeof conditionFunction !== "function") {
     throw new Error("Invalid or missing conditionFunction.");
   }
@@ -72,12 +86,12 @@ export const recursiveCheck = (conditionFunction, onSuccess, onTimeout, timeout=
     throw new Error("Invalid or missing onSuccess.");
   }
 
-  const check = n => {
+  const check = (n) => {
     setTimeout(() => {
       if (!!conditionFunction()) {
         onSuccess();
         return;
-      } else if (n === timeout * 5) { 
+      } else if (n === timeout * 5) {
         if (typeof onTimeout === "function") {
           onTimeout();
         }
@@ -89,4 +103,4 @@ export const recursiveCheck = (conditionFunction, onSuccess, onTimeout, timeout=
     }, 200);
   };
   check(0);
-}
+};

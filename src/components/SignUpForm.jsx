@@ -5,13 +5,6 @@ import { signUpForm } from "../actions";
 
 import { CloseButton, ErrorMessage } from "./";
 
-const projectOptions = [
-  "Wedding, entertainment, or special event",
-  "Commercial or promotional work",
-  "Documentary or artistic project",
-  "Other",
-];
-
 class SignUpForm extends Component {
   constructor(props) {
     super(props);
@@ -164,5 +157,12 @@ const mapDispatchToProps = (dispatch) => ({
     return dispatch(signUpForm.submitForm());
   },
 });
+
+export const projectOptions = [
+  "Wedding, entertainment, or special event",
+  "Commercial or promotional work",
+  "Documentary or artistic project",
+  "Other",
+];
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpForm);

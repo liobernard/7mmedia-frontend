@@ -1,10 +1,10 @@
 import request from "superagent";
-import validate from "validator/lib/escape";
 import trim from "validator/lib/trim";
 
 import { disableBodyScroll, enableBodyScroll } from "../js/myBodyScrollLock";
 
-import { isEmailValid } from "../js/utils";
+import { validate, isEmailValid } from "../js/utils";
+import { projectOptions } from "../components/SignUpForm.jsx";
 
 const REACT_APP_API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
 
@@ -37,31 +37,54 @@ export const submitForm = () => {
     dispatch({ type: "RESET_SIGNUP_ERROR" });
 
     const clientData = getState().signUpForm.newClient;
-    const cleanedData = {
-      name: validate(trim(clientData.name)),
-      email: validate(trim(clientData.email)),
-      project: validate(trim(clientData.project)),
-      message: validate(trim(clientData.message)),
+    const testData = {
+      name: validate(clientData.name),
+      email: validate(clientData.email, true),
+      project: validate(clientData.project, true),
+      message: trim(clientData.message),
     };
 
-    if (
-      !isEmailValid(cleanedData.email) ||
-      !cleanedData.name ||
-      !cleanedData.project ||
-      !cleanedData.message
+    if (testData.name !== clientData.name) {
+      return dispatch({
+        type: "FORM_ERROR",
+        error: "Invalid name provided.",
+      });
+    } else if (
+      testData.email !== clientData.email ||
+      !isEmailValid(clientData.email)
     ) {
       return dispatch({
         type: "FORM_ERROR",
-        error: "Make sure all fields are entered and valid.",
+        error: "Invalid email provided.",
+      });
+    } else if (
+      testData.project !== clientData.project ||
+      !projectOptions.includes(clientData.project)
+    ) {
+      return dispatch({
+        type: "FORM_ERROR",
+        error: "Invalid project selected.",
+      });
+    } else if (!testData.message) {
+      return dispatch({
+        type: "FORM_ERROR",
+        error: "Invalid message",
       });
     }
+
+    const validatedData = {
+      name: trim(testData.name),
+      email: trim(testData.email),
+      project: trim(testData.project),
+      message: validate(testData.message),
+    };
 
     dispatch({ type: "FORM_SENDING" });
 
     return request
       .post(`${REACT_APP_API_DOMAIN}/email/signup_form/`)
       .type("application/json")
-      .send(cleanedData)
+      .send(validatedData)
       .then((res) => {
         return dispatch({ type: "FORM_SUCCESSFUL" });
       })
