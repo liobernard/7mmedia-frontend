@@ -90,7 +90,7 @@ export const submitForm = () => {
       })
       .catch((err) => {
         console.error(err);
-        let error = err.message;
+        let error = err.response.text;
         return dispatch({ type: "FORM_ERROR", error });
       });
   };
