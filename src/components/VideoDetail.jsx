@@ -157,6 +157,26 @@ class VideoDetail extends Component {
       </Section>
     );
 
+    const breadcrumbList = [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://7mmedia.online",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Films",
+        item: "https://7mmedia.online/films",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: video.title,
+      },
+    ];
+
     return (
       <Page
         id="videoDetail"
@@ -164,8 +184,8 @@ class VideoDetail extends Component {
         description={video.description}
         image={video.thumbnail_url}
         published={video.published_at}
+        breadcrumbList={breadcrumbList}
         schema="Movie"
-        noCrawl
       >
         <Main>
           {header}

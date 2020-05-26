@@ -69,6 +69,20 @@ class AboutPage extends Component {
     const { loadingDelay } = this.state;
     const loaded = this.isLoaded(aboutPage);
 
+    const breadcrumbList = [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://7mmedia.online",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Studio",
+      },
+    ];
+
     const signUp = (
       <span
         className="u-pt u-red"
@@ -80,7 +94,12 @@ class AboutPage extends Component {
     );
 
     return (
-      <Page id="aboutPage" noCrawl>
+      <Page
+        id="aboutPage"
+        title="Studio"
+        description={aboutInfo.text}
+        breadcrumbList={breadcrumbList}
+      >
         <LoadingView
           className="LoadingView--fullscreen"
           loaded={loaded}

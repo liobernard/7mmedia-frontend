@@ -8,7 +8,7 @@ const SITE_URL =
     : "https://7mmedia.online";
 
 const defaultTitle =
-  "7 Mile Media Productions | Weddings, Events, Promos, Documentaries & More";
+  "7 Mile Media Productions — Weddings, Events, Promos, Documentaries & More";
 const defaultDescription =
   "We're committed to capturing your special moments and sculpting them into shareable, honest works of art. In need of filming, production, or editing services? We'd love to hear from you.";
 const defaultImage =
@@ -29,7 +29,7 @@ class Page extends Component {
     },
     pathname
   ) {
-    const theTitle = title ? `${title} » 7MMedia.online` : defaultTitle;
+    const theTitle = title ? `${title} — 7MMedia.online` : defaultTitle;
     const theDescription = description ? description : defaultDescription;
     const theImage = image ? image : defaultImage;
 
@@ -49,7 +49,6 @@ class Page extends Component {
     if (noCrawl) {
       metaTags.push({ name: "robots", content: "noindex, nofollow" });
     }
-
     if (published) {
       metaTags.push({ name: "article:published_time", content: published });
     }
@@ -69,6 +68,21 @@ class Page extends Component {
   render() {
     const { children, id, pathname, ...rest } = this.props;
 
+    const defaultBreadcrumbList = [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://7mmedia.online",
+      },
+    ];
+
+    const breadcrumb = JSON.stringify({
+      "@context": "https://schema.org/",
+      "@type": "BreadcrumbList",
+      itemListElement: rest.breadcrumbList || defaultBreadcrumbList,
+    });
+
     return (
       <div id={id} className="MainContent">
         <Helmet
@@ -77,15 +91,13 @@ class Page extends Component {
             itemscope: undefined,
             itemtype: `https://schema.org/${rest.schema || "WebPage"}`,
           }}
-          title={rest.title ? `${rest.title} » 7MMedia.online` : defaultTitle}
-          link={[
-            {
-              rel: "canonical",
-              href: SITE_URL + pathname,
-            },
-          ]}
+          title={rest.title ? `${rest.title} — 7MMedia.online` : defaultTitle}
+          link={[{ rel: "canonical", href: SITE_URL + pathname }]}
           meta={this.getMetaTags(rest, pathname)}
         />
+        <Helmet>
+          <script type="application/ld+json">{breadcrumb}</script>
+        </Helmet>
         {children}
       </div>
     );

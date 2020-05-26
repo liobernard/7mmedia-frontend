@@ -512,7 +512,7 @@ class VideoEdit extends Component {
     const videoUrl = form.video_url;
 
     return (
-      <Page id="videoEdit" title={`${isEdit ? "Edit" : "Add"} page`} noCrawl>
+      <Page id="videoEdit" title={`${isEdit ? "Edit" : "Add"} Page`} noCrawl>
         <Main>
           {header}
           {!!error && (

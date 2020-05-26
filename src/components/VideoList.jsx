@@ -188,8 +188,26 @@ class VideoList extends Component {
       );
     }
 
+    const breadcrumbList = [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://7mmedia.online",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Films",
+      },
+    ];
+
     return (
-      <Page id="videoList" title={drafts ? "Drafts" : "Films"} noCrawl>
+      <Page
+        id="videoList"
+        title={drafts ? "Drafts" : "Films"}
+        breadcrumbList={breadcrumbList}
+      >
         {child}
       </Page>
     );
