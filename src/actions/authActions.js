@@ -2,14 +2,14 @@ import request from "superagent";
 
 import { showAlert } from "../actions/alertActions";
 
-const REACT_APP_API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
+const API_URL = process.env.API_URL;
 
 export const login = (username, password) => {
   return (dispatch) => {
     dispatch({ type: "LOGGING_IN" });
 
     let headers = { "Content-Type": "application/json" };
-    const url = `${REACT_APP_API_DOMAIN}/auth/login/`;
+    const url = `${API_URL}/auth/login/`;
 
     return request
       .post(url)
@@ -49,7 +49,7 @@ export const logout = () => {
       headers["Authorization"] = `Token ${token}`;
     }
 
-    const url = `${REACT_APP_API_DOMAIN}/auth/logout/`;
+    const url = `${API_URL}/auth/logout/`;
 
     return request
       .post(url)

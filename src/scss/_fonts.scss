@@ -1,36 +1,4 @@
-// Cormorant Garamond
-@font-face {
-  font-family: "Cormorant Garamond";
-  src: url("../fonts/CormorantGaramond-Light.ttf") format("truetype");
-  font-weight: 300;
-}
-@font-face {
-  font-family: "Cormorant Garamond";
-  src: url("../fonts/CormorantGaramond-Regular.ttf") format("truetype");
-  font-weight: 400;
-}
-@font-face {
-  font-family: "Cormorant Garamond";
-  src: url("../fonts/CormorantGaramond-Medium.ttf") format("truetype");
-  font-weight: 500;
-}
-@font-face {
-  font-family: "Cormorant Garamond";
-  src: url("../fonts/CormorantGaramond-SemiBold.ttf") format("truetype");
-  font-weight: 600;
-}
-@font-face {
-  font-family: "Cormorant Garamond";
-  src: url("../fonts/CormorantGaramond-Bold.ttf") format("truetype");
-  font-weight: 700;
-}
-
 // Heebo
-@font-face {
-  font-family: "Heebo";
-  src: url("../fonts/Heebo-Thin.ttf") format("truetype");
-  font-weight: 100;
-}
 @font-face {
   font-family: "Heebo";
   src: url("../fonts/Heebo-Light.ttf") format("truetype");
@@ -41,27 +9,6 @@
   src: url("../fonts/Heebo-Regular.ttf") format("truetype");
   font-weight: 400;
 }
-@font-face {
-  font-family: "Heebo";
-  src: url("../fonts/Heebo-Medium.ttf") format("truetype");
-  font-weight: 500;
-}
-@font-face {
-  font-family: "Heebo";
-  src: url("../fonts/Heebo-Bold.ttf") format("truetype");
-  font-weight: 700;
-}
-@font-face {
-  font-family: "Heebo";
-  src: url("../fonts/Heebo-ExtraBold.ttf") format("truetype");
-  font-weight: 800;
-}
-@font-face {
-  font-family: "Heebo";
-  src: url("../fonts/Heebo-Black.ttf") format("truetype");
-  font-weight: 900;
-}
 
 // Font variables
 $fontPrimary: Heebo, Helvetica, Arial, sans-serif;
-$fontSecondary: Cormorant Garamond, Garamond, serif;

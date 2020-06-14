@@ -4,7 +4,7 @@ import request from "superagent";
 
 import { editDetail } from "../actions/videosActions";
 
-const REACT_APP_API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
+const API_URL = process.env.API_URL;
 
 class FileSelect extends Component {
   constructor(props) {
@@ -32,7 +32,7 @@ class FileSelect extends Component {
 
     const { prefix, token } = this.props;
 
-    const url = `${REACT_APP_API_DOMAIN}/s3/${prefix}`;
+    const url = `${API_URL}/s3/${prefix}`;
 
     return request
       .get(url)

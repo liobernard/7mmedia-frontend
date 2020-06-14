@@ -4,8 +4,8 @@ import request from "superagent";
 
 import { editDetail } from "../actions/videosActions";
 
-const REACT_APP_API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
-const REACT_APP_CDN_DOMAIN = process.env.REACT_APP_CDN_DOMAIN;
+const API_URL = process.env.API_URL;
+const CDN_URL = process.env.CDN_URL;
 
 class FileUpload extends Component {
   constructor(props) {
@@ -66,7 +66,7 @@ class FileUpload extends Component {
 
     const { token, prefix } = this.props;
 
-    const url = `${REACT_APP_API_DOMAIN}/s3/${prefix}`;
+    const url = `${API_URL}/s3/${prefix}`;
 
     return request
       .post(url)
@@ -101,7 +101,7 @@ class FileUpload extends Component {
       .field(signedUrl.fields)
       .attach("file", file)
       .then((res) => {
-        const value = `${REACT_APP_CDN_DOMAIN}/${signedUrl.fields["key"]}`;
+        const value = `${CDN_URL}/${signedUrl.fields["key"]}`;
         if (fieldName) editDetail(fieldName, value);
         this.setState({ ...this.getInitialState(), isUploaded: true });
         this.upload.current.value = "";

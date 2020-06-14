@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { loadHomeMedia } from "../actions/mediaLoadActions";
-import { recursiveCheck } from "../js/utils";
+import { recursiveCheck } from "../utils";
 
 import { LoadingView, MyLink, ResponsiveImage } from "./";
 

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { aboutPage, showreel, signUpForm, mediaLoad } from "../actions";
-import { addClass, removeClass, recursiveCheck } from "../js/utils";
+import { classes, recursiveCheck } from "../utils";
 
 import { LoadingView, Main, MyLink, Page, ResponsiveImage, Section } from "./";
 
@@ -20,7 +20,7 @@ class AboutPage extends Component {
     if (!this.isLoaded(this.props.mediaLoad.aboutPage)) {
       this.props.fetchAboutInfo();
 
-      addClass(document.body, "is-loading");
+      classes.addClass(document.body, "is-loading");
       this.checkPageComplete();
 
       setTimeout(() => {
@@ -44,19 +44,19 @@ class AboutPage extends Component {
     };
 
     const loaded = () => {
-      removeClass(document.body, "is-loading");
+      classes.removeClass(document.body, "is-loading");
       this.props.loadAboutMedia("image");
       this.props.loadAboutMedia("showreel");
     };
 
     const error = () => {
-      removeClass(document.body, "is-loading");
+      classes.removeClass(document.body, "is-loading");
       this.props.loadAboutMedia("image");
       this.props.loadAboutMedia("showreel");
       console.error("AboutPage did not load properly!");
     };
 
-    recursiveCheck(check, loaded, error, 60);
+    recursiveCheck(check, loaded, error, Infinity);
   }
 
   render() {
@@ -99,6 +99,7 @@ class AboutPage extends Component {
         title="Studio"
         description={aboutInfo.text}
         breadcrumbList={breadcrumbList}
+        noCrawl
       >
         <LoadingView
           className="LoadingView--fullscreen"

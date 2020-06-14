@@ -1,12 +1,10 @@
-import express from "express";
-import path from "path";
-import bodyParser from "body-parser";
-import compression from "compression";
-import morgan from "morgan";
-import Loadable from "react-loadable";
-import cookieParser from "cookie-parser";
-
-import loader from "./loader";
+const resolve = require("path").resolve;
+const bodyParser = require("body-parser");
+const compression = require("compression");
+const express = require("express");
+const morgan = require("morgan");
+const cookieParser = require("cookie-parser");
+const render = require("./renderer").render;
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -26,15 +24,19 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.Router().get("/", loader));
-app.use(express.static(path.resolve(__dirname, "../build")));
-app.use(loader);
+app.get("/*", render);
 
-Loadable.preloadAll().then(() => {
-  app.listen(PORT, console.log(`App listening on port ${PORT}!`));
-});
+// Comment out the line below if you will serve static assets
+// via reverse proxy (as is recommendeded in Express documentation),
+// otherwise will serve via Express app from 'build' directory
 
-app.on("error", (error) => {
+// app.use(express.static(resolve(__dirname, "../public")));
+
+app.use(render);
+app.listen(PORT, console.log(`App listening on port ${PORT}!`));
+
+// Handle errors
+app.on("error", error => {
   if (error.syscall !== "listen") {
     throw error;
   }

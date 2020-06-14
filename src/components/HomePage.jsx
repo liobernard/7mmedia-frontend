@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import InViewMonitor from "react-inview-monitor";
 
 import { homePage, mediaLoad } from "../actions";
-import { recursiveCheck, addClass, removeClass } from "../js/utils";
+import { classes, recursiveCheck } from "../utils";
 
 import {
   Contact,
@@ -32,7 +32,7 @@ class HomePage extends Component {
     if (!this.isLoaded(this.props.mediaLoad.homePage)) {
       this.props.fetchHomeInfo();
 
-      addClass(document.body, "is-loading");
+      classes.addClass(document.body, "is-loading");
       this.checkPageComplete();
 
       setTimeout(() => {
@@ -49,15 +49,15 @@ class HomePage extends Component {
     };
 
     const loaded = () => {
-      removeClass(document.body, "is-loading");
+      classes.removeClass(document.body, "is-loading");
     };
 
     const error = () => {
-      removeClass(document.body, "is-loading");
+      classes.removeClass(document.body, "is-loading");
       console.error("HomePage did not load properly!");
     };
 
-    recursiveCheck(check, loaded, error, 60);
+    recursiveCheck(check, loaded, error, Infinity);
   }
 
   render() {

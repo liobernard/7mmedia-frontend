@@ -1,5 +1,5 @@
-import { disableBodyScroll, enableBodyScroll } from "../js/myBodyScrollLock";
-import { addClass, removeClass } from "../js/utils";
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
+import { addClass, removeClass } from "../utils/classes";
 
 export const showShowreel = () => {
   return dispatch => {

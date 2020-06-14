@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Player, BigPlayButton, ControlBar, PosterImage } from "video-react";
 
 import { loadHomeMedia } from "../actions/mediaLoadActions";
-import { recursiveCheck } from "../js/utils";
+import { recursiveCheck } from "../utils";
 
 import { LoadingView, MyLink } from "./";
 

@@ -1,6 +1,6 @@
 import request from "superagent";
 
-const REACT_APP_API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
+const API_URL = process.env.API_URL;
 
 const handleError = (err) => {
   return (dispatch) => {
@@ -25,8 +25,8 @@ export const fetchHomeInfo = () => {
 
     const headers = { "Content-Type": "application/json" };
 
-    const homeInfoUrl = `${REACT_APP_API_DOMAIN}/info/home/`;
-    let latestUrl = `${REACT_APP_API_DOMAIN}/videos/?limit=2&published=True&exclude=`;
+    const homeInfoUrl = `${API_URL}/info/home/`;
+    let latestUrl = `${API_URL}/videos/?limit=2&published=True&exclude=`;
 
     let fetchInfoResolveFeatured = new Promise((resolve) => {
       request

@@ -4,7 +4,7 @@ import throttle from "lodash/throttle";
 
 import { resetError } from "../actions/authActions";
 import { fetchVideos, resetVideos } from "../actions/videosActions";
-import { getScrollY, getDocHeight } from "../js/utils";
+import { getScrollY, getDocHeight } from "../utils/dom";
 
 import { ImageThumbnail, Main, MyLink, Page, Section } from "./";
 

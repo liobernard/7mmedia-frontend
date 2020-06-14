@@ -9,8 +9,8 @@ export default class Menu extends Component {
       <div className={classNames}>
         <ul className="Menu-list">
           {this.props.links.map(link => (
-            <li key={link.name} className="Menu-item u-mf">
-              <MyLink active={true} children={link.name} pathname={link.path} />
+            <li key={link.label} className="Menu-item u-mf">
+              <MyLink active={true} children={link.label} pathname={link.path} />
             </li>
           ))}
         </ul>

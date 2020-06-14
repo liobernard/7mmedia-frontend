@@ -2,7 +2,7 @@ import request from "superagent";
 
 import { showAlert, hideAlert } from "../actions/alertActions";
 
-const REACT_APP_API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
+const API_URL = process.env.API_URL;
 
 const handleError = (err) => {
   return (dispatch) => {
@@ -43,7 +43,7 @@ export const fetchVideo = (slug) => {
       headers["Authorization"] = `Token ${token}`;
     }
 
-    const url = `${REACT_APP_API_DOMAIN}/videos/${slug}/`;
+    const url = `${API_URL}/videos/${slug}/`;
 
     return request
       .get(url)
@@ -68,7 +68,7 @@ export const fetchVideos = (offset = 0, drafts = false) => {
     dispatch({ type: "VIDEOS_LOADING" });
 
     let headers = { "Content-Type": "application/json" };
-    let url = `${REACT_APP_API_DOMAIN}/videos/?limit=4&offset=${offset}`;
+    let url = `${API_URL}/videos/?limit=4&offset=${offset}`;
 
     if (drafts) {
       headers["Authorization"] = `Token ${getState().auth.token}`;
@@ -110,7 +110,7 @@ export const createVideo = () => {
       headers["Authorization"] = `Token ${token}`;
     }
 
-    const url = `${REACT_APP_API_DOMAIN}/videos/`;
+    const url = `${API_URL}/videos/`;
 
     return request
       .post(url)
@@ -154,7 +154,7 @@ export const updateVideo = () => {
       headers["Authorization"] = `Token ${token}`;
     }
 
-    const url = `${REACT_APP_API_DOMAIN}/videos/${slug}/`;
+    const url = `${API_URL}/videos/${slug}/`;
 
     return request
       .put(url)
@@ -198,7 +198,7 @@ export const deleteVideo = () => {
       headers["Authorization"] = `Token ${token}`;
     }
 
-    const url = `${REACT_APP_API_DOMAIN}/videos/${slug}/`;
+    const url = `${API_URL}/videos/${slug}/`;
 
     return request
       .del(url)

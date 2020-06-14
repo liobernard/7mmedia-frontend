@@ -1,12 +1,12 @@
 import request from "superagent";
 import trim from "validator/lib/trim";
 
-import { disableBodyScroll, enableBodyScroll } from "../js/myBodyScrollLock";
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 
-import { validate, isEmailValid } from "../js/utils";
-import { projectOptions } from "../components/SignUpForm.jsx";
+import { validate, isEmailValid } from "../utils/validators";
+import { projectOptions } from "../components/SignUpForm";
 
-const REACT_APP_API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
+const API_URL = process.env.API_URL;
 
 export const showSignUpForm = () => {
   return (dispatch) => {
@@ -82,7 +82,7 @@ export const submitForm = () => {
     dispatch({ type: "FORM_SENDING" });
 
     return request
-      .post(`${REACT_APP_API_DOMAIN}/email/signup_form/`)
+      .post(`${API_URL}/email/signup_form/`)
       .type("application/json")
       .send(validatedData)
       .then((res) => {

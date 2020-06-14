@@ -97,26 +97,17 @@ class VideoDetail extends Component {
     if ((!video || !Object.keys(video).length) && !isLoading) {
       return <NotFound />;
     } else if ((!video || !Object.keys(video).length) && isLoading) {
-      if (pastDelay) {
-        return (
-          <Page id="videoDetail" noCrawl>
-            <Main>
-              {header}
+      return (
+        <Page id="videoDetail" noCrawl>
+          <Main>
+            {header}
+            {pastDelay && (
               <Section className="Section--error u-sf u-red">
                 <p>Loading...</p>
                 {!!error && <p className="u-nm">Error!</p>}
                 {!!error && <p>{error}</p>}
               </Section>
-              <Section className="Section--blank" />
-            </Main>
-          </Page>
-        );
-      }
-
-      return (
-        <Page id="videoDetail" noCrawl>
-          <Main>
-            {header}
+            )}
             <Section className="Section--blank" />
           </Main>
         </Page>

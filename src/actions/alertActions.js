@@ -1,4 +1,4 @@
-import { disableBodyScroll, enableBodyScroll } from "../js/myBodyScrollLock";
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 
 export const showAlert = ({
   message,

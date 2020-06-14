@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import throttle from "lodash/throttle";
 import { connect } from "react-redux";
 
-import { getScrollY } from "../js/utils";
+import { getScrollY } from "../utils/dom";
 
 import { LogoutButton, Menu, MenuIcon } from "./";
 
@@ -66,8 +66,8 @@ class ToggleMenu extends Component {
     const { isHidden, isPastBanner } = this.state;
     const { pathname, isAuthenticated, menuOn } = this.props;
 
-    let links = [...this.props.links];
-    if (isAuthenticated) links.push({ path: "/upload", name: "upload" });
+    let routes = [...this.props.routes].filter(route => !!route.label);
+    if (isAuthenticated) routes.push({ path: "/upload", label: "upload" });
 
     return (
       <div
@@ -82,7 +82,7 @@ class ToggleMenu extends Component {
         {isAuthenticated && (
           <LogoutButton className={menuOn ? "is-active" : ""} />
         )}
-        <Menu links={links} className={menuOn ? "is-active" : ""} />
+        <Menu links={routes} className={menuOn ? "is-active" : ""} />
       </div>
     );
   }

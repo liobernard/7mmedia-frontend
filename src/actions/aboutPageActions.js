@@ -1,6 +1,6 @@
 import request from "superagent";
 
-const REACT_APP_API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
+const API_URL = process.env.API_URL;
 
 const handleError = (err) => {
   return (dispatch) => {
@@ -24,7 +24,7 @@ export const fetchAboutInfo = () => {
     dispatch({ type: "ABOUT_INFO_LOADING" });
 
     const headers = { "Content-Type": "application/json" };
-    const aboutInfoUrl = `${REACT_APP_API_DOMAIN}/info/about/`;
+    const aboutInfoUrl = `${API_URL}/info/about/`;
 
     return request
       .get(aboutInfoUrl)

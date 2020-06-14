@@ -12,7 +12,7 @@ const defaultTitle =
 const defaultDescription =
   "We're committed to capturing your special moments and sculpting them into shareable, honest works of art. In need of filming, production, or editing services? We'd love to hear from you.";
 const defaultImage =
-  "https://assets.7mmedia.online/media/images/logos/7mm-red-lg.png";
+  "https://assets.7mmedia.online/media/images/logos/7mm-red-sm-nw.png";
 
 class Page extends Component {
   getMetaTags(

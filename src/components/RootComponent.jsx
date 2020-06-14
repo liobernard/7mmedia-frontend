@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import { alert, browserHistory, menu, showreel, signUpForm } from "../actions";
 
-import links from "../links";
+import routes from "../routes";
 
 import {
   Alert,
@@ -48,7 +48,7 @@ class RootComponent extends Component {
       <ScrollToTop>
         <div className="SiteContainer">
           {isAuthenticated && <AutoLogout />}
-          <ToggleMenu isAuthenticated={isAuthenticated} links={links} />
+          <ToggleMenu isAuthenticated={isAuthenticated} routes={routes} />
           <ScreenOverlay />
           <Alert />
           <Showreel />
