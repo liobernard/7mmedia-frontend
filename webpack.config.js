@@ -173,6 +173,7 @@ module.exports = (env, argv) => {
           inlineWorkboxRuntime: true,
           navigateFallback: PUBLIC_URL + "/index.html",
           navigateFallbackDenylist: [
+            new RegExp('^/api'),
             // Exclude URLs starting with /_, as they're likely an API call
             new RegExp('^/_'),
             // Exclude any URLs whose last part seems to be a file extension
