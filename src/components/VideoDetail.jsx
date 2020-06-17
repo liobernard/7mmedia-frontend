@@ -177,6 +177,7 @@ class VideoDetail extends Component {
         published={video.published_at}
         breadcrumbList={breadcrumbList}
         schema="Movie"
+        noCrawl
       >
         <Main>
           {header}

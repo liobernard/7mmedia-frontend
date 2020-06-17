@@ -207,6 +207,7 @@ class VideoList extends Component {
         id="videoList"
         title={drafts ? "Drafts" : "Films"}
         breadcrumbList={breadcrumbList}
+        noCrawl
       >
         {child}
       </Page>
