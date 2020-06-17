@@ -1,17 +1,16 @@
-const path = require("path");
-const fs = require("fs");
+import path from "path";
+import fs from "fs";
 
-const React = require("react");
-const ChunkExtractor = require("@loadable/server").ChunkExtractor;
-const renderToString = require("react-dom/server").renderToString;
-const Helmet = require("react-helmet").Helmet;
-const Provider = require("react-redux").Provider;
-const matchPath = require("react-router").matchPath;
-const StaticRouter = require("react-router").StaticRouter;
+import React from "react";
+import { ChunkExtractor, ChunkExtractorManager } from "@loadable/server";
+import { renderToString } from "react-dom/server";
+import { Helmet } from "react-helmet";
+import { Provider } from "react-redux";
+import { matchPath, StaticRouter } from "react-router";
 
-const configureStore = require("../src/store").default;
-const routes = require("../src/routes").default;
-const RootComponent = require("../src/components").default;
+import configureStore from "../src/store";
+import routes from "../src/routes";
+import { RootComponent } from "../src/components";
 
 
 const injectHTML = (data, { html, title, meta, body, scripts, state }) => {
@@ -32,9 +31,7 @@ const injectHTML = (data, { html, title, meta, body, scripts, state }) => {
   return data;
 };
 
-exports = module.exports;
-
-exports.render = (req, res, next) => {
+export const render = (req, res, next) => {
   const match = routes.find(route => (
     matchPath(req.path, { path: route.path, exact: true })
   ));
@@ -58,13 +55,18 @@ exports.render = (req, res, next) => {
       const extractor = new ChunkExtractor({ statsFile });
 
       const renderMarkup = new Promise((resolve) => {
-        resolve(renderToString(() => extractor.collectChunks(
-          <Provider store={store}>
-            <StaticRouter location={location} context={context}>
-              <RootComponent />
-            </StaticRouter>
-          </Provider>
-        )));
+        const app = (
+          <ChunkExtractorManager extractor={extractor}>
+            <Provider store={store}>
+              <StaticRouter location={location} context={context}>
+                <RootComponent></RootComponent>
+              </StaticRouter>
+            </Provider>
+          </ChunkExtractorManager>
+        );
+
+        const jsx = renderToString(app)
+        resolve(jsx);
       });
 
       renderMarkup.then((routeMarkup) => {
